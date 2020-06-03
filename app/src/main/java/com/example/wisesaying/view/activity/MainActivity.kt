@@ -15,6 +15,9 @@ import com.example.wisesaying.databinding.ActivityMainBinding
 import com.example.wisesaying.view.fragment.*
 import kotlinx.android.synthetic.main.fragment_main.*
 
+/**
+ * 리팩토링 시작 
+ */
 class MainActivity : AppCompatActivity() {
     private val preference = Preference()
 private val handler by lazy {Handler()}
