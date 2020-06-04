@@ -5,22 +5,28 @@ import android.os.Bundle
 import android.os.Handler
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.wisesaying.R
+import com.example.wisesaying.databinding.ActivityMainBinding
+import com.example.wisesaying.databinding.ActivitySplashBinding
 import kotlinx.android.synthetic.main.activity_splash.*
 
 
 class SplashActivity : AppCompatActivity() {
 
-    //FIXME: handler = Hnadler() 로 변경
-    private val handler by lazy{ Handler() }
+    /**
+     *  handler = Hnadler() 로 변경완료
+     */
+
+    private val handler = Handler()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+       val binding= DataBindingUtil.setContentView<ActivitySplashBinding>(this,R.layout.activity_splash)
 
-
+        binding.layoutSplashlayout.setBackgroundResource(0)
+        binding.imageViewLogoimage.setImageResource(R.drawable.pinklogo)
         //TODO : databinding 활용
-        layout_splashlayout.setBackgroundResource(0)
-        imageView_logoimage.setImageResource(R.drawable.pinklogo)
+
 
         /** splash 화면 목록
           layout_splashlayout.setBackgroundResource(R.drawable.splashbackgroundpink)
