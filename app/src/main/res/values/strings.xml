@@ -8,6 +8,11 @@
     <string name="RequestPermissionText2">오른쪽 하단에 있는 설정 표시에서 ON/OFF 표시로 언제든지 다시 설정 하실 수 있습니다.</string>
     <string name="FinalStack">이전 사진이 존재하지 않습니다.</string>
 
+<string name="FragmentSetting_switchWidgetSettingPremisson_On">스마트폰 잠금화면 해제 시 자동적으로 앱이 실행됩니다.</string>
+    <string name="FragmentSetting_switchWidgetSettingPremisson_Off">스마트폰 잠금화면 해제 시 자동적으로 앱이 실행되지 않습니다.</string>
+    <string name="Fragment_Setting_switchWidgetSettingImageControl_On">앱 재실행 시 마지막으로 본 사진을 불러옵니다.</string>
+    <string name="Fragment_Setting_switchWidgetSettingImageControl_Off">앱 재실행 시 사진 순서들이 무작위로 바뀝니다.</string>
+
     <string-array name="wise_Saying">
         <item>다이어트는 내일부터? 이번 생은 패스하자 ^^</item>
         <item>누가 그렇게 먹으래? 괜찮아 먹은 만큼 뛰자!</item>

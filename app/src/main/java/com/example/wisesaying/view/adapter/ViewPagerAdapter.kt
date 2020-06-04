@@ -29,15 +29,6 @@ class ViewPagerAdapter(var modelList: List<Pigme> = listOf()) :
     inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val binding = DataBindingUtil.bind<ViewpagerBinding>(view)
 
-
     }
 }
-//        fun bind(viewPager: ViewPagerModel) {
-//            view.run {
-//                textView_story.text = "${viewPager.textStory}"
-//                imageView.setImageResource(viewPager.image)
-//
-//            }
-//
-//        }
 

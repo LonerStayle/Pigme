@@ -1,9 +1,7 @@
 package com.example.wisesaying.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.wisesaying.Preference
 import com.example.wisesaying.R
 import com.example.wisesaying.db.dao.PigmeDao
 import com.example.wisesaying.db.entity.Pigme

@@ -1,4 +1,4 @@
-package com.example.wisesaying
+package com.example.wisesaying.broadcastreceiver
 
 import android.content.BroadcastReceiver
 import android.content.Context

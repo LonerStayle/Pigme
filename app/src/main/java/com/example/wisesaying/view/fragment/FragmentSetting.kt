@@ -1,6 +1,5 @@
 package com.example.wisesaying.view.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,16 +8,15 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 
-import com.example.wisesaying.Preference
 import com.example.wisesaying.R
 
 import com.example.wisesaying.databinding.FragmentSettingsBinding
-
+import com.example.wisesaying.preference.Preference_View
+import com.example.wisesaying.preference.PreferenceinPermissonRequest
 
 
 class FragmentSetting : Fragment() {
 
-    val preference = Preference()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,87 +29,81 @@ class FragmentSetting : Fragment() {
             container,
             false
         ).run {
-            MainFragment.requestPermissionScore =
-                preference.get_FragmentSetting_switchWidgetSettingPremisson(root, context!!)
-            preference.get_FragmentSetting_switchWidgetSettingimageControl(root, context!!)
-
-
+            switchWidgetSettingPremisson.isChecked =Preference_View.get_FragmentSetting_switchWidgetSettingPremissonisChecked(requireContext())
+            switchWidgetSettingPremisson.text =Preference_View.get_FragmentSetting_switchWidgetSettingPremissonisText(requireContext())
+            switchWidgetSettingImageControl.isChecked =Preference_View.get_FragmentSetting_switchWidgetSettingimageControlisChecked(requireContext())
+switchWidgetSettingImageControl.text =Preference_View.get_FragmentSetting_switchWidgetSettingimageControlisText(requireContext())
 //TASK 조절 스위치
             var imageclickCount = 0
             var premissonclickcount = 0
             switchWidgetSettingPremisson.setOnCheckedChangeListener { buttonView, isChecked ->
 imageclickCount++
-                if (isChecked) {
-                    switchWidgetSettingPremisson.setText("ON\t")
+                val textON = "ON\t"
+                val textOFF = "OFF\t"
+                if (isChecked) { Preference_View.set_FragmentSetting_switchWidgetSettingPremissonisChecked(
+                        isChecked, requireContext())
+
                     MainFragment.requestPermissionScore = 1
-                    val on = "ON\t"
-                    preference.set_FragmentSetting_switchWidgetSettingPremisson(
-                        isChecked,
-                        on,
-                        1,
-                        activity!!.applicationContext
-                    )
-                    preference.set_Permission(1,context!!)
+
+                    PreferenceinPermissonRequest.set_PermissionRequestScore(1,requireContext())
+
+                    switchWidgetSettingPremisson.setText(textON)
+                    Preference_View.set_FragmentSetting_switchWidgetSettingPremissonisText(
+                        textON, requireContext())
+
+
                     if(imageclickCount <= 4)
                     Toast.makeText(
-                        activity!!.applicationContext,
-                        "스마트폰 잠금화면 해제 시 자동적으로 앱이 실행됩니다.",
+                       requireContext(),
+                        R.string.FragmentSetting_switchWidgetSettingPremisson_On,
                         Toast.LENGTH_SHORT
                     ).show()
 
-                } else {
-                    switchWidgetSettingPremisson.setText("OFF\t")
+                } else { Preference_View.set_FragmentSetting_switchWidgetSettingPremissonisChecked(
+                        isChecked, requireContext())
                     MainFragment.requestPermissionScore = 2
-                    val off = "OFF\t"
-                    preference.set_FragmentSetting_switchWidgetSettingPremisson(
-                        isChecked,
-                        off,
-                        2,
-                        context!!
-                    )
-                    preference.set_Permission(2,context!!)
+                    PreferenceinPermissonRequest.set_PermissionRequestScore(2,requireContext())
+
+
+                    switchWidgetSettingPremisson.setText(textOFF)
+                    Preference_View.set_FragmentSetting_switchWidgetSettingPremissonisText(
+                        textOFF, requireContext())
+
                     if(imageclickCount <= 4)
-                    Toast.makeText(
-                        context,
-                        "스마트폰 잠금화면 해제 시 자동적으로 앱이 실행되지 않습니다.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                        Toast.makeText(context, R.string.FragmentSetting_switchWidgetSettingPremisson_Off, Toast.LENGTH_SHORT
+                        ).show()
                 }
             }
 
             // 사진 고정기능 조절 스위치
             switchWidgetSettingImageControl.setOnCheckedChangeListener { buttonView, isChecked ->
                premissonclickcount++
+                val textON = "ON\t"
+                val textOFF = "OFF\t"
                 if (isChecked) {
-                    switchWidgetSettingImageControl.text = "ON\t"
+                    Preference_View.set_FragmentSetting_switchWidgetSettingimageControlisChecked(isChecked,requireContext())
+                    switchWidgetSettingImageControl.text = textON
+                    Preference_View.set_FragmentSetting_switchWidgetSettingimageControlisText(textON,requireContext())
 
-                    preference.set_FragmentSetting_switchWidgetSettingimageControl(
-                        isChecked,
-                        "ON\t",
-                        1,
-                        activity!!.applicationContext
-                    )
+                    Preference_View.set_frameLayoutImageModeCheck_visibility(0x00000008, context!!)
                     if(premissonclickcount <= 4)
-                    preference.set_frameLayoutImageModeCheck(0x00000008, context!!)
+
                     Toast.makeText(
-                        activity!!.applicationContext,
-                        "앱 재실행 시 마지막으로 본 사진을 불러옵니다.",
+                        context,
+                        R.string.Fragment_Setting_switchWidgetSettingImageControl_On,
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
-                    switchWidgetSettingImageControl.text = "OFF\t"
+                    Preference_View.set_FragmentSetting_switchWidgetSettingimageControlisChecked(isChecked,requireContext())
+                    switchWidgetSettingImageControl.text = textOFF
+                    Preference_View.set_FragmentSetting_switchWidgetSettingimageControlisText(textOFF,requireContext())
 
-                    preference.set_FragmentSetting_switchWidgetSettingimageControl(
-                        isChecked,
-                        "OFF\t",
-                        2,
-                        context!!
-                    )
+                    Preference_View.set_frameLayoutImageModeCheck_visibility(0x00000000, context!!)
                     if(premissonclickcount <= 4)
-                    preference.set_frameLayoutImageModeCheck(0x00000000, context!!)
+
                     Toast.makeText(
                         context,
-                        "앱 재실행 시 사진 순서들이 무작위로 바뀝니다.",
+                        R.string.Fragment_Setting_switchWidgetSettingImageControl_Off,
                         Toast.LENGTH_SHORT
                     ).show()
                 }

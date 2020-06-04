@@ -17,13 +17,14 @@ import com.example.wisesaying.*
 import com.example.wisesaying.databinding.FragmentMainBinding
 import com.example.wisesaying.db.PigmeDatabase
 import com.example.wisesaying.db.entity.Pigme
+import com.example.wisesaying.preference.Preference_View
+import com.example.wisesaying.preference.Preference_dataModel
 import com.example.wisesaying.view.adapter.ViewPagerAdapter
 import com.example.wisesaying.viewmodel.PigmeViewModel
 import com.example.wisesaying.viewmodel.PigmeViewModelFactory
 import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment() {
-    private val preference = Preference()
    private var image: Array<Int>?= null
     private val textings by lazy { resources.getStringArray(R.array.wise_Saying) }
     /** val stack = Stack<String>() */
@@ -42,7 +43,7 @@ class MainFragment : Fragment() {
         //셋팅 창 키는버튼 카운트
         var fragmentSettingClickCount = 0
         //셀프 명언 사용 했을때
-        var selfMakingCount = 0
+        var selfStoryMakingCount = 0
       // 전체리스트 (리싸이클러뷰) 명언 추가 여부에 따른 화면 변경
       var recyclerViewAdapterChange = 0
     }
@@ -53,17 +54,17 @@ class MainFragment : Fragment() {
     ): View? = DataBindingUtil.inflate<FragmentMainBinding>(inflater, R.layout.fragment_main, container, false).run {
 
        // 온크레이트 뷰가 다시 일어나면 0 으로
-        selfMakingCount = 0
+        selfStoryMakingCount = 0
 
         //명언 하나라도 추가했을 때 set을 시켜놓았었음 get으로 다시 불러와 0,1에 따라 전체리스트 어댑터 변경
-        recyclerViewAdapterChange = preference.get_RecyclerViewAadapterChange(context!!)
+        recyclerViewAdapterChange = Preference_View.get_RecyclerViewAadapterChangeScore(requireContext())
 
         // 명언 추가 기능 사용 여부 on일시 GONE
-//        frameLayoutSelfstotyUsagemarks.visibility = preference.get_fremeLayout_selfstoty_Usagemarks(context!!)
+//        frameLayoutSelfstotyUsagemarks.visibility = Preference_View.get_fremeLayout_selfstory_Usagemarks_visibility(requireContext())
 
 
         // 앱 새로시작할때 마다 이미지 순서 랜덤인지 아닌지 확인 on일시 GONE
-        frameLayoutImageModeCheck.visibility = preference.get_frameLayoutImageModeCheck(context!!)
+        frameLayoutImageModeCheck.visibility = Preference_View.get_frameLayoutImageModeCheck_visibility(requireContext())
 
         transaction.replace(
 
@@ -105,7 +106,7 @@ class MainFragment : Fragment() {
                 ViewPagerAdapter(
                     modelListShuffledMode)
 
-            preference.set_ModelListPref(
+                    Preference_dataModel.set_ModelListPref(
                 context!!,
                 (viewPager.adapter as ViewPagerAdapter).modelList
             )
@@ -115,12 +116,12 @@ class MainFragment : Fragment() {
 
             viewPager.adapter =
                 ViewPagerAdapter(
-                    preference.get_ModelListPrefSelfStory(
+                    Preference_dataModel.get_ModelListPrefSelfStory(
                         context!!
                     ).shuffled()
                 )
 
-            preference.set_ModelListPrefSelfStory(context!!,
+            Preference_dataModel.set_ModelListPrefSelfStory(context!!,
                 (viewPager.adapter as ViewPagerAdapter).modelList)
         }
         //사진 고정모드 && 셀프명언 없을때
@@ -128,16 +129,16 @@ class MainFragment : Fragment() {
 
             viewPager.adapter =
                 ViewPagerAdapter(
-                    preference.get_ModelListPref(
+                    Preference_dataModel.get_ModelListPref(
                         context!!)
                 )
 
-                    preference.set_ModelListPref( context!!,
+            Preference_dataModel.set_ModelListPref( context!!,
                         (viewPager.adapter as ViewPagerAdapter).modelList)
 
 
             // 매직넘버 - > 콜백함수로 바꿀것
-            viewPager.currentItem = preference.get_CurrentViewpager(context!!)
+            viewPager.currentItem =  Preference_View.get_CurrentViewpager(context!!)
             Handler().postDelayed({
                 viewPager.visibility = View.VISIBLE
             }, 180) }
@@ -146,15 +147,15 @@ class MainFragment : Fragment() {
         else if (frameLayoutImageModeCheck.visibility == View.GONE && frameLayoutSelfstotyUsagemarks.visibility == View.GONE) {
             viewPager.adapter =
                 ViewPagerAdapter(
-                    preference.get_ModelListPrefSelfStory(
+                    Preference_dataModel.get_ModelListPrefSelfStory(
                         context!!
                     )
                 )
-            preference.set_ModelListPrefSelfStory(
+            Preference_dataModel.set_ModelListPrefSelfStory(
                 context!!,
                 (viewPager.adapter as ViewPagerAdapter).modelList)
 
-          viewPager.currentItem = preference.get_CurrentViewpager(context!!)
+          viewPager.currentItem =  Preference_View.get_CurrentViewpager(context!!)
             Handler().postDelayed({
                 viewPager.visibility = View.VISIBLE
             },180)
@@ -164,12 +165,12 @@ class MainFragment : Fragment() {
         viewModel.pigmeList.observe(viewLifecycleOwner, Observer { updatedList  ->
             (viewPager.adapter as ViewPagerAdapter).run {
 
-              if (selfMakingCount == 1 ) {
+              if (selfStoryMakingCount == 1 ) {
                this.modelList += updatedList
 
-                  preference.set_ModelListPrefSelfStory(context!!, this.modelList)
+                  Preference_dataModel.set_ModelListPrefSelfStory(context!!, this.modelList)
                 frameLayoutSelfstotyUsagemarks.visibility = View.GONE
-preference.set_fremeLayout_selfstoty_Usagemarks(context!!,0x00000008)
+Preference_View.set_fremeLayout_selfstory_Usagemarks_visibility(context!!,0x00000008)
 
               }
                 notifyDataSetChanged()
@@ -178,7 +179,7 @@ preference.set_fremeLayout_selfstoty_Usagemarks(context!!,0x00000008)
 
 
 
-        Toast.makeText(context,"현재페이지:${viewPager.currentItem},Self:$selfMakingCount",Toast.LENGTH_SHORT).show()
+        Toast.makeText(context,"현재페이지:${viewPager.currentItem},Self:$selfStoryMakingCount",Toast.LENGTH_SHORT).show()
 
         //공유 기능
         imageButtonShare.setOnClickListener {
