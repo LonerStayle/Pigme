@@ -23,6 +23,8 @@ import com.example.wisesaying.view.adapter.ViewPagerAdapter
 import com.example.wisesaying.viewmodel.PigmeViewModel
 import com.example.wisesaying.viewmodel.PigmeViewModelFactory
 import kotlinx.android.synthetic.main.fragment_main.*
+import java.util.*
+
 
 class MainFragment : Fragment() {
    private var image: Array<Int>?= null
@@ -60,7 +62,7 @@ class MainFragment : Fragment() {
         recyclerViewAdapterChange = Preference_View.get_RecyclerViewAadapterChangeScore(requireContext())
 
         // 명언 추가 기능 사용 여부 on일시 GONE
-//        frameLayoutSelfstotyUsagemarks.visibility = Preference_View.get_fremeLayout_selfstory_Usagemarks_visibility(requireContext())
+        frameLayoutSelfstotyUsagemarks.visibility = Preference_View.get_fremeLayout_selfstory_Usagemarks_visibility(requireContext())
 
 
         // 앱 새로시작할때 마다 이미지 순서 랜덤인지 아닌지 확인 on일시 GONE
@@ -106,6 +108,7 @@ class MainFragment : Fragment() {
                 ViewPagerAdapter(
                     modelListShuffledMode)
 
+            recyclerViewAdapterChange = 0
                     Preference_dataModel.set_ModelListPref(
                 context!!,
                 (viewPager.adapter as ViewPagerAdapter).modelList
@@ -126,7 +129,7 @@ class MainFragment : Fragment() {
         }
         //사진 고정모드 && 셀프명언 없을때
         else if (frameLayoutImageModeCheck.visibility == View.GONE && frameLayoutSelfstotyUsagemarks.visibility == View.VISIBLE) {
-
+            recyclerViewAdapterChange = 0
             viewPager.adapter =
                 ViewPagerAdapter(
                     Preference_dataModel.get_ModelListPref(
@@ -163,17 +166,34 @@ class MainFragment : Fragment() {
 
 
         viewModel.pigmeList.observe(viewLifecycleOwner, Observer { updatedList  ->
-            (viewPager.adapter as ViewPagerAdapter).run {
+            (viewPager.adapter as ViewPagerAdapter).apply {
 
-              if (selfStoryMakingCount == 1 ) {
-               this.modelList += updatedList
-
+              if (selfStoryMakingCount == 1&& frameLayoutSelfstotyUsagemarks.visibility == View.VISIBLE ) {
+                  /**
+                   *  랜덤으로 돌리고자 한다면 .
+                  val randomIndex = Random().nextInt(this.modelList.lastIndex+1)
+                  (this.modelList as MutableList<Pigme>).add(randomIndex,updatedList.last())
+                    마지막 인덱스에서 생성은
+                  (this.modelList as MutableList<Pigme>).add(updatedList.last())
+                   첫번째 인덱스에서 생성은
+                  (this.modelList as MutableList<Pigme>).add(0,updatedList.last())
+                   마지막으로 본화면에서 생성은
+                  (this.modelList as MutableList<Pigme>).add(viewPager.currentItem,updatedList.last())
+                  */
+                  (this.modelList as MutableList<Pigme>).addAll(updatedList)
+                 (viewPager.adapter as ViewPagerAdapter).modelList.shuffled()
                   Preference_dataModel.set_ModelListPrefSelfStory(context!!, this.modelList)
                 frameLayoutSelfstotyUsagemarks.visibility = View.GONE
-Preference_View.set_fremeLayout_selfstory_Usagemarks_visibility(context!!,0x00000008)
-
+                  Preference_View.set_fremeLayout_selfstory_Usagemarks_visibility(context!!,0x00000008)
               }
+                else if(selfStoryMakingCount == 1 && frameLayoutSelfstotyUsagemarks.visibility == View.GONE){
+                  (this.modelList as MutableList<Pigme>).add(viewPager.currentItem,updatedList.last())
+                  Preference_dataModel.set_ModelListPrefSelfStory(context!!, this.modelList)
+              }
+
                 notifyDataSetChanged()
+
+            return@Observer
             }
         })
 
@@ -232,15 +252,9 @@ Preference_View.set_fremeLayout_selfstory_Usagemarks_visibility(context!!,0x0000
             } else if (floatingActionButtonOnoff == 2) {
                 fragmentManager!!.popBackStack()
                 floatingActionButtonOnoff = 0
-
-
             }
             transaction3.commit()
-
-
         }
-
-
 
         root
     }
