@@ -1,5 +1,5 @@
 package com.example.wisesaying.viewmodel
-
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.wisesaying.R
@@ -32,3 +32,17 @@ class PigmeViewModel(private val pigmeSource: PigmeDao) : ViewModel() {
         }
     }
 }
+
+/**
+ * 프레그먼트 간의 통신 뷰모델로 연구해봄
+val _selfStorybinding = MutableLiveData<String>()
+val selfStorybinding:LiveData<String>
+get() = _selfStorybinding
+
+fun get_selfStroyBind():LiveData<String>{
+return selfStorybinding
+}
+fun set_selfStorybind(story: String) {
+_selfStorybinding.value = story
+}
+ */

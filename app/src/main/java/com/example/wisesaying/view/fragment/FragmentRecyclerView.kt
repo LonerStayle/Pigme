@@ -12,7 +12,7 @@ import com.example.wisesaying.R
 import com.example.wisesaying.databinding.FragmentRecyclerViewBinding
 import com.example.wisesaying.db.PigmeDatabase
 import com.example.wisesaying.preference.Preference_dataModel
-import com.example.wisesaying.view.adapter.RecyclerViewAdapter
+import com.example.wisesaying.view.adapter.RecyclerView_SelfStoryAdapter
 import com.example.wisesaying.viewmodel.PigmeViewModel
 import com.example.wisesaying.viewmodel.PigmeViewModelFactory
 
@@ -34,8 +34,8 @@ class FragmentRecyclerView : Fragment() {
 
 
         when(MainFragment.recyclerViewAdapterChange) {
-            0-> recyclerview.adapter = RecyclerViewAdapter(Preference_dataModel.get_ModelListPref(context!!) )
-            1-> recyclerview.adapter = RecyclerViewAdapter(Preference_dataModel.get_ModelListPrefSelfStory(context!!))
+            0-> recyclerview.adapter = RecyclerView_SelfStoryAdapter(Preference_dataModel.get_ModelListPref(context!!) )
+            1-> recyclerview.adapter = RecyclerView_SelfStoryAdapter(Preference_dataModel.get_ModelListPrefSelfStory(context!!))
         }
 
         recyclerview.layoutManager = GridLayoutManager(requireContext(),2)

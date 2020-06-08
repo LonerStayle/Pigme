@@ -8,7 +8,7 @@
     <string name="RequestPermissionText2">오른쪽 하단에 있는 설정 표시에서 ON/OFF 표시로 언제든지 다시 설정 하실 수 있습니다.</string>
     <string name="FinalStack">이전 사진이 존재하지 않습니다.</string>
 
-<string name="FragmentSetting_switchWidgetSettingPremisson_On">스마트폰 잠금화면 해제 시 자동적으로 앱이 실행됩니다.</string>
+    <string name="FragmentSetting_switchWidgetSettingPremisson_On">스마트폰 잠금화면 해제 시 자동적으로 앱이 실행됩니다.</string>
     <string name="FragmentSetting_switchWidgetSettingPremisson_Off">스마트폰 잠금화면 해제 시 자동적으로 앱이 실행되지 않습니다.</string>
     <string name="Fragment_Setting_switchWidgetSettingImageControl_On">앱 재실행 시 마지막으로 본 사진을 불러옵니다.</string>
     <string name="Fragment_Setting_switchWidgetSettingImageControl_Off">앱 재실행 시 사진 순서들이 무작위로 바뀝니다.</string>
@@ -45,16 +45,16 @@
         <item>잠깐! 먹기 전에 생각했나요? 이게 몇 번째 햄버건지</item>
         <!--        25-->
         <item>찜질방 불가마에서 땀 빼는 내 모습</item>
-        <item>헤어지자고 하던 전남친이 혹시 평소에 이러진 않았니? 준다고 다 먹으면 큰일 난다.</item>
-        <item>28</item>
-        <item>29</item>
-        <item>30</item>
+        <item>준다고 다 먹으면 큰일 난다...!</item>
+        <item> 야, 너두 복근 만들고 싶지 않니?</item>
+        <item>비만은 당뇨의 어머니!</item>
+        <item>저녁 대신 사과 한입 어때?</item>
         <!-- 30 -->
-        <item>다이어트는 내일부터? 이번 생은 패스하자 ^^</item>
-        <item>누가 그렇게 먹으래? 괜찮아 먹은 만큼 뛰자!</item>
-        <item>돼지도 너만큼은 안 먹어...</item>
-        <item>체중계는 피할 수 있어도 거울은 피할 수 없다.</item>
-        <item>사람들을 위해서가 아니라 살기 위해 빼는 거다.</item>
+        <item>뭘 좋아할지 몰라 야채만 준비했어</item>
+        <item>단백질은 어디에...???</item>
+        <item>들리니? 내장지방 타는 소리!</item>
+        <item>한달 후 새옷이 필요할 거야!</item>
+        <item>단백질 과다 섭취로 속이 안 좋다면 카모마일 차를 마셔봐</item>
         <!--        35-->
         <item>치킨은 항상 옳다. 뱃살 증식에도 최적!</item>
         <item>게임할 거면 게임만 해 제발\n (그만 x 먹어)</item>
@@ -63,10 +63,10 @@
         <item>너무 달아, 짜릿해, \n- 비만 세포 - </item>
         <!--40-->
         <item>너의 위장 안에 흡수될 아름다운 치즈! 야채라도 끼워 먹자...</item>
-        <item>늦었다고 생각했을 때가 정말 늦었지만 그렇다고 포기하면 이대로 늙는다.</item>
-        <item>니가 내 고기를 다 먹으면 어쩌라는 거야!!</item>
-        <item>더블 버거!\n 내 몸무게도 더블!</item>
-        <item>따사로운 햇살 아래 낮잠 자는 주말 소파 위의 나</item>
+        <item>좋았어! 복근만 추가하자</item>
+        <item>매일 자리잡혀가는 근육 확인하는 재미! 너도 느껴봐</item>
+        <item>불금에 퇴근 후 술 마시러 가는 내 모습</item>
+        <item>예쁜 옷 입고 신난 내 모습</item>
         <!--        45-->
         <item>무심코 먹은 소세지, \n네 뱃속에 이만큼 저장!</item>
         <item>수영장에서 언제까지 이러고 있을래?</item>
@@ -139,5 +139,8 @@
 
     <string name="toast">한번 더 누르면 종료 됩니다.</string>
     <string name="notImage">이미지가 열리지 않습니다.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

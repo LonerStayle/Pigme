@@ -9,10 +9,9 @@
             name="story"
             type="String" />
 
-
-        <variable
-            name="vm"
-            type="com.example.wisesaying.viewmodel.PigmeViewModel" />
+<variable
+    name="pigmeViewModel"
+    type="com.example.wisesaying.viewmodel.PigmeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,7 +49,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <EditText
-                android:id="@+id/editText_body"
+                android:id="@+id/editText_selfStory"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
 
@@ -61,7 +60,7 @@
                 android:layout_marginRight="16dp"
                 android:background="@null"
                 android:focusable="true"
-                android:hint="글을 입력해주세요 "
+                android:hint="새롭게 추가할 글을 입력해주세요 "
                 android:text="@={story}"
                 android:textColor="#536DFE"
                 android:textSize="18sp"

@@ -14,4 +14,5 @@ interface PigmeDao {
     fun insert(pigme: Pigme)
     @Delete
     fun delete(pigme: Pigme)
+
 }

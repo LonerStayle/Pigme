@@ -1,9 +1,11 @@
 package com.example.wisesaying.view.activity
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
@@ -102,4 +104,9 @@ class MainActivity : AppCompatActivity() {
 
         super.onDestroy()
     }
+}
+
+fun keyboardShow_Hide(context:Context,view: View) {
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(view.windowToken, 0)
 }
