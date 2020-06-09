@@ -28,12 +28,6 @@ import kotlinx.android.synthetic.main.fragment_self_story_image_select.*
 
 class FragmentSelfStory : Fragment() {
 
-    private val viewModel: PigmeViewModel by lazy {
-        val pigmedatabase = PigmeDatabase.getInstance(requireContext())
-        val factory = PigmeViewModelFactory(pigmedatabase.pigmeDao)
-        ViewModelProvider(this, factory).get(PigmeViewModel::class.java)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,7 +49,7 @@ class FragmentSelfStory : Fragment() {
                 fragmentSelfStoryImageSelect.arguments = bundle
                 val fragment = fragmentManager!!.beginTransaction()
                 fragment.replace(R.id.frameLayout_selfStoryFragment, fragmentSelfStoryImageSelect)
-                    .addToBackStack(null)
+                    .addToBackStack("selfStory")
                     .commit()
 
                 keyboardShow_Hide(requireContext(), editTextSelfStory)

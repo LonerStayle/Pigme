@@ -184,8 +184,8 @@ class MainFragment : Fragment() {
                    마지막으로 본화면에서 생성은
                   (this.modelList as MutableList<Pigme>).add(viewPager.currentItem,updatedList.last())
                   */
-                  (this.modelList as MutableList<Pigme>).addAll(updatedList)
-                 (viewPager.adapter as ViewPagerAdapter).modelList.shuffled()
+                  (this.modelList as MutableList<Pigme>).addAll(viewPager.currentItem,updatedList)
+
                   Preference_dataModel.set_ModelListPrefSelfStory(context!!, this.modelList)
                 frameLayoutSelfstotyUsagemarks.visibility = View.GONE
                   Preference_View.set_fremeLayout_selfstory_Usagemarks_visibility(context!!,0x00000008)
@@ -249,7 +249,7 @@ class MainFragment : Fragment() {
                     R.id.frameLayout_selfStoryFragment,
                     FragmentSelfStory()
                 )
-                transaction3.addToBackStack(null)
+                transaction3.addToBackStack("main")
 
 
             } else if (floatingActionButtonOnoff == 2) {
