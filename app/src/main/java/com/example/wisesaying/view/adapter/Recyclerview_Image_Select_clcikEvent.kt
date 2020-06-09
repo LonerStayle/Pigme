@@ -6,4 +6,5 @@ interface Recyclerview_Image_Select_clcikEvent {
 
     fun onclickEvent(position:Int)
 
+
 }

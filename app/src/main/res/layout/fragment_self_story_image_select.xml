@@ -15,11 +15,12 @@
     tools:context=".view.fragment.FragmentSelfStoryImageSelect"
     android:background="#fff"
   >
+
     <Button
         android:id="@+id/button_newSelfStoryaddFinish"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:text="글귀 추가 완료"
@@ -30,17 +31,17 @@
         android:id="@+id/imageView_backgroundImage"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:background="#FF80AB"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/recyclerView_imageSelect"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_newSelfStoryaddFinish"
-       />
+        app:layout_constraintTop_toBottomOf="@+id/button_newSelfStoryaddFinish" />
 
 
     <EditText
@@ -79,6 +80,36 @@
         app:layout_constraintTop_toBottomOf="@+id/editText_imageSelect_selfStory"
         tools:text="이미지 백그라운드 리소스 체크용"
         android:visibility="gone"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton_galleryImageSelect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="#FFF"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/image_button_gallery"
+        android:tint="#040404"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView_backgroundImage"
+        app:layout_constraintEnd_toEndOf="@+id/imageView_backgroundImage" />
+
+    <TextView
+        android:id="@+id/textView_galleryguide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:text="아이콘을 통해 사진을 추가 할 수 있습니다. "
+        android:textColor="#FFF"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton_galleryImageSelect"
+        app:layout_constraintEnd_toStartOf="@+id/floatingActionButton_galleryImageSelect"
+        app:layout_constraintTop_toTopOf="@+id/floatingActionButton_galleryImageSelect"
+        app:layout_constraintVertical_bias="0.72" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

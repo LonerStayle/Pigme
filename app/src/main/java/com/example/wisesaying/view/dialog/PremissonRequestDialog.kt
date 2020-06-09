@@ -10,8 +10,8 @@ import android.content.DialogInterface
 object PremissonRequestDialog {
     fun show(
         context: Context,
-        frestdialogtitle: String = "",
-        frestdialogmessage: String = "",
+        dialogtitle: String = "",
+        dialogmessage: String = "",
         positiveText: String = "",
         onPositive: () -> Unit = {},
         negativeText: String = "",
@@ -19,8 +19,8 @@ object PremissonRequestDialog {
     ) {
        val alertDialog =  AlertDialog.Builder(context)
                alertDialog
-            .setTitle(frestdialogtitle)
-            .setMessage(frestdialogmessage)
+            .setTitle(dialogtitle)
+            .setMessage(dialogmessage)
             .setPositiveButton(positiveText, DialogInterface.OnClickListener { dialog, which ->
                 onPositive()
             })

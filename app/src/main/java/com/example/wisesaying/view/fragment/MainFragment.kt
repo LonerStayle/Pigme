@@ -23,7 +23,7 @@ import com.example.wisesaying.view.adapter.ViewPagerAdapter
 import com.example.wisesaying.viewmodel.PigmeViewModel
 import com.example.wisesaying.viewmodel.PigmeViewModelFactory
 import kotlinx.android.synthetic.main.fragment_main.*
-import java.util.*
+
 
 
 class MainFragment : Fragment() {
@@ -159,7 +159,7 @@ class MainFragment : Fragment() {
                 (viewPager.adapter as ViewPagerAdapter).modelList)
 
             /**
-             * 매직넘버 수정하기 
+             * 매직넘버 수정하기
              */
 
           viewPager.currentItem =  Preference_View.get_CurrentViewpager(context!!)
@@ -197,7 +197,6 @@ class MainFragment : Fragment() {
 
                 notifyDataSetChanged()
 
-            return@Observer
             }
         })
 
