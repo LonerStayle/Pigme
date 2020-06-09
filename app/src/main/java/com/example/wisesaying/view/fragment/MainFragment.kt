@@ -158,6 +158,10 @@ class MainFragment : Fragment() {
                 context!!,
                 (viewPager.adapter as ViewPagerAdapter).modelList)
 
+            /**
+             * 매직넘버 수정하기 
+             */
+
           viewPager.currentItem =  Preference_View.get_CurrentViewpager(context!!)
             Handler().postDelayed({
                 viewPager.visibility = View.VISIBLE

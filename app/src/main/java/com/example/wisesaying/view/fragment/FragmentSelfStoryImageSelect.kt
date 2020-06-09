@@ -2,6 +2,7 @@ package com.example.wisesaying.view.fragment
 
 import android.content.Intent.getIntent
 import android.content.Intent.getIntentOld
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,10 +12,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 import com.example.wisesaying.R
 import com.example.wisesaying.databinding.FragmentSelfStoryImageSelectBinding
@@ -22,12 +26,13 @@ import com.example.wisesaying.db.PigmeDatabase
 import com.example.wisesaying.preference.Preference_View
 import com.example.wisesaying.view.activity.keyboardShow_Hide
 import com.example.wisesaying.view.adapter.RecyclerView_ImageSelectAdapter
+import com.example.wisesaying.view.adapter.Recyclerview_Image_Select_clcikEvent
 import com.example.wisesaying.viewmodel.PigmeViewModel
 import com.example.wisesaying.viewmodel.PigmeViewModelFactory
 import kotlinx.android.synthetic.main.fragment_self_story_image_select.*
 
 
-class FragmentSelfStoryImageSelect : Fragment() {
+class FragmentSelfStoryImageSelect : Fragment(),Recyclerview_Image_Select_clcikEvent {
 
     private val viewModel: PigmeViewModel by lazy {
         val pigmedatabase = PigmeDatabase.getInstance(requireContext())
@@ -35,6 +40,7 @@ class FragmentSelfStoryImageSelect : Fragment() {
         ViewModelProvider(this, factory).get(PigmeViewModel::class.java)
 
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,7 +65,7 @@ class FragmentSelfStoryImageSelect : Fragment() {
             }
 
 
-            recyclerViewImageSelect.adapter = RecyclerView_ImageSelectAdapter(image)
+            recyclerViewImageSelect.adapter = RecyclerView_ImageSelectAdapter(image,this@FragmentSelfStoryImageSelect)
 
             recyclerViewImageSelect.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -72,7 +78,10 @@ class FragmentSelfStoryImageSelect : Fragment() {
                 // 메인 프레그먼트 온크레이트 뷰에서 기본 0으로 설정
                 MainFragment.selfStoryMakingCount = 1
                 MainFragment.recyclerViewAdapterChange = 1
-                pigmeViewModel!!.insert(editTextImageSelectSelfStory.text.toString())
+
+
+                val a = recyclerViewImageSelect.adapter as RecyclerView_ImageSelectAdapter
+                pigmeViewModel!!.insert(editTextImageSelectSelfStory.text.toString(),textViewImageBackgroundResIdCheck.text.toString().toInt())
                 Preference_View.set_RecyclerViewAadapterChangeScore(1, context!!)
 
                 Toast.makeText(
@@ -85,6 +94,11 @@ class FragmentSelfStoryImageSelect : Fragment() {
 
             root
         }
+    }
+
+    override fun onclickEvent(position: Int) {
+        imageView_backgroundImage.setBackgroundResource(position)
+        textView_imageBackgroundResIdCheck.text = position.toString()
     }
 
 

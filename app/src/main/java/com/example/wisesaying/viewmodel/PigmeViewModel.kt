@@ -15,11 +15,11 @@ class PigmeViewModel(private val pigmeSource: PigmeDao) : ViewModel() {
     val pigmeList:LiveData<List<Pigme>>
     get() = pigmeSource.getAllPigmeList()
 
-    fun insert(story:String){
+    fun insert(story:String,image:Int){
         uiScope.launch {
             withContext(Dispatchers.IO){
                 pigmeSource.insert(
-                    Pigme(story,R.drawable.testimage)
+                    Pigme(story,image)
                 )
             }
         }
