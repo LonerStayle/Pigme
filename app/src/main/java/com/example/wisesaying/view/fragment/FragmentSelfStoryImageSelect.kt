@@ -150,10 +150,8 @@ class FragmentSelfStoryImageSelect : Fragment(), Recyclerview_Image_Select_clcik
                     ) != PackageManager.PERMISSION_GRANTED
                 ) {
                     if (ActivityCompat.shouldShowRequestPermissionRationale(
-                            requireActivity(),
-                            Manifest.permission.READ_EXTERNAL_STORAGE
-                        )
-                    ) {
+                            requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE))
+                    {
                         ImagePremissonRequestDialog.show(requireContext(), "사진", "필수", "예",
                             {
                                 ActivityCompat.requestPermissions(
@@ -169,22 +167,18 @@ class FragmentSelfStoryImageSelect : Fragment(), Recyclerview_Image_Select_clcik
                             REQUEST_EXTERNAL_STORAGE_PREMISSON
                         )
                     }
-                }
+                }else{
+                    /**
+                     * FIXME: 권한 허용 나면 바로 갤러리로 이용하려고 했지만, 코루틴 이용실패 좀더 연구해보기
+                     */
 
-                /**
-                 * FIXME: 권한 허용 나면 바로 갤러리로 이용하려고 했지만, 코루틴 이용실패 좀더 연구해보기
-                 */
-                uiScope.launch {
-                    if (ContextCompat.checkSelfPermission(
-                            requireContext(),
-                            Manifest.permission.READ_EXTERNAL_STORAGE
-                        ) == PackageManager.PERMISSION_GRANTED
-                    ) {
                         val intent =
                             Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                         startActivityForResult(intent, REQUEST_IMAGE_CODE)
-                    }
+
                 }
+
+
             }
             root
         }
@@ -193,8 +187,8 @@ class FragmentSelfStoryImageSelect : Fragment(), Recyclerview_Image_Select_clcik
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CODE) {
-            val image = data!!.data
-            image.let {
+            val image = data?.data
+            image?.let {
                 if (Build.VERSION.SDK_INT < 28) {
                     val bitmap = MediaStore.Images.Media.getBitmap(
                         requireActivity().contentResolver,
@@ -203,7 +197,7 @@ class FragmentSelfStoryImageSelect : Fragment(), Recyclerview_Image_Select_clcik
                     imageView_backgroundImage.setImageBitmap(bitmap)
                 } else {
                     val source =
-                        ImageDecoder.createSource(requireActivity().contentResolver, image!!)
+                        ImageDecoder.createSource(requireActivity().contentResolver, image)
                     val bitmap = ImageDecoder.decodeBitmap(source)
                     imageView_backgroundImage.setImageBitmap(bitmap)
                 }
