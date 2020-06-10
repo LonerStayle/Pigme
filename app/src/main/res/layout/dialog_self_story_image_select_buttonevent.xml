@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:layout_gravity="center">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_horizontal"
+                android:text="생성시 적용할 사항을 골라주세요"
+                android:textColor="#00B8D4"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/radioGruop_imageSelect_Mode"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:checkedButton="@id/radiobutton_option2_default">
+
+                <RadioButton
+                    android:id="@+id/radiobutton_option1_ResetAfterNewList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/radiobutton_background"
+                    android:button="@null"
+                    android:drawableEnd="@android:drawable/btn_radio"
+                    android:drawableRight="@android:drawable/btn_radio"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:text="앱 기존 사진 및 글을 모두 삭제 후 추가"
+                    android:textColor="@drawable/radiobutton_selecttextcolorchange"
+                    android:textSize="10sp" />
+
+                <RadioButton
+                    android:id="@+id/radiobutton_option2_default"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/radiobutton_background"
+                    android:button="@null"
+                    android:drawableEnd="@android:drawable/btn_radio"
+                    android:drawableRight="@android:drawable/btn_radio"
+                    android:enabled="true"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:text="앱 기존 사진 및 글을 유지하면서  추가(기본 사항)"
+                    android:textColor="@drawable/radiobutton_selecttextcolorchange"
+                    android:textSize="10sp" />
+
+                <RadioButton
+                    android:id="@+id/radiobutton_option3_deleteAfterNewList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/radiobutton_background"
+                    android:button="@null"
+                    android:drawableEnd="@android:drawable/btn_radio"
+                    android:drawableRight="@android:drawable/btn_radio"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:text="앱 기존 사진 및 글들을 골라서 삭제 후 추가"
+                    android:textColor="@drawable/radiobutton_selecttextcolorchange"
+                    android:textSize="10sp" />
+            </RadioGroup>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_newSelfStoryaddFinish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:backgroundTint="#00B8D4"
+                android:text="생성완료"
+                android:textColor="#FFF"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,7 +7,7 @@ import android.content.DialogInterface
 /**
  * 아직 사용 못해봄..
  */
-object PremissonRequestDialog {
+object ImagePremissonRequestDialog {
     fun show(
         context: Context,
         dialogtitle: String = "",

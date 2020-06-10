@@ -17,14 +17,14 @@
   >
 
     <Button
-        android:id="@+id/button_newSelfStoryaddFinish"
+        android:id="@+id/button_newSelfStoryADD"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:background="#0091EA"
-        android:text="생성 완료"
+        android:text="생성 하기"
         android:textColor="#fff"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -40,12 +40,12 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
-        android:background="#FF80AB"
+        android:background="@drawable/imageview_backgroundimage"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/recyclerView_imageSelect"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_newSelfStoryaddFinish" />
+        app:layout_constraintTop_toBottomOf="@+id/button_newSelfStoryADD" />
 
 
     <EditText

@@ -14,7 +14,6 @@ import com.example.wisesaying.R
 import com.example.wisesaying.databinding.ActivityMainBinding
 import com.example.wisesaying.preference.Preference_View
 import com.example.wisesaying.preference.PreferenceinPermissonRequest
-import com.example.wisesaying.view.dialog.PremissonRequestDialog
 import com.example.wisesaying.view.dialog.PremissonRequestDialogInterface
 import com.example.wisesaying.view.fragment.*
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -36,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         {
             val dialogInterface = PremissonRequestDialogInterface(this,supportFragmentManager)
             dialogInterface.dialogfrestAndSecondBuilderSetting(dialogInterface)
-            dialogInterface.dialogfrestbuilder.show()
+            dialogInterface.dialogPremissonRequstfrset.show()
         }
 
         // 권한 요청 선택결과에 따라 프레그먼트에 기록하기 위한 프레그먼트 실행, 현재 Visivble 모드

@@ -3,9 +3,12 @@ package com.example.wisesaying.view.fragment
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Resources
 import android.graphics.Bitmap
+import android.graphics.ColorFilter
 import android.graphics.ImageDecoder
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -17,6 +20,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.graphics.drawable.toDrawable
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -91,46 +95,52 @@ class FragmentSelfStoryImageSelect : Fragment(), Recyclerview_Image_Select_clcik
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
             buttonNewSelfStoryADD.setOnClickListener {
-                //키보드 가리기
-                keyboardShow_Hide(requireContext(), editTextImageSelectSelfStory)
 
-                //다이얼로그 부르기
-                val dialog_imageSelectMode = PremissonRequestDialogInterface(requireContext(), fragmentManager!!)
-                dialog_imageSelectMode.dialogImageSelectBuilderSetting(dialog_imageSelectMode)
-                dialog_imageSelectMode.dialogImageSelect.show()
-                dialog_imageSelectMode.dialogImageSelect.button_newSelfStoryaddFinish.setOnClickListener {
+                /**
+                 * TODO:Entity Bitmap으로 변경후  imageView_backgroundimage !is BitmapDrawable 으로 바꿀 예정
+                 */
+                if(textViewImageBackgroundResIdCheck.text == "") {
+                    Toast.makeText(requireActivity(), "사진을 선택해주세요", Toast.LENGTH_SHORT).show()
+                } else{
+                    //키보드 가리기
+                    keyboardShow_Hide(requireContext(), editTextImageSelectSelfStory)
 
-                    when (dialog_imageSelectMode.dialogImageSelect.radioGruop_imageSelect_Mode.checkedRadioButtonId) {
-                        R.id.radiobutton_option1_ResetAfterNewList -> { }
-                        R.id.radiobutton_option2_default -> {
-                            pigmeViewModel!!.insert(
-                                editTextImageSelectSelfStory.text.toString(),
-                                textViewImageBackgroundResIdCheck.text.toString().toInt())
+                    //다이얼로그 부르기
+                    val dialog_imageSelectMode = PremissonRequestDialogInterface(requireContext(), fragmentManager!!)
+                    dialog_imageSelectMode.dialogImageSelectBuilderSetting(dialog_imageSelectMode)
+                    dialog_imageSelectMode.dialogImageSelect.show()
 
-                            Toast.makeText(
-                                requireActivity(),
-                                "작성하신 글귀가 새롭게 추가 되었습니다.",
-                                Toast.LENGTH_SHORT).show()
+                    dialog_imageSelectMode.dialogImageSelect.button_newSelfStoryaddFinish.setOnClickListener {
+
+                        when (dialog_imageSelectMode.dialogImageSelect.radioGruop_imageSelect_Mode.checkedRadioButtonId) {
+                            R.id.radiobutton_option1_ResetAfterNewList -> { }
+                            R.id.radiobutton_option2_default -> {
+                                pigmeViewModel!!.insert(editTextImageSelectSelfStory.text.toString(),
+                                    textViewImageBackgroundResIdCheck.text.toString().toInt())
+
+                                Toast.makeText(requireActivity(), "작성하신 글귀가 새롭게 추가 되었습니다.", Toast.LENGTH_SHORT).show()
 
 
-                            /**
-                             *  버튼 눌렀을 때만 selfMakingCount를 1로 설정
-                            메인 프레그먼트에서 updatedList.shuffled()가 적용되는 순간 사진 고정모드 자체도 먹히지 않음으로 이 순간만 1로 설정
-                            메인 프레그먼트 온크레이트 뷰에서 기본 0으로 설정
-                             */
-                            MainFragment.selfStoryMakingCount = 1
-                            MainFragment.recyclerViewAdapterChange = 1
-                            Preference_View.set_RecyclerViewAadapterChangeScore(
-                                1,
-                                requireActivity())
-                            fragmentManager!!.popBackStack("main", 1) }
-                        R.id.radiobutton_option3_deleteAfterNewList -> { }
+                                /**
+                                 *  버튼 눌렀을 때만 selfMakingCount를 1로 설정
+                                메인 프레그먼트에서 updatedList.shuffled()가 적용되는 순간 사진 고정모드 자체도 먹히지 않음으로 이 순간만 1로 설정
+                                메인 프레그먼트 온크레이트 뷰에서 기본 0으로 설정
+                                 */
+                                MainFragment.selfStoryMakingCount = 1
+                                MainFragment.recyclerViewAdapterChange = 1
+                                Preference_View.set_RecyclerViewAadapterChangeScore(
+                                    1,
+                                    requireActivity())
+                                fragmentManager!!.popBackStack("main", 1) }
+                            R.id.radiobutton_option3_deleteAfterNewList -> { }
+                        }
+                        dialog_imageSelectMode.dialogImageSelect.dismiss()
                     }
-                    dialog_imageSelectMode.dialogImageSelect.dismiss()
                 }
             }
 
             floatingActionButtonGalleryImageSelect.setOnClickListener {
+
                 val viewModelJob = Job()
                 val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
@@ -161,6 +171,9 @@ class FragmentSelfStoryImageSelect : Fragment(), Recyclerview_Image_Select_clcik
                     }
                 }
 
+                /**
+                 * FIXME: 권한 허용 나면 바로 갤러리로 이용하려고 했지만, 코루틴 이용실패 좀더 연구해보기
+                 */
                 uiScope.launch {
                     if (ContextCompat.checkSelfPermission(
                             requireContext(),
