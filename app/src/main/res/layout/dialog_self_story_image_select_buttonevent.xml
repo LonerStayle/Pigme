@@ -58,7 +58,7 @@
                     android:paddingRight="8dp"
                     android:text="앱 기존 사진 및 글을 모두 삭제 후 추가"
                     android:textColor="@drawable/radiobutton_selecttextcolorchange"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <RadioButton
                     android:id="@+id/radiobutton_option2_default"
@@ -73,9 +73,9 @@
                     android:enabled="true"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:text="앱 기존 사진 및 글을 유지하면서  추가(기본 사항)"
+                    android:text="앱 기존 사진 및 글을 유지하면서 추가 \n(기본 사항)"
                     android:textColor="@drawable/radiobutton_selecttextcolorchange"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <RadioButton
                     android:id="@+id/radiobutton_option3_deleteAfterNewList"
@@ -89,7 +89,7 @@
                     android:paddingRight="8dp"
                     android:text="앱 기존 사진 및 글들을 골라서 삭제 후 추가"
                     android:textColor="@drawable/radiobutton_selecttextcolorchange"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </RadioGroup>
 
 

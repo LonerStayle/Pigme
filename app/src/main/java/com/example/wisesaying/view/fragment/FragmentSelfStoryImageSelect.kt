@@ -4,9 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
-import android.graphics.Bitmap
-import android.graphics.ColorFilter
-import android.graphics.ImageDecoder
+import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -16,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.RadioButton
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -39,10 +38,7 @@ import com.example.wisesaying.viewmodel.PigmeViewModel
 import com.example.wisesaying.viewmodel.PigmeViewModelFactory
 import kotlinx.android.synthetic.main.dialog_self_story_image_select_buttonevent.*
 import kotlinx.android.synthetic.main.fragment_self_story_image_select.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 
 class FragmentSelfStoryImageSelect : Fragment(), Recyclerview_Image_Select_clcikEvent {
@@ -72,6 +68,8 @@ class FragmentSelfStoryImageSelect : Fragment(), Recyclerview_Image_Select_clcik
             inflater, R.layout.fragment_self_story_image_select, container,
             false
         ).run {
+            val viewModelJob = Job()
+            val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
             pigmeViewModel = viewModel
             editTextImageSelectSelfStory.setText(arguments?.getString("selfStory"))
@@ -86,8 +84,6 @@ class FragmentSelfStoryImageSelect : Fragment(), Recyclerview_Image_Select_clcik
                 )
             }
 
-
-
             recyclerViewImageSelect.adapter =
                 RecyclerView_ImageSelectAdapter(image, this@FragmentSelfStoryImageSelect)
 
@@ -99,26 +95,37 @@ class FragmentSelfStoryImageSelect : Fragment(), Recyclerview_Image_Select_clcik
                 /**
                  * TODO:Entity Bitmap으로 변경후  imageView_backgroundimage !is BitmapDrawable 으로 바꿀 예정
                  */
-                if(textViewImageBackgroundResIdCheck.text == "") {
+                if (textViewImageBackgroundResIdCheck.text == "") {
                     Toast.makeText(requireActivity(), "사진을 선택해주세요", Toast.LENGTH_SHORT).show()
-                } else{
+                } else {
                     //키보드 가리기
                     keyboardShow_Hide(requireContext(), editTextImageSelectSelfStory)
 
                     //다이얼로그 부르기
-                    val dialog_imageSelectMode = PremissonRequestDialogInterface(requireContext(), fragmentManager!!)
+                    val dialog_imageSelectMode =
+                        PremissonRequestDialogInterface(requireContext(), fragmentManager!!)
                     dialog_imageSelectMode.dialogImageSelectBuilderSetting(dialog_imageSelectMode)
                     dialog_imageSelectMode.dialogImageSelect.show()
+
 
                     dialog_imageSelectMode.dialogImageSelect.button_newSelfStoryaddFinish.setOnClickListener {
 
                         when (dialog_imageSelectMode.dialogImageSelect.radioGruop_imageSelect_Mode.checkedRadioButtonId) {
-                            R.id.radiobutton_option1_ResetAfterNewList -> { }
-                            R.id.radiobutton_option2_default -> {
-                                pigmeViewModel!!.insert(editTextImageSelectSelfStory.text.toString(),
-                                    textViewImageBackgroundResIdCheck.text.toString().toInt())
+                            R.id.radiobutton_option1_ResetAfterNewList -> {
 
-                                Toast.makeText(requireActivity(), "작성하신 글귀가 새롭게 추가 되었습니다.", Toast.LENGTH_SHORT).show()
+                            }
+                            R.id.radiobutton_option2_default -> {
+
+                                pigmeViewModel!!.insert(
+                                    editTextImageSelectSelfStory.text.toString(),
+                                    textViewImageBackgroundResIdCheck.text.toString().toInt()
+                                )
+
+                                Toast.makeText(
+                                    requireActivity(),
+                                    "작성하신 글귀가 새롭게 추가 되었습니다.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
 
 
                                 /**
@@ -130,56 +137,75 @@ class FragmentSelfStoryImageSelect : Fragment(), Recyclerview_Image_Select_clcik
                                 MainFragment.recyclerViewAdapterChange = 1
                                 Preference_View.set_RecyclerViewAadapterChangeScore(
                                     1,
-                                    requireActivity())
-                                fragmentManager!!.popBackStack("main", 1) }
-                            R.id.radiobutton_option3_deleteAfterNewList -> { }
+                                    requireActivity()
+                                )
+                                fragmentManager!!.popBackStack("main", 1)
+                            }
+
+                            R.id.radiobutton_option3_deleteAfterNewList -> {
+
+                            }
                         }
+
                         dialog_imageSelectMode.dialogImageSelect.dismiss()
                     }
+                    /**
+                     * TODO: 코루틴 더 연구해서 클릭할때마다 변화게끔 만들어보기
+                    uiScope.launch {
+                        dialog_imageSelectMode.dialogImageSelect.findViewById<RadioButton>(
+                            dialog_imageSelectMode.dialogImageSelect.radioGruop_imageSelect_Mode.checkedRadioButtonId
+                        ).run {
+                            setTypeface(null, Typeface.BOLD)
+                        }
+
+                    }
+                    */
                 }
             }
 
             floatingActionButtonGalleryImageSelect.setOnClickListener {
 
-                val viewModelJob = Job()
-                val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-                if (ContextCompat.checkSelfPermission(
-                        requireContext(),
-                        Manifest.permission.READ_EXTERNAL_STORAGE
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(
-                            requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE))
-                    {
-                        ImagePremissonRequestDialog.show(requireContext(), "사진", "필수", "예",
-                            {
-                                ActivityCompat.requestPermissions(
-                                    requireActivity(),
-                                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                                    REQUEST_EXTERNAL_STORAGE_PREMISSON
-                                )
-                            }, "아니요", {})
+                /**
+                 * FIXME: 권한 허용 나면 바로 갤러리로 이용하려고 했지만, 코루틴 이용실패 좀더 연구해보기
+                 */
+                uiScope.launch {
+                    if (ContextCompat.checkSelfPermission(
+                            requireContext(),
+                            Manifest.permission.READ_EXTERNAL_STORAGE
+                        ) != PackageManager.PERMISSION_GRANTED
+                    ) {
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                                requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE
+                            )
+                        ) {
+                            ImagePremissonRequestDialog.show(requireContext(), "사진", "필수", "예",
+                                {
+                                    ActivityCompat.requestPermissions(
+                                        requireActivity(),
+                                        arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                                        REQUEST_EXTERNAL_STORAGE_PREMISSON
+                                    )
+                                }, "아니요", {})
+                        } else {
+                            ActivityCompat.requestPermissions(
+                                requireActivity(),
+                                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                                REQUEST_EXTERNAL_STORAGE_PREMISSON
+                            )
+                        }
                     } else {
-                        ActivityCompat.requestPermissions(
-                            requireActivity(),
-                            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                            REQUEST_EXTERNAL_STORAGE_PREMISSON
-                        )
-                    }
-                }else{
-                    /**
-                     * FIXME: 권한 허용 나면 바로 갤러리로 이용하려고 했지만, 코루틴 이용실패 좀더 연구해보기
-                     */
-
                         val intent =
-                            Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                            Intent(
+                                Intent.ACTION_PICK,
+                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                            )
                         startActivityForResult(intent, REQUEST_IMAGE_CODE)
-
+                    }
                 }
 
-
             }
+
             root
         }
     }
@@ -209,7 +235,6 @@ class FragmentSelfStoryImageSelect : Fragment(), Recyclerview_Image_Select_clcik
         imageView_backgroundImage.setBackgroundResource(position)
         textView_imageBackgroundResIdCheck.text = position.toString()
     }
-
 
 }
 
