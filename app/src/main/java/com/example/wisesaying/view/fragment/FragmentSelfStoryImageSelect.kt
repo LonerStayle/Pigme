@@ -16,6 +16,7 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -28,9 +29,11 @@ import com.example.wisesaying.preference.Preference_View
 import com.example.wisesaying.view.activity.keyboardShow_Hide
 import com.example.wisesaying.view.adapter.RecyclerView_ImageSelectAdapter
 import com.example.wisesaying.view.adapter.Recyclerview_Image_Select_clcikEvent
-import com.example.wisesaying.view.dialog.PremissonRequestDialog
+import com.example.wisesaying.view.dialog.ImagePremissonRequestDialog
+import com.example.wisesaying.view.dialog.PremissonRequestDialogInterface
 import com.example.wisesaying.viewmodel.PigmeViewModel
 import com.example.wisesaying.viewmodel.PigmeViewModelFactory
+import kotlinx.android.synthetic.main.dialog_self_story_image_select_buttonevent.*
 import kotlinx.android.synthetic.main.fragment_self_story_image_select.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -80,53 +83,51 @@ class FragmentSelfStoryImageSelect : Fragment(), Recyclerview_Image_Select_clcik
             }
 
 
+
             recyclerViewImageSelect.adapter =
                 RecyclerView_ImageSelectAdapter(image, this@FragmentSelfStoryImageSelect)
 
             recyclerViewImageSelect.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
-            buttonNewSelfStoryaddFinish.setOnClickListener {
+            buttonNewSelfStoryADD.setOnClickListener {
+                //키보드 가리기
                 keyboardShow_Hide(requireContext(), editTextImageSelectSelfStory)
 
-                // 버튼 눌렀을 때만 selfMakingCount를 1로 설정
-                // 메인 프레그먼트에서 updatedList.shuffled()가 적용되는 순간 사진 고정모드 자체도 먹히지 않음으로 이 순간만 1로 설정
-                // 메인 프레그먼트 온크레이트 뷰에서 기본 0으로 설정
+                //다이얼로그 부르기
+                val dialog_imageSelectMode = PremissonRequestDialogInterface(requireContext(), fragmentManager!!)
+                dialog_imageSelectMode.dialogImageSelectBuilderSetting(dialog_imageSelectMode)
+                dialog_imageSelectMode.dialogImageSelect.show()
+                dialog_imageSelectMode.dialogImageSelect.button_newSelfStoryaddFinish.setOnClickListener {
+
+                    when (dialog_imageSelectMode.dialogImageSelect.radioGruop_imageSelect_Mode.checkedRadioButtonId) {
+                        R.id.radiobutton_option1_ResetAfterNewList -> { }
+                        R.id.radiobutton_option2_default -> {
+                            pigmeViewModel!!.insert(
+                                editTextImageSelectSelfStory.text.toString(),
+                                textViewImageBackgroundResIdCheck.text.toString().toInt())
+
+                            Toast.makeText(
+                                requireActivity(),
+                                "작성하신 글귀가 새롭게 추가 되었습니다.",
+                                Toast.LENGTH_SHORT).show()
 
 
-                if (imageViewBackgroundImage.drawable is BitmapDrawable) {
-                    /**
-                     * TODO: 비트맵 이미지 파일로 저장이 됬을 경우 modellist에 새로 추가하는법 연구중.. Bitmap -> drowble -> resourceId로 연구
-                     */
-//                    val bitmap = (imageViewBackgroundImage.drawable as BitmapDrawable).bitmap
-//                    val bitmap2 = bitmapToDrawable(bitmap)
-//                    imageViewBackgroundImage.tag = bitmap2
-//                    val redId = Integer.parseInt(imageViewBackgroundImage.tag.toString())
-//
-//                    pigmeViewModel!!.insert(
-//                        editTextImageSelectSelfStory.text.toString(), redId)
-
-                } else {
-                    pigmeViewModel!!.insert(
-                        editTextImageSelectSelfStory.text.toString(),
-                        textViewImageBackgroundResIdCheck.text.toString().toInt()
-                    )
+                            /**
+                             *  버튼 눌렀을 때만 selfMakingCount를 1로 설정
+                            메인 프레그먼트에서 updatedList.shuffled()가 적용되는 순간 사진 고정모드 자체도 먹히지 않음으로 이 순간만 1로 설정
+                            메인 프레그먼트 온크레이트 뷰에서 기본 0으로 설정
+                             */
+                            MainFragment.selfStoryMakingCount = 1
+                            MainFragment.recyclerViewAdapterChange = 1
+                            Preference_View.set_RecyclerViewAadapterChangeScore(
+                                1,
+                                requireActivity())
+                            fragmentManager!!.popBackStack("main", 1) }
+                        R.id.radiobutton_option3_deleteAfterNewList -> { }
+                    }
+                    dialog_imageSelectMode.dialogImageSelect.dismiss()
                 }
-
-
-                Toast.makeText(
-                    requireActivity(),
-                    "작성하신 글귀가 새롭게 추가 되었습니다. \n 셀프메이킹카운트: ${textViewImageBackgroundResIdCheck.text}",
-                    Toast.LENGTH_SHORT
-                ).show()
-
-                MainFragment.selfStoryMakingCount = 1
-                MainFragment.recyclerViewAdapterChange = 1
-                Preference_View.set_RecyclerViewAadapterChangeScore(1, requireActivity())
-
-
-                fragmentManager!!.popBackStack("main",1)
-
             }
 
             floatingActionButtonGalleryImageSelect.setOnClickListener {
@@ -143,7 +144,7 @@ class FragmentSelfStoryImageSelect : Fragment(), Recyclerview_Image_Select_clcik
                             Manifest.permission.READ_EXTERNAL_STORAGE
                         )
                     ) {
-                        PremissonRequestDialog.show(requireContext(), "사진", "필수", "예",
+                        ImagePremissonRequestDialog.show(requireContext(), "사진", "필수", "예",
                             {
                                 ActivityCompat.requestPermissions(
                                     requireActivity(),
@@ -202,11 +203,6 @@ class FragmentSelfStoryImageSelect : Fragment(), Recyclerview_Image_Select_clcik
         textView_imageBackgroundResIdCheck.text = position.toString()
     }
 
-    /**
-     * TODO: 비트맵을 드롸블로 하는 것 아직 실패
-     */
-//    private fun bitmapToDrawable(bitmap: Bitmap): BitmapDrawable {
-//        return BitmapDrawable(resources, bitmap)
-//    }
+
 }
 

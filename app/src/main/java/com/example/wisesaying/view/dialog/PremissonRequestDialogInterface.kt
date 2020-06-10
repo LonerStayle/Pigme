@@ -1,6 +1,7 @@
 package com.example.wisesaying.view.dialog
 
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import androidx.fragment.app.FragmentManager
@@ -18,12 +19,14 @@ import kotlinx.android.synthetic.main.fragment_settings.*
 class PremissonRequestDialogInterface(var context: Context, supportFragmentManager: FragmentManager){
 
     // 권한요청 질문 묻기
-    val dialogfrestbuilder = AlertDialog.Builder(context)
+    val dialogPremissonRequstfrset = AlertDialog.Builder(context)
     // 권한요청 거절시 재설명
-    val dialogSecondbuilder = AlertDialog.Builder(context)
+    val dialogPremissonRequstsecond = AlertDialog.Builder(context)
+
+    val dialogImageSelect = Dialog(context,R.style.Theme_AppCompat_Light_Dialog_Alert)
 
 // 권한요청 질문 다이얼로그
-    val dialog_frest_listener = DialogInterface.OnClickListener { dialog, which ->
+    val dialogPremissonRequstfrset_listner = DialogInterface.OnClickListener { dialog, which ->
     when (which) {
         /**
          * 이늄 클래스 와 when 같이 쓰면 좋음
@@ -41,13 +44,12 @@ class PremissonRequestDialogInterface(var context: Context, supportFragmentManag
         DialogInterface.BUTTON_NEGATIVE -> {
             MainFragment.requestPermissionScore = 2
             PreferenceinPermissonRequest.set_PermissionRequestScore(2,context)
-           dialogSecondbuilder.show()
+            dialogPremissonRequstsecond.show()
         }
     }
 }
-
     //권한요청 거절시 설명 다이얼로그
-    val dialog_second_listener = DialogInterface.OnClickListener { dialog, which ->
+    val dialogPremissonRequstsecond_listner = DialogInterface.OnClickListener { dialog, which ->
             when (which) {
                 DialogInterface.BUTTON_NEGATIVE -> {
                     MainFragment.requestPermissionScore = 2
@@ -66,15 +68,18 @@ class PremissonRequestDialogInterface(var context: Context, supportFragmentManag
      * FIXME: 함수명 다시짓기, 아예 함수안에서 다 해결해버리기  혹은 오브젝트 사용
      */
     fun dialogfrestAndSecondBuilderSetting (premissonRequestDialogInterface:PremissonRequestDialogInterface) {
-        premissonRequestDialogInterface.dialogfrestbuilder.setTitle(R.string.RequestPermissionTitle)
-        premissonRequestDialogInterface.dialogfrestbuilder.setMessage(R.string.RequestPermissionText)
-        premissonRequestDialogInterface.dialogfrestbuilder.setPositiveButton("네", dialog_frest_listener)
-        premissonRequestDialogInterface.dialogfrestbuilder.setNegativeButton("아니오", dialog_frest_listener)
-        premissonRequestDialogInterface.dialogSecondbuilder.setTitle(R.string.RequestPermissionTitle2)
-        premissonRequestDialogInterface.dialogSecondbuilder.setMessage(R.string.RequestPermissionText2)
-        premissonRequestDialogInterface.dialogSecondbuilder.setNegativeButton("네", dialog_second_listener)
+        premissonRequestDialogInterface.dialogPremissonRequstfrset.setTitle(R.string.RequestPermissionTitle)
+        premissonRequestDialogInterface.dialogPremissonRequstfrset.setMessage(R.string.RequestPermissionText)
+        premissonRequestDialogInterface.dialogPremissonRequstfrset.setPositiveButton("네", dialogPremissonRequstfrset_listner)
+        premissonRequestDialogInterface.dialogPremissonRequstfrset.setNegativeButton("아니오", dialogPremissonRequstfrset_listner)
+        premissonRequestDialogInterface.dialogPremissonRequstsecond.setTitle(R.string.RequestPermissionTitle2)
+        premissonRequestDialogInterface.dialogPremissonRequstsecond.setMessage(R.string.RequestPermissionText2)
+        premissonRequestDialogInterface.dialogPremissonRequstsecond.setNegativeButton("네", dialogPremissonRequstsecond_listner)
     }
 
+    fun dialogImageSelectBuilderSetting(premissonRequestDialogInterface:PremissonRequestDialogInterface){
+        premissonRequestDialogInterface.dialogImageSelect.setContentView(R.layout.dialog_self_story_image_select_buttonevent)
+    }
     /**
      * 함수안에서 해결 할경우 show
      */
