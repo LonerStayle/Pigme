@@ -3,17 +3,15 @@ package com.example.wisesaying.view.activity
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import com.example.wisesaying.view.fragment.FragmentSetting
 import com.example.wisesaying.R
 import com.example.wisesaying.databinding.ActivityMainBinding
-import com.example.wisesaying.preference.Preference_View
-import com.example.wisesaying.preference.PreferenceinPermissonRequest
+import com.example.wisesaying.preference.PrefSingleton
+import com.example.wisesaying.usagemarks.UsageMarksScore
 import com.example.wisesaying.view.dialog.PremissonRequestDialogInterface
 import com.example.wisesaying.view.fragment.*
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -24,24 +22,26 @@ import kotlinx.coroutines.*
  */
 class MainActivity : AppCompatActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        MainFragment.requestPermissionScore = PreferenceinPermissonRequest.get_PermissionRequestScore(this)
+        UsageMarksScore.requestPermissionScore = PrefSingleton.getInstance(this).requestScore
+
         DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
-
-        //최초 실행시 requestPermissonScore에 따라 다이얼로그 띄우기
-        if(MainFragment.requestPermissionScore == 0 || MainFragment.requestPermissionScore == 2 )
-        {
-            val dialogInterface = PremissonRequestDialogInterface(this,supportFragmentManager)
-            dialogInterface.dialogfrestAndSecondBuilderSetting(dialogInterface)
-            dialogInterface.dialogPremissonRequstfrset.show()
-        }
-
         // 권한 요청 선택결과에 따라 프레그먼트에 기록하기 위한 프레그먼트 실행, 현재 Visivble 모드
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.frameLayout, MainFragment())
         transaction.commit()
+        //최초 실행시 requestPermissonScore에 따라 다이얼로그 띄우기
+
+        if(UsageMarksScore.requestPermissionScore == 0 || UsageMarksScore.requestPermissionScore == 2 )
+        {
+            val dialogInterface = PremissonRequestDialogInterface(this)
+            dialogInterface.dialogfrestAndSecondBuilderSetting(dialogInterface)
+            dialogInterface.dialogPremissonRequstfrset.show()
+        }
+
+
+
     }
 
 
@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
          *  그래서 프레그먼트 셋팅 레이아웃에서 addtobackstack(null)를 사용한 상태라서 뒤로가기를 기본적으로 두번~세번 해야 앱이 종료됨
          */
 
-        MainFragment.fragmentSettingClickCount = 0
+        UsageMarksScore.fragmentSettingClickCount = 0
 
         /**
          *  뒤로가기 버튼 누르면 앱이 바로 종료되지 않고, 프레그먼트 셋팅 레이아웃이 메모리상에서 제거됨 그래서 프레그먼트 레이아웃을 다시 키려고 하면
@@ -60,13 +60,13 @@ class MainActivity : AppCompatActivity() {
          *  한번 더 프레그먼트 매니저로 addtoBackstack(null) 사용 구문만 없이 다시 커밋함
          */
 
-        val fragmentSetting_transaction = supportFragmentManager.beginTransaction()
-        fragmentSetting_transaction.replace(
+        val fragmentSettingTransaction = supportFragmentManager.beginTransaction()
+        fragmentSettingTransaction.replace(
             R.id.fregment_SettingLayout,
             FragmentSetting()
         )
         fregment_SettingLayout.visibility = View.GONE
-        fragmentSetting_transaction.commit()
+        fragmentSettingTransaction.commit()
 
         /**
          * 앱을 종료시키지 않았을 시에 프레그먼트 셋팅 레이아웃에 .addtoBackStack(null) 추가함
@@ -76,10 +76,10 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, R.string.toast, Toast.LENGTH_SHORT).show()
           if (!isFinishing) {
             CoroutineScope(Dispatchers.Main + Job()).launch {
-                delay(3000)
-                fragmentSetting_transaction.remove(FragmentSetting())
-                val fragmentSetting_Transaction_ReCreate = supportFragmentManager.beginTransaction()
-                fragmentSetting_Transaction_ReCreate.replace(
+                delay(5000)
+                fragmentSettingTransaction.remove(FragmentSetting())
+                val fragmentSettingTransactionReCreate = supportFragmentManager.beginTransaction()
+                fragmentSettingTransactionReCreate.replace(
                     R.id.fregment_SettingLayout,
                     FragmentSetting()
                 )
@@ -92,14 +92,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
-        MainFragment.fragmentSettingClickCount = 0
+        UsageMarksScore.fragmentSettingClickCount = 0
         fregment_SettingLayout.visibility = View.GONE
         super.onStop()
     }
 
     override fun onDestroy() {
         val viewPagerPosition = viewPager.currentItem
-        Preference_View.set_CurrentViewpager(viewPagerPosition, this)
+       PrefSingleton.getInstance(this).currentViewpager = viewPagerPosition
 
         super.onDestroy()
     }

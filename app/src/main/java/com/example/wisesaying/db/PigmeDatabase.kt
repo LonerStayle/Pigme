@@ -12,7 +12,6 @@ import com.example.wisesaying.db.entity.Pigme
 abstract class PigmeDatabase:RoomDatabase()  {
     abstract val pigmeDao:PigmeDao
 
-
     companion object {
         @Volatile
         private var INSTANCE: PigmeDatabase? = null

@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 <data>
     <variable
+        name="story"
+        type="String" />
+    <variable
         name="pigmeViewModel"
         type="com.example.wisesaying.viewmodel.PigmeViewModel" />
 
@@ -58,7 +61,7 @@
         android:textColor="#ffffff"
         android:textSize="32sp"
         android:textStyle="bold"
-        android:text="aaaaa"
+        android:text="@{story}"
         app:layout_constraintBottom_toBottomOf="@+id/imageView_backgroundImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

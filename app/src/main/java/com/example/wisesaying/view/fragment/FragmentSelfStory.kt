@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -38,22 +39,26 @@ class FragmentSelfStory : Fragment() {
     ).run {
         buttonFragementSelfStory.setOnClickListener {
 
-            if (TextUtils.isEmpty(editTextSelfStory.text)) {
+            if (TextUtils.isEmpty(story)) {
                 Toast.makeText(context, "새로운 글을 입력해주세요", Toast.LENGTH_SHORT)
                     .show()
-
-            } else {
-                val bundle = Bundle()
-                bundle.putString("selfStory", editTextSelfStory.text.toString())
-                val fragmentSelfStoryImageSelect = FragmentSelfStoryImageSelect()
-                fragmentSelfStoryImageSelect.arguments = bundle
-                val fragment = fragmentManager!!.beginTransaction()
-                fragment.replace(R.id.frameLayout_selfStoryFragment, fragmentSelfStoryImageSelect)
-                    .addToBackStack("selfStory")
-                    .commit()
-
-                keyboardShow_Hide(requireContext(), editTextSelfStory)
+                return@setOnClickListener
             }
+
+            // val bundle = Bundle()
+            // bundle.putString("selfStory", editTextSelfStory.text.toString())
+            val fragmentSelfStoryImageSelect = FragmentSelfStoryImageSelect()
+            fragmentSelfStoryImageSelect.arguments = bundleOf(
+                "selfStory" to story
+                //,"selfstory2" to ""
+            )
+            val fragment = fragmentManager!!.beginTransaction()
+            fragment.replace(R.id.frameLayout_selfStoryFragment, fragmentSelfStoryImageSelect)
+                .addToBackStack("selfStory")
+                .commit()
+
+            keyboardShow_Hide(requireContext(), editTextSelfStory)
+
         }
 
 

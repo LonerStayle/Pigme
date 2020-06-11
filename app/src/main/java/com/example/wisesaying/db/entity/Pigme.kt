@@ -10,5 +10,6 @@ import androidx.room.PrimaryKey
 data class Pigme(
     @PrimaryKey
     var textStory: String,
-    var image: Int
+    var image: Int,
+    var imageUri : String?
 )

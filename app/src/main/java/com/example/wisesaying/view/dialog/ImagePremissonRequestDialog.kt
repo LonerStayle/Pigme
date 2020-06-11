@@ -6,6 +6,8 @@ import android.content.DialogInterface
 
 /**
  * 아직 사용 못해봄..
+ *
+ * FIXME: 굳이 변수명 사용 필요가없음 .
  */
 object ImagePremissonRequestDialog {
     fun show(
@@ -16,18 +18,15 @@ object ImagePremissonRequestDialog {
         onPositive: () -> Unit = {},
         negativeText: String = "",
         onNegative: () -> Unit = {}
-    ) {
-       val alertDialog =  AlertDialog.Builder(context)
-               alertDialog
+    ) =  AlertDialog.Builder(context)
             .setTitle(dialogtitle)
             .setMessage(dialogmessage)
-            .setPositiveButton(positiveText, DialogInterface.OnClickListener { dialog, which ->
+            .setPositiveButton(positiveText) { _, _ ->
                 onPositive()
-            })
-            .setNegativeButton(negativeText, DialogInterface.OnClickListener { dialog, which ->
-                onNegative()
-            })
-            .create()
+            }
+        .setNegativeButton(negativeText) { _, _ ->
+            onNegative()
+        }
+        .create()
             .show()
     }
-}

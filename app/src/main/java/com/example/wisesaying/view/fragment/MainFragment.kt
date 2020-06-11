@@ -17,8 +17,10 @@ import com.example.wisesaying.*
 import com.example.wisesaying.databinding.FragmentMainBinding
 import com.example.wisesaying.db.PigmeDatabase
 import com.example.wisesaying.db.entity.Pigme
-import com.example.wisesaying.preference.Preference_View
-import com.example.wisesaying.preference.Preference_dataModel
+import com.example.wisesaying.preference.PrefSingleton
+import com.example.wisesaying.preference.PreferenceModelist
+
+import com.example.wisesaying.usagemarks.UsageMarksScore
 import com.example.wisesaying.view.adapter.ViewPagerAdapter
 import com.example.wisesaying.viewmodel.PigmeViewModel
 import com.example.wisesaying.viewmodel.PigmeViewModelFactory
@@ -39,16 +41,7 @@ class MainFragment : Fragment() {
 
         }
 
-     companion object  {
-        //태스크 변경 권한 번호
-        var requestPermissionScore= 0
-        //셋팅 창 키는버튼 카운트
-        var fragmentSettingClickCount = 0
-        //셀프 명언 사용 했을때
-        var selfStoryMakingCount = 0
-      // 전체리스트 (리싸이클러뷰) 명언 추가 여부에 따른 화면 변경
-      var recyclerViewAdapterChange = 0
-    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,17 +49,17 @@ class MainFragment : Fragment() {
     ): View? = DataBindingUtil.inflate<FragmentMainBinding>(inflater, R.layout.fragment_main, container, false).run {
 
        // 온크레이트 뷰가 다시 일어나면 0 으로
-        selfStoryMakingCount = 0
+        UsageMarksScore.selfStoryMakingCount = 0
 
         //명언 하나라도 추가했을 때 set을 시켜놓았었음 get으로 다시 불러와 0,1에 따라 전체리스트 어댑터 변경
-        recyclerViewAdapterChange = Preference_View.get_RecyclerViewAadapterChangeScore(requireContext())
+        UsageMarksScore.recyclerViewAdapterChange = PrefSingleton.getInstance(requireContext()).RecyclerViewAadapterChangeScore
 
         // 명언 추가 기능 사용 여부 on일시 GONE
-        frameLayoutSelfstotyUsagemarks.visibility = Preference_View.get_fremeLayout_selfstory_Usagemarks_visibility(requireContext())
+        frameLayoutSelfstotyUsagemarks.visibility = PrefSingleton.getInstance(requireContext()).fremeLayoutSelfstoryUsagemarksVisibility
 
 
         // 앱 새로시작할때 마다 이미지 순서 랜덤인지 아닌지 확인 on일시 GONE
-        frameLayoutImageModeCheck.visibility = Preference_View.get_frameLayoutImageModeCheck_visibility(requireContext())
+       frameLayoutImageModeCheck.visibility = PrefSingleton.getInstance(requireContext()).frameLayoutImageModeCheckVisibility
 
         transaction.replace(
 
@@ -94,7 +87,7 @@ class MainFragment : Fragment() {
                 Pigme(
                     textings[i],
                     image!![i]
-                )
+                ,null)
             )
         }
 
@@ -108,40 +101,37 @@ class MainFragment : Fragment() {
                 ViewPagerAdapter(
                     modelListShuffledMode)
 
-            recyclerViewAdapterChange = 0
-                    Preference_dataModel.set_ModelListPref(
-                context!!,
-                (viewPager.adapter as ViewPagerAdapter).modelList
-            )
+            UsageMarksScore.recyclerViewAdapterChange = 0
+
+            //PreferenceModelist.setModelListPref(requireContext(),(viewPager.adapter as ViewPagerAdapter).modelList)
+            PrefSingleton.getInstance(requireContext()).modelListPref = (viewPager.adapter as ViewPagerAdapter).modelList
         }
         //사진 랜덤 출력  && 셀프명언이 하나라도 존재 할때
         else if (frameLayoutImageModeCheck.visibility == View.VISIBLE && frameLayoutSelfstotyUsagemarks.visibility == View.GONE) {
 
             viewPager.adapter =
                 ViewPagerAdapter(
-                    Preference_dataModel.get_ModelListPrefSelfStory(
-                        context!!
-                    ).shuffled()
+                 //   PreferenceModelist.getModelListPrefSelfStory(requireContext()).shuffled()
+                PrefSingleton.getInstance(requireContext()).modelListPrefSelfStory.shuffled()
                 )
 
-            Preference_dataModel.set_ModelListPrefSelfStory(context!!,
-                (viewPager.adapter as ViewPagerAdapter).modelList)
+           // PreferenceModelist.setModelListPrefSelfStory(requireContext(),(viewPager.adapter as ViewPagerAdapter).modelList)
+            PrefSingleton.getInstance(requireContext()).modelListPrefSelfStory = (viewPager.adapter as ViewPagerAdapter).modelList
         }
         //사진 고정모드 && 셀프명언 없을때
         else if (frameLayoutImageModeCheck.visibility == View.GONE && frameLayoutSelfstotyUsagemarks.visibility == View.VISIBLE) {
-            recyclerViewAdapterChange = 0
+            UsageMarksScore.recyclerViewAdapterChange = 0
             viewPager.adapter =
                 ViewPagerAdapter(
-                    Preference_dataModel.get_ModelListPref(
-                        context!!)
+                   // PreferenceModelist.getModelListPref(requireContext())
+                PrefSingleton.getInstance(requireContext()).modelListPref
                 )
 
-            Preference_dataModel.set_ModelListPref( context!!,
-                        (viewPager.adapter as ViewPagerAdapter).modelList)
-
+           // PreferenceModelist.setModelListPref(requireContext(),(viewPager.adapter as ViewPagerAdapter).modelList)
+            PrefSingleton.getInstance(requireContext()).modelListPref = (viewPager.adapter as ViewPagerAdapter).modelList
 
             // 매직넘버 - > 콜백함수로 바꿀것
-            viewPager.currentItem =  Preference_View.get_CurrentViewpager(context!!)
+            viewPager.currentItem = PrefSingleton.getInstance(requireContext()).currentViewpager
             Handler().postDelayed({
                 viewPager.visibility = View.VISIBLE
             }, 180) }
@@ -150,19 +140,16 @@ class MainFragment : Fragment() {
         else if (frameLayoutImageModeCheck.visibility == View.GONE && frameLayoutSelfstotyUsagemarks.visibility == View.GONE) {
             viewPager.adapter =
                 ViewPagerAdapter(
-                    Preference_dataModel.get_ModelListPrefSelfStory(
-                        context!!
-                    )
-                )
-            Preference_dataModel.set_ModelListPrefSelfStory(
-                context!!,
-                (viewPager.adapter as ViewPagerAdapter).modelList)
+                    //PreferenceModelist.getModelListPrefSelfStory(requireContext())
+                    PrefSingleton.getInstance(requireContext()).modelListPrefSelfStory)
+           // PreferenceModelist.setModelListPrefSelfStory(requireContext(),(viewPager.adapter as ViewPagerAdapter).modelList)
 
+            PrefSingleton.getInstance(requireContext()).modelListPrefSelfStory = (viewPager.adapter as ViewPagerAdapter).modelList
             /**
              * 매직넘버 수정하기
              */
 
-          viewPager.currentItem =  Preference_View.get_CurrentViewpager(context!!)
+          viewPager.currentItem =  PrefSingleton.getInstance(requireContext()).currentViewpager
             Handler().postDelayed({
                 viewPager.visibility = View.VISIBLE
             },180)
@@ -172,7 +159,7 @@ class MainFragment : Fragment() {
         viewModel.pigmeList.observe(viewLifecycleOwner, Observer { updatedList  ->
             (viewPager.adapter as ViewPagerAdapter).apply {
 
-              if (selfStoryMakingCount == 1&& frameLayoutSelfstotyUsagemarks.visibility == View.VISIBLE ) {
+              if (UsageMarksScore.selfStoryMakingCount == 1&& frameLayoutSelfstotyUsagemarks.visibility == View.VISIBLE ) {
                   /**
                    *  랜덤으로 돌리고자 한다면 .
                   val randomIndex = Random().nextInt(this.modelList.lastIndex+1)
@@ -185,16 +172,13 @@ class MainFragment : Fragment() {
                   (this.modelList as MutableList<Pigme>).add(viewPager.currentItem,updatedList.last())
                   */
                   (this.modelList as MutableList<Pigme>).addAll(viewPager.currentItem,updatedList)
-
-                  Preference_dataModel.set_ModelListPrefSelfStory(context!!, this.modelList)
                 frameLayoutSelfstotyUsagemarks.visibility = View.GONE
-                  Preference_View.set_fremeLayout_selfstory_Usagemarks_visibility(context!!,0x00000008)
+               PrefSingleton.getInstance(requireContext()).fremeLayoutSelfstoryUsagemarksVisibility = 0x00000008
               }
-                else if(selfStoryMakingCount == 1 && frameLayoutSelfstotyUsagemarks.visibility == View.GONE){
+                else if(UsageMarksScore.selfStoryMakingCount == 1 && frameLayoutSelfstotyUsagemarks.visibility == View.GONE){
                   (this.modelList as MutableList<Pigme>).add(viewPager.currentItem,updatedList.last())
-                  Preference_dataModel.set_ModelListPrefSelfStory(context!!, this.modelList)
               }
-
+                PrefSingleton.getInstance(requireContext()).modelListPrefSelfStory = this.modelList
                 notifyDataSetChanged()
 
             }
@@ -202,7 +186,7 @@ class MainFragment : Fragment() {
 
 
 
-        Toast.makeText(context,"현재페이지:${viewPager.currentItem},Self:$selfStoryMakingCount",Toast.LENGTH_SHORT).show()
+        Toast.makeText(context,"현재페이지:${viewPager.currentItem},Self:${UsageMarksScore.selfStoryMakingCount}",Toast.LENGTH_SHORT).show()
 
         //공유 기능
         imageButtonShare.setOnClickListener {
@@ -222,13 +206,13 @@ class MainFragment : Fragment() {
         // fragmentSettingClickCount == 1 이 ON  == 2 는 OFF
 
         btnSetting.setOnClickListener {
-            fragmentSettingClickCount++
+            UsageMarksScore.fragmentSettingClickCount++
 
-            if (fragmentSettingClickCount >= 2) {
+            if (UsageMarksScore.fragmentSettingClickCount >= 2) {
                 fregment_SettingLayout.visibility = View.GONE
-                fragmentSettingClickCount = 0
+                UsageMarksScore.fragmentSettingClickCount = 0
 
-            } else if (fragmentSettingClickCount == 1) {
+            } else if (UsageMarksScore.fragmentSettingClickCount == 1) {
                 fregment_SettingLayout.visibility = View.VISIBLE
 
             }

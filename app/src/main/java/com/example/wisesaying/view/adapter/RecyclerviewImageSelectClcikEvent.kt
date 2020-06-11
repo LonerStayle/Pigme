@@ -1,8 +1,6 @@
 package com.example.wisesaying.view.adapter
 
-import android.view.View
-
-interface Recyclerview_Image_Select_clcikEvent {
+interface RecyclerviewImageSelectClcikEvent {
 
     fun onclickEvent(position:Int)
 

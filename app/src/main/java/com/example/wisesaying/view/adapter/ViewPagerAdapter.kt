@@ -16,9 +16,7 @@ class ViewPagerAdapter(var modelList: List<Pigme> = listOf()) :
             LayoutInflater.from(parent.context).inflate(R.layout.viewpager, parent, false)
         )
 
-    override fun getItemCount(): Int {
-        return modelList.size
-    }
+    override fun getItemCount(): Int = modelList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding?.textViewStory?.text = modelList[position].textStory

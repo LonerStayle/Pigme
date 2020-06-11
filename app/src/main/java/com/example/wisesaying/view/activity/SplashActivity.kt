@@ -57,9 +57,11 @@ class SplashActivity : AppCompatActivity() {
          */
         CoroutineScope(Dispatchers.Main+ Job()).launch {
             delay(3000)
-            val intent = Intent(applicationContext, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+            if(!isFinishing) {
+                val intent = Intent(applicationContext, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
     }
 

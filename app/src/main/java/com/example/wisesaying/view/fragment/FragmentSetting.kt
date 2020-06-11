@@ -11,8 +11,8 @@ import androidx.fragment.app.Fragment
 import com.example.wisesaying.R
 
 import com.example.wisesaying.databinding.FragmentSettingsBinding
-import com.example.wisesaying.preference.Preference_View
-import com.example.wisesaying.preference.PreferenceinPermissonRequest
+import com.example.wisesaying.preference.PrefSingleton
+import com.example.wisesaying.usagemarks.UsageMarksScore
 
 
 class FragmentSetting : Fragment() {
@@ -30,117 +30,113 @@ class FragmentSetting : Fragment() {
             false
         ).run {
 
-            switchWidgetSettingPremisson.isChecked =
-                Preference_View.get_FragmentSetting_switchWidgetSettingPremissonisChecked(
-                    requireContext()
-                )
-            switchWidgetSettingPremisson.text =
-                Preference_View.get_FragmentSetting_switchWidgetSettingPremissonisText(
-                    requireContext()
-                )
-            switchWidgetSettingImageControl.isChecked =
-                Preference_View.get_FragmentSetting_switchWidgetSettingimageControlisChecked(
-                    requireContext()
-                )
-            switchWidgetSettingImageControl.text =
-                Preference_View.get_FragmentSetting_switchWidgetSettingimageControlisText(
-                    requireContext()
-                )
+            switchWidgetSettingPremisson.apply {
+                isChecked =
+                    PrefSingleton.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonisChecked
+                text =
+                    PrefSingleton.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonText
+            }
 
-//TASK 조절 스위치
-            var imageclickCount = 0
-            var premissonclickcount = 0
-            switchWidgetSettingPremisson.setOnCheckedChangeListener { buttonView, isChecked ->
-                imageclickCount++
-                val textON = "ON\t"
-                val textOFF = "OFF\t"
-                if (isChecked) {
-                    Preference_View.set_FragmentSetting_switchWidgetSettingPremissonisChecked(
-                        isChecked, requireContext()
-                    )
+            switchWidgetSettingImageControl.apply {
+                isChecked =
+                    PrefSingleton.getInstance(requireContext()).fragmentsettingSwitchwidgetSettingImageControlisChecked
+                text =
+                    PrefSingleton.getInstance(requireContext()).fragmentsettingSwitchwidgetSettingImageControlText
+            }
 
-                    MainFragment.requestPermissionScore = 1
+            val textON = "ON\t"
+            val textOFF = "OFF\t"
+            //TASK 조절 스위치
+            var clickCount = 0
+            switchWidgetSettingPremisson.setOnCheckedChangeListener { _, isChecked ->
+                clickCount++
 
-                    PreferenceinPermissonRequest.set_PermissionRequestScore(1, requireContext())
+                /**
+              if문을 when으로 변경완료
+                 */
+                when (isChecked) {
+                    true -> {
+                        PrefSingleton.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonisChecked =
+                            isChecked
 
-                    switchWidgetSettingPremisson.setText(textON)
-                    Preference_View.set_FragmentSetting_switchWidgetSettingPremissonisText(
-                        textON, requireContext()
-                    )
+                        UsageMarksScore.requestPermissionScore = 1
+                        PrefSingleton.getInstance(requireContext()).requestScore = 1
 
+                        switchWidgetSettingPremisson.text = textON
+                        PrefSingleton.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonText =
+                            textON
 
-                    if (imageclickCount <= 4)
-                        Toast.makeText(
-                            requireContext(),
-                            R.string.FragmentSetting_switchWidgetSettingPremisson_On,
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        if (clickCount <= 4)
+                            Toast.makeText(
+                                requireContext(),
+                                R.string.FragmentSetting_switchWidgetSettingPremisson_On,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                    }
 
-                } else {
-                    Preference_View.set_FragmentSetting_switchWidgetSettingPremissonisChecked(
-                        isChecked, requireContext()
-                    )
-                    MainFragment.requestPermissionScore = 2
-                    PreferenceinPermissonRequest.set_PermissionRequestScore(2, requireContext())
+                    false -> {
+                        PrefSingleton.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonisChecked =
+                            isChecked
+
+                        UsageMarksScore.requestPermissionScore = 2
+                        PrefSingleton.getInstance(requireContext()).requestScore = 2
 
 
-                    switchWidgetSettingPremisson.setText(textOFF)
-                    Preference_View.set_FragmentSetting_switchWidgetSettingPremissonisText(
-                        textOFF, requireContext()
-                    )
+                        switchWidgetSettingPremisson.text = textOFF
+                        PrefSingleton.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonText =
+                            textOFF
 
-                    if (imageclickCount <= 4)
-                        Toast.makeText(
-                            context,
-                            R.string.FragmentSetting_switchWidgetSettingPremisson_Off,
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        if (clickCount <= 4)
+                            Toast.makeText(
+                                context,
+                                R.string.FragmentSetting_switchWidgetSettingPremisson_Off,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                    }
                 }
             }
 
             // 사진 고정기능 조절 스위치
-            switchWidgetSettingImageControl.setOnCheckedChangeListener { buttonView, isChecked ->
-                premissonclickcount++
-                val textON = "ON\t"
-                val textOFF = "OFF\t"
-                if (isChecked) {
-                    Preference_View.set_FragmentSetting_switchWidgetSettingimageControlisChecked(
-                        isChecked,
-                        requireContext()
-                    )
-                    switchWidgetSettingImageControl.text = textON
-                    Preference_View.set_FragmentSetting_switchWidgetSettingimageControlisText(
-                        textON,
-                        requireContext()
-                    )
 
-                    Preference_View.set_frameLayoutImageModeCheck_visibility(0x00000008, context!!)
-                    if (premissonclickcount <= 4)
+            switchWidgetSettingImageControl.setOnCheckedChangeListener { _, isChecked ->
+                clickCount++
 
-                        Toast.makeText(
-                            context,
-                            R.string.Fragment_Setting_switchWidgetSettingImageControl_On,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                } else {
-                    Preference_View.set_FragmentSetting_switchWidgetSettingimageControlisChecked(
-                        isChecked,
-                        requireContext()
-                    )
-                    switchWidgetSettingImageControl.text = textOFF
-                    Preference_View.set_FragmentSetting_switchWidgetSettingimageControlisText(
-                        textOFF,
-                        requireContext()
-                    )
+                when(isChecked) {
+                    true -> {
+                        PrefSingleton.getInstance(requireContext()).fragmentsettingSwitchwidgetSettingImageControlisChecked =
+                            isChecked
+                        switchWidgetSettingImageControl.text = textON
+                        PrefSingleton.getInstance(requireContext()).fragmentsettingSwitchwidgetSettingImageControlText =
+                            textON
+                        PrefSingleton.getInstance(requireContext()).frameLayoutImageModeCheckVisibility =
+                            0x00000008
 
-                    Preference_View.set_frameLayoutImageModeCheck_visibility(0x00000000, context!!)
-                    if (premissonclickcount <= 4)
+                        if (clickCount <= 4)
 
-                        Toast.makeText(
-                            context,
-                            R.string.Fragment_Setting_switchWidgetSettingImageControl_Off,
-                            Toast.LENGTH_SHORT
-                        ).show()
+                            Toast.makeText(
+                                context,
+                                R.string.Fragment_Setting_switchWidgetSettingImageControl_On,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                    }
+                    false -> {
+                            PrefSingleton.getInstance(requireContext()).fragmentsettingSwitchwidgetSettingImageControlisChecked =
+                                isChecked
+                            switchWidgetSettingImageControl.text = textOFF
+                            PrefSingleton.getInstance(requireContext()).fragmentsettingSwitchwidgetSettingImageControlText =
+                                textOFF
+
+                            PrefSingleton.getInstance(requireContext()).frameLayoutImageModeCheckVisibility =
+                                0x00000000
+
+                            if (clickCount <= 4)
+
+                                Toast.makeText(
+                                    context,
+                                    R.string.Fragment_Setting_switchWidgetSettingImageControl_Off,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                    }
                 }
             }
 
@@ -148,7 +144,6 @@ class FragmentSetting : Fragment() {
 
 
                 val transactionRecyclerView = fragmentManager!!.beginTransaction()
-
                 transactionRecyclerView.replace(
                     R.id.frameLayout_RecyclerView,
                     FragmentRecyclerView()
@@ -157,12 +152,14 @@ class FragmentSetting : Fragment() {
                 transactionRecyclerView.commit()
 
                 root.visibility = View.GONE
-
                 //메인 프레그먼트에서 뷰페이저 비지블 조절해보기
                 // 콜백함수를 알아보자
             }
+
+
             root
         }
     }
 }
+
 
