@@ -11,35 +11,32 @@ import com.example.wisesaying.view.fragment.FragmentSetting
 import com.example.wisesaying.R
 import com.example.wisesaying.databinding.ActivityMainBinding
 import com.example.wisesaying.preference.PrefSingleton
-import com.example.wisesaying.usagemarks.UsageMarksScore
 import com.example.wisesaying.view.dialog.PremissonRequestDialogInterface
 import com.example.wisesaying.view.fragment.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.coroutines.*
 
 /**
- * 리팩토링 시작 
+ * 리팩토링 시작
  */
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        UsageMarksScore.requestPermissionScore = PrefSingleton.getInstance(this).requestScore
 
+        PrefSingleton.getInstance(this).requestScore
         DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         // 권한 요청 선택결과에 따라 프레그먼트에 기록하기 위한 프레그먼트 실행, 현재 Visivble 모드
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.frameLayout, MainFragment())
-        transaction.commit()
+            .commit()
         //최초 실행시 requestPermissonScore에 따라 다이얼로그 띄우기
 
-        if(UsageMarksScore.requestPermissionScore == 0 || UsageMarksScore.requestPermissionScore == 2 )
-        {
+        if (PrefSingleton.getInstance(this).requestScore == 0 || PrefSingleton.getInstance(this).requestScore == 2) {
             val dialogInterface = PremissonRequestDialogInterface(this)
             dialogInterface.dialogfrestAndSecondBuilderSetting(dialogInterface)
             dialogInterface.dialogPremissonRequstfrset.show()
         }
-
 
 
     }
@@ -51,7 +48,6 @@ class MainActivity : AppCompatActivity() {
          *  그래서 프레그먼트 셋팅 레이아웃에서 addtobackstack(null)를 사용한 상태라서 뒤로가기를 기본적으로 두번~세번 해야 앱이 종료됨
          */
 
-        UsageMarksScore.fragmentSettingClickCount = 0
 
         /**
          *  뒤로가기 버튼 누르면 앱이 바로 종료되지 않고, 프레그먼트 셋팅 레이아웃이 메모리상에서 제거됨 그래서 프레그먼트 레이아웃을 다시 키려고 하면
@@ -72,40 +68,40 @@ class MainActivity : AppCompatActivity() {
          * 앱을 종료시키지 않았을 시에 프레그먼트 셋팅 레이아웃에 .addtoBackStack(null) 추가함
          * 사용자가 종료하지 않고 이어서 계속 사용한다면 어이없이 어플이 종료되지 않도록 유도함
          */
-        if (supportFragmentManager.backStackEntryCount == 1){
+        if (supportFragmentManager.backStackEntryCount == 1) {
             Toast.makeText(this, R.string.toast, Toast.LENGTH_SHORT).show()
-          if (!isFinishing) {
-            CoroutineScope(Dispatchers.Main + Job()).launch {
-                delay(5000)
-                fragmentSettingTransaction.remove(FragmentSetting())
-                val fragmentSettingTransactionReCreate = supportFragmentManager.beginTransaction()
-                fragmentSettingTransactionReCreate.replace(
-                    R.id.fregment_SettingLayout,
-                    FragmentSetting()
-                )
-                    .addToBackStack(null)
-                    .commitAllowingStateLoss()
+            if (!isFinishing) {
+                CoroutineScope(Dispatchers.Main).launch {
+                    delay(5000)
+                    fragmentSettingTransaction.remove(FragmentSetting())
+                    val fragmentSettingTransactionReCreate =
+                        supportFragmentManager.beginTransaction()
+                            .replace(
+                                R.id.fregment_SettingLayout,
+                                FragmentSetting()
+                            )
+                            .addToBackStack(null)
+                            .commitAllowingStateLoss()
+                }
             }
         }
-    }
         super.onBackPressed()
     }
 
     override fun onStop() {
-        UsageMarksScore.fragmentSettingClickCount = 0
+
         fregment_SettingLayout.visibility = View.GONE
         super.onStop()
+
     }
 
     override fun onDestroy() {
-        val viewPagerPosition = viewPager.currentItem
-       PrefSingleton.getInstance(this).currentViewpager = viewPagerPosition
-
+        PrefSingleton.getInstance(this).currentViewpager = viewPager.currentItem
         super.onDestroy()
     }
 }
 
-fun keyboardShow_Hide(context:Context,view: View) {
+fun keyboardShow_Hide(context: Context, view: View) {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(view.windowToken, 0)
 }

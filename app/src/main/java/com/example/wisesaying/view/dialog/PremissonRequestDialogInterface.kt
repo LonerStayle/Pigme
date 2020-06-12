@@ -34,7 +34,7 @@ class PremissonRequestDialogInterface(context: AppCompatActivity) {
              * 이늄 클래스 와 when 같이 쓰면 좋음
              */
             DialogInterface.BUTTON_POSITIVE -> {
-                UsageMarksScore.requestPermissionScore = 1
+
                 PrefSingleton.getInstance(context).requestScore = 1
                 val fragment =
                     context.supportFragmentManager.findFragmentById(R.id.fregment_SettingLayout)
@@ -44,7 +44,6 @@ class PremissonRequestDialogInterface(context: AppCompatActivity) {
 
             }
             DialogInterface.BUTTON_NEGATIVE -> {
-                UsageMarksScore.requestPermissionScore = 2
                 PrefSingleton.getInstance(context).requestScore = 2
                 dialogPremissonRequstsecond.show()
             }
@@ -56,7 +55,7 @@ class PremissonRequestDialogInterface(context: AppCompatActivity) {
     private val dialogPremissonRequstsecond_listner = DialogInterface.OnClickListener { _, which ->
         when (which) {
             DialogInterface.BUTTON_NEGATIVE -> {
-                UsageMarksScore.requestPermissionScore = 2
+
                 PrefSingleton.getInstance(context).requestScore = 2
                 val fragment =
                     context.supportFragmentManager.findFragmentById(R.id.fregment_SettingLayout)

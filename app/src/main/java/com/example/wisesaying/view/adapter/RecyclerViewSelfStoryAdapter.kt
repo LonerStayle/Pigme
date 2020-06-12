@@ -30,8 +30,10 @@ class RecyclerViewSelfStoryAdapter(var modelList: List<Pigme> = listOf()) :
 //    Why????
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding?.pigme = modelList[position]
-       // holder.binding?.imageViewRecyclerView?.setImageResource(modelList[position].image)
-        //holder.binding?.textViewRecyclerView?.text = (modelList[position].textStory)
+//        holder.binding?.apply {
+//            imageViewRecyclerView?.setImageResource(modelList[position].image)
+//            textViewRecyclerView?.text = (modelList[position].textStory)
+//        }
     }
     inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view){
         val binding = DataBindingUtil.bind<RecyclerviewSelfstoryHolderBinding>(view)

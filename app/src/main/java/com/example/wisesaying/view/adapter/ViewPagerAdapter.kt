@@ -19,8 +19,11 @@ class ViewPagerAdapter(var modelList: List<Pigme> = listOf()) :
     override fun getItemCount(): Int = modelList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding?.textViewStory?.text = modelList[position].textStory
-        holder.binding?.imageView?.setImageResource(modelList[position].image)
+
+        holder.binding?.apply {
+            textViewStory.text = modelList[position].textStory
+            imageView.setImageResource(modelList[position].image)
+        }
         //        holder.bind(modelList[position])
     }
 

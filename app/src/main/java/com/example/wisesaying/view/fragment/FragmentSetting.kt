@@ -12,7 +12,6 @@ import com.example.wisesaying.R
 
 import com.example.wisesaying.databinding.FragmentSettingsBinding
 import com.example.wisesaying.preference.PrefSingleton
-import com.example.wisesaying.usagemarks.UsageMarksScore
 
 
 class FragmentSetting : Fragment() {
@@ -22,8 +21,7 @@ class FragmentSetting : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return DataBindingUtil.inflate<FragmentSettingsBinding>(
+    ): View? = DataBindingUtil.inflate<FragmentSettingsBinding>(
             inflater,
             R.layout.fragment_settings,
             container,
@@ -50,7 +48,6 @@ class FragmentSetting : Fragment() {
             var clickCount = 0
             switchWidgetSettingPremisson.setOnCheckedChangeListener { _, isChecked ->
                 clickCount++
-
                 /**
               if문을 when으로 변경완료
                  */
@@ -59,7 +56,6 @@ class FragmentSetting : Fragment() {
                         PrefSingleton.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonisChecked =
                             isChecked
 
-                        UsageMarksScore.requestPermissionScore = 1
                         PrefSingleton.getInstance(requireContext()).requestScore = 1
 
                         switchWidgetSettingPremisson.text = textON
@@ -78,7 +74,6 @@ class FragmentSetting : Fragment() {
                         PrefSingleton.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonisChecked =
                             isChecked
 
-                        UsageMarksScore.requestPermissionScore = 2
                         PrefSingleton.getInstance(requireContext()).requestScore = 2
 
 
@@ -122,6 +117,7 @@ class FragmentSetting : Fragment() {
                     false -> {
                             PrefSingleton.getInstance(requireContext()).fragmentsettingSwitchwidgetSettingImageControlisChecked =
                                 isChecked
+
                             switchWidgetSettingImageControl.text = textOFF
                             PrefSingleton.getInstance(requireContext()).fragmentsettingSwitchwidgetSettingImageControlText =
                                 textOFF
@@ -142,7 +138,6 @@ class FragmentSetting : Fragment() {
 
             buttonAllList.setOnClickListener {
 
-
                 val transactionRecyclerView = fragmentManager!!.beginTransaction()
                 transactionRecyclerView.replace(
                     R.id.frameLayout_RecyclerView,
@@ -159,7 +154,7 @@ class FragmentSetting : Fragment() {
 
             root
         }
-    }
+
 }
 
 

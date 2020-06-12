@@ -20,7 +20,7 @@ class SplashActivity : AppCompatActivity() {
      *  현재는 주석처리 핸들러 -> 코루틴 으로 변경함
      */
 
-    private val handler = Handler()
+    // private val handler = Handler()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         /**
@@ -55,7 +55,7 @@ class SplashActivity : AppCompatActivity() {
         /**
          *  핸들러 - > 코루틴으로 변경 완료
          */
-        CoroutineScope(Dispatchers.Main+ Job()).launch {
+        CoroutineScope(Dispatchers.Main).launch {
             delay(3000)
             if(!isFinishing) {
                 val intent = Intent(applicationContext, MainActivity::class.java)

@@ -23,7 +23,6 @@ import com.example.wisesaying.R
 import com.example.wisesaying.databinding.FragmentSelfStoryImageSelectBinding
 import com.example.wisesaying.db.PigmeDatabase
 import com.example.wisesaying.preference.PrefSingleton
-import com.example.wisesaying.usagemarks.UsageMarksScore
 import com.example.wisesaying.view.activity.keyboardShow_Hide
 import com.example.wisesaying.view.adapter.RecyclerViewImageSelectAdapter
 import com.example.wisesaying.view.adapter.RecyclerviewImageSelectClcikEvent
@@ -57,9 +56,7 @@ class FragmentSelfStoryImageSelect : Fragment(), RecyclerviewImageSelectClcikEve
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
-        return DataBindingUtil.inflate<FragmentSelfStoryImageSelectBinding>(
+    ): View?= DataBindingUtil.inflate<FragmentSelfStoryImageSelectBinding>(
             inflater, R.layout.fragment_self_story_image_select, container,
             false
         ).run {
@@ -92,20 +89,21 @@ class FragmentSelfStoryImageSelect : Fragment(), RecyclerviewImageSelectClcikEve
                  */
                 if (textViewImageBackgroundResIdCheck.text == "") {
                     Toast.makeText(requireActivity(), "사진을 선택해주세요", Toast.LENGTH_SHORT).show()
-                } else {
+                    return@setOnClickListener
+                }
                     //키보드 가리기
                     keyboardShow_Hide(requireContext(), editTextImageSelectSelfStory)
 
                     //다이얼로그 부르기
-                    val dialog_imageSelectMode =
+                    val dialogImageSelectMode =
                         PremissonRequestDialogInterface(requireActivity() as AppCompatActivity)
-                    dialog_imageSelectMode.dialogImageSelectBuilderSetting(dialog_imageSelectMode)
-                    dialog_imageSelectMode.dialogImageSelect.show()
+                    dialogImageSelectMode.dialogImageSelectBuilderSetting(dialogImageSelectMode)
+                    dialogImageSelectMode.dialogImageSelect.show()
 
 
-                    dialog_imageSelectMode.dialogImageSelect.button_newSelfStoryaddFinish.setOnClickListener {
+                    dialogImageSelectMode.dialogImageSelect.button_newSelfStoryaddFinish.setOnClickListener {
 
-                        when (dialog_imageSelectMode.dialogImageSelect.radioGruop_imageSelect_Mode.checkedRadioButtonId) {
+                        when (dialogImageSelectMode.dialogImageSelect.radioGruop_imageSelect_Mode.checkedRadioButtonId) {
                             R.id.radiobutton_option1_ResetAfterNewList -> {
 
                             }
@@ -115,8 +113,7 @@ class FragmentSelfStoryImageSelect : Fragment(), RecyclerviewImageSelectClcikEve
                                 pigmeViewModel!!.insert(
                                 editTextImageSelectSelfStory.text.toString(),
                                 textViewImageBackgroundResIdCheck.text.toString().toInt(),
-                                null
-                                )
+                                null)
                                 }
                                  */
 
@@ -138,10 +135,10 @@ class FragmentSelfStoryImageSelect : Fragment(), RecyclerviewImageSelectClcikEve
                                 메인 프레그먼트에서 updatedList.shuffled()가 적용되는 순간 사진 고정모드 자체도 먹히지 않음으로 이 순간만 1로 설정
                                 메인 프레그먼트 온크레이트 뷰에서 기본 0으로 설정
                                  */
-                                UsageMarksScore.selfStoryMakingCount = 1
-                                UsageMarksScore.recyclerViewAdapterChange = 1
+
+                                PrefSingleton.getInstance(requireContext()).selfStoryUsageMark = 1
                              PrefSingleton.getInstance(requireContext()).RecyclerViewAadapterChangeScore = 1
-                            fragmentManager!!.popBackStack("main",2)}
+                            fragmentManager!!.popBackStack("main",1)}
 
 
                             R.id.radiobutton_option3_deleteAfterNewList -> {
@@ -149,7 +146,7 @@ class FragmentSelfStoryImageSelect : Fragment(), RecyclerviewImageSelectClcikEve
                             }
                         }
 
-                        dialog_imageSelectMode.dialogImageSelect.dismiss()
+                        dialogImageSelectMode.dialogImageSelect.dismiss()
                     }
                     /**
                      * TODO: 코루틴 더 연구해서 클릭할때마다 변화게끔 만들어보기
@@ -162,7 +159,7 @@ class FragmentSelfStoryImageSelect : Fragment(), RecyclerviewImageSelectClcikEve
 
                     }
                     */
-                }
+
             }
 
             floatingActionButtonGalleryImageSelect.setOnClickListener {
@@ -210,7 +207,7 @@ class FragmentSelfStoryImageSelect : Fragment(), RecyclerviewImageSelectClcikEve
 
             root
         }
-    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

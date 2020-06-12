@@ -6,16 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import com.example.wisesaying.R
 import com.example.wisesaying.databinding.FragmentRecyclerViewBinding
-import com.example.wisesaying.db.PigmeDatabase
 import com.example.wisesaying.preference.PrefSingleton
-import com.example.wisesaying.preference.PreferenceModelist
 import com.example.wisesaying.usagemarks.UsageMarksScore
 import com.example.wisesaying.view.adapter.RecyclerViewSelfStoryAdapter
-import com.example.wisesaying.viewmodel.PigmeViewModel
-import com.example.wisesaying.viewmodel.PigmeViewModelFactory
 
 class FragmentRecyclerView : Fragment() {
 
@@ -29,7 +24,7 @@ class FragmentRecyclerView : Fragment() {
     ).run {
 
 
-        when(UsageMarksScore.recyclerViewAdapterChange) {
+        when(PrefSingleton.getInstance(requireContext()).RecyclerViewAadapterChangeScore) {
             0-> recyclerview.adapter = RecyclerViewSelfStoryAdapter(PrefSingleton.getInstance(requireContext()).modelListPref)
             1-> recyclerview.adapter = RecyclerViewSelfStoryAdapter(PrefSingleton.getInstance(requireContext()).modelListPrefSelfStory)
         }

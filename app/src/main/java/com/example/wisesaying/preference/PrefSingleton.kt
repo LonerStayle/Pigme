@@ -10,6 +10,7 @@ class PrefSingleton private constructor(context: Context) {
 
     enum class Key(name: String) {
         SAVE_DATA("saveData"),
+        SELF_STORY_USAGEMARK("selfstoryusagemark"),
         FRAME_LAYOUT_IMAGE_MODE_CHECK_VISIBILITY("frameLayoutImageModeCheckVisibility"),
         FREME_LAYOUT_SELFSTORY_USAGEMARKS_VISIBILITY("fremeLayoutSelfstoryUsagemarksVisibility"),
         RECYCLERVIEW_ADAPTER_CHANGE_SCORE("recyclerViewAadapterChangeScore"),
@@ -39,11 +40,20 @@ class PrefSingleton private constructor(context: Context) {
     }
 
     private val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
     var requestScore: Int
         get() = pref.getInt(Key.SAVE_DATA.name, 0)
         set(value) {
             pref.edit().putInt(Key.SAVE_DATA.name, value).apply()
         }
+
+    //ViewModel 안에 fun insert 함수를 사용흔적 저장
+    var selfStoryUsageMark:Int
+    get() = pref.getInt(Key.SELF_STORY_USAGEMARK.name,0)
+    set(value){
+        pref.edit().putInt(Key.SELF_STORY_USAGEMARK.name,value).apply()
+    }
+
 
 
     // frameLayoutImageModeCheck.visibility 사진 출력모드 랜덤인지 고정인지를 나타내주는 visibility
@@ -65,7 +75,7 @@ class PrefSingleton private constructor(context: Context) {
                 .putInt(Key.FREME_LAYOUT_SELFSTORY_USAGEMARKS_VISIBILITY.name, value).apply()
         }
 
-    //전체 피그미 리스트 보는 리사이클러뷰 어댑터에 사용할 프리퍼런스를 체크해주는 점수
+    // 전체리스트 (리싸이클러뷰) 명언 추가 여부에 따른 화면 변경
     var RecyclerViewAadapterChangeScore: Int
         get() = pref.getInt(Key.RECYCLERVIEW_ADAPTER_CHANGE_SCORE.name, 0)
         set(value) {
