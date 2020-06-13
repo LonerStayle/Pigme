@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.example.wisesaying.preference.PrefSingleton
-import com.example.wisesaying.usagemarks.UsageMarksScore
 import com.example.wisesaying.view.activity.MainActivity
 
 

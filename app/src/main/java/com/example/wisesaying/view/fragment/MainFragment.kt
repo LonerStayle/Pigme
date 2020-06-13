@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.Observer
@@ -23,6 +22,10 @@ import com.example.wisesaying.view.adapter.ViewPagerAdapter
 import com.example.wisesaying.viewmodel.PigmeViewModel
 import com.example.wisesaying.viewmodel.PigmeViewModelFactory
 import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class MainFragment : Fragment() {
@@ -92,8 +95,7 @@ class MainFragment : Fragment() {
             )
         }
 
-        // 사진과 문자 랜덤으로 출력하는 모드
-        val modelListShuffledMode = modelList.shuffled()
+
 
         when {
             /**
@@ -102,12 +104,11 @@ class MainFragment : Fragment() {
              * frameLayoutImageModeCheck ->GONE   사진 고정생성 모드,
              * frameLayoutSelfstotyUsagemarks-> GONE 새롭게 추가된 글귀가 하나라도 존재할 때
              */
-
             frameLayoutImageModeCheck.visibility == View.VISIBLE && frameLayoutSelfstotyUsagemarks.visibility == View.VISIBLE -> {
 
                 viewPager.adapter =
                     ViewPagerAdapter(
-                        modelListShuffledMode
+                        modelList.shuffled()
                     )
 
                 PrefSingleton.getInstance(requireContext()).RecyclerViewAadapterChangeScore = 0
@@ -135,6 +136,7 @@ class MainFragment : Fragment() {
                     ViewPagerAdapter(
                         PrefSingleton.getInstance(requireContext()).modelListPref
                     )
+
                 PrefSingleton.getInstance(requireContext()).modelListPref =
                     (viewPager.adapter as ViewPagerAdapter).modelList
 
@@ -146,21 +148,26 @@ class MainFragment : Fragment() {
             }
 
             frameLayoutImageModeCheck.visibility == View.GONE && frameLayoutSelfstotyUsagemarks.visibility == View.GONE -> {
+
                 viewPager.adapter =
                     ViewPagerAdapter(
                         PrefSingleton.getInstance(requireContext()).modelListPrefSelfStory
                     )
+
                 PrefSingleton.getInstance(requireContext()).modelListPrefSelfStory =
                     (viewPager.adapter as ViewPagerAdapter).modelList
-                /**
-                 * 매직넘버 수정하기
-                 */
 
-                viewPager.currentItem = PrefSingleton.getInstance(requireContext()).currentViewpager
-                Handler().postDelayed({
+                // 매직넘버 - > 콜백함수로 바꿀것
+
+                CoroutineScope(Dispatchers.Main).launch {
+                    viewPager.visibility = View.GONE
+                    viewPager.currentItem = PrefSingleton.getInstance(requireContext()).currentViewpager
+                    delay(100)
                     viewPager.visibility = View.VISIBLE
-                }, 180)
+                }
+
             }
+
         }
 
 
@@ -223,9 +230,6 @@ class MainFragment : Fragment() {
         }
 
         //오른쪽 하단 설정창 보이기 설정
-
-        // fragmentSettingClickCount == 1 이 ON  == 2 는 OFF
-
         var fragmentSettingClick = false
         buttonSetting.setOnClickListener {
             fragmentSettingClick = !fragmentSettingClick
@@ -240,12 +244,13 @@ class MainFragment : Fragment() {
         }
 
         //플로팅 온오프 표시
-        var floatingActionButtonOnoff = false
+        var floatingActionButtonSelfStoryToMoveOnoff = false
         floatingActionButtonSelfStoryToMove.setOnClickListener {
-            floatingActionButtonOnoff = !floatingActionButtonOnoff
+            floatingActionButtonSelfStoryToMoveOnoff = !floatingActionButtonSelfStoryToMoveOnoff
 
             when {
-                floatingActionButtonOnoff -> {
+                floatingActionButtonSelfStoryToMoveOnoff -> {
+                    fregmentSettingLayout.visibility = View.GONE
                     // 플로팅 버튼 킬때
                     val transactionReCreate = fragmentManager!!.beginTransaction()
                     transactionReCreate.replace(
@@ -255,7 +260,7 @@ class MainFragment : Fragment() {
                         .addToBackStack("main")
                         .commit()
                 }
-                !floatingActionButtonOnoff -> {
+                !floatingActionButtonSelfStoryToMoveOnoff -> {
                     fragmentManager!!.popBackStack()
 
                 }

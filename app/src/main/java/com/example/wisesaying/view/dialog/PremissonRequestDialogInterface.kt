@@ -6,7 +6,6 @@ import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import com.example.wisesaying.R
 import com.example.wisesaying.preference.PrefSingleton
-import com.example.wisesaying.usagemarks.UsageMarksScore
 import com.example.wisesaying.view.fragment.FragmentSetting
 import kotlinx.android.synthetic.main.fragment_settings.*
 

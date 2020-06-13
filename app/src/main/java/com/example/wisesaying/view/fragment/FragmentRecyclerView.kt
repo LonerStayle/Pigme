@@ -9,7 +9,6 @@ import androidx.databinding.DataBindingUtil
 import com.example.wisesaying.R
 import com.example.wisesaying.databinding.FragmentRecyclerViewBinding
 import com.example.wisesaying.preference.PrefSingleton
-import com.example.wisesaying.usagemarks.UsageMarksScore
 import com.example.wisesaying.view.adapter.RecyclerViewSelfStoryAdapter
 
 class FragmentRecyclerView : Fragment() {
