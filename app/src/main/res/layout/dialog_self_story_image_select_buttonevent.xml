@@ -44,10 +44,10 @@
                 android:id="@+id/radioGruop_imageSelect_Mode"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:checkedButton="@id/radiobutton_option2_default">
+                android:checkedButton="@id/radiobutton_option2">
 
                 <RadioButton
-                    android:id="@+id/radiobutton_option1_ResetAfterNewList"
+                    android:id="@+id/radiobutton_option1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/radiobutton_background"
@@ -61,7 +61,7 @@
                     android:textSize="12sp" />
 
                 <RadioButton
-                    android:id="@+id/radiobutton_option2_default"
+                    android:id="@+id/radiobutton_option2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -78,7 +78,7 @@
                     android:textSize="12sp" />
 
                 <RadioButton
-                    android:id="@+id/radiobutton_option3_deleteAfterNewList"
+                    android:id="@+id/radiobutton_option3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/radiobutton_background"

@@ -4,9 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.*
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -19,6 +17,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wisesaying.R
@@ -28,6 +27,7 @@ import com.example.wisesaying.preference.PrefSingleton
 import com.example.wisesaying.view.activity.keyboardShow_Hide
 import com.example.wisesaying.view.adapter.RecyclerViewImageSelectAdapter
 import com.example.wisesaying.view.adapter.RecyclerviewImageSelectClcikEvent
+import com.example.wisesaying.view.adapter.ViewPagerAdapter
 import com.example.wisesaying.view.dialog.ImagePremissonRequestDialog
 import com.example.wisesaying.view.dialog.PremissonRequestDialogInterface
 import com.example.wisesaying.viewmodel.PigmeViewModel
@@ -40,13 +40,12 @@ import kotlinx.coroutines.*
 class FragmentSelfStoryImageSelect : Fragment(), RecyclerviewImageSelectClcikEvent {
 
     private val viewModel: PigmeViewModel by lazy {
-        val pigmedatabase = PigmeDatabase.getInstance(requireContext())
-        val factory = PigmeViewModelFactory(pigmedatabase.pigmeDao)
+        val pigmeDataBase = PigmeDatabase.getInstance(requireContext())
+        val factory = PigmeViewModelFactory(pigmeDataBase.pigmeDao)
         ViewModelProvider(this, factory).get(PigmeViewModel::class.java)
-
     }
 
-    private val animation_buttonGallery by lazy {
+    private val animationButtonGallery by lazy {
         AnimationUtils.loadAnimation(
             requireActivity(),
             R.anim.animation_fragmentselfstoryimageselect_button_gallery
@@ -55,6 +54,7 @@ class FragmentSelfStoryImageSelect : Fragment(), RecyclerviewImageSelectClcikEve
 
     private val REQUEST_EXTERNAL_STORAGE_PREMISSON = 1002
     private val REQUEST_IMAGE_CODE = 1001
+    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -67,7 +67,7 @@ class FragmentSelfStoryImageSelect : Fragment(), RecyclerviewImageSelectClcikEve
 
         pigmeViewModel = viewModel
         story = (arguments?.getString("selfStory"))
-        textViewGalleryguide.startAnimation(animation_buttonGallery)
+        textViewGalleryguide.startAnimation(animationButtonGallery)
 
         val image = List<String>(5) { "" }.toMutableList()
         for (i in image.indices) {
@@ -78,17 +78,23 @@ class FragmentSelfStoryImageSelect : Fragment(), RecyclerviewImageSelectClcikEve
             ).toString()
         }
 
+        viewModel.pigmeImageSelectVersion.observe(viewLifecycleOwner, Observer {
+            (recyclerView_imageSelect.adapter as RecyclerViewImageSelectAdapter).run {
+                imageSampleList.add(it.last())
+                notifyItemInserted(0)
+                notifyDataSetChanged()
+            }
+        })
         recyclerViewImageSelect.adapter =
             RecyclerViewImageSelectAdapter(image, this@FragmentSelfStoryImageSelect)
 
         recyclerViewImageSelect.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
+
         buttonNewSelfStoryADD.setOnClickListener {
-            /**
-             * TODO:Entity Bitmap으로 변경후  imageView_backgroundimage !is BitmapDrawable 으로 바꿀 예정
-             */
-            if (textViewImageBackgroundResIdCheck.text == "" && imageViewBackgroundImage.background == imageView_backgroundImage) {
+
+            if (textViewImageBackgroundResIdCheck.text == "") {
                 Toast.makeText(requireActivity(), "사진을 선택해주세요", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -101,14 +107,34 @@ class FragmentSelfStoryImageSelect : Fragment(), RecyclerviewImageSelectClcikEve
             dialogImageSelectMode.dialogImageSelectBuilderSetting(dialogImageSelectMode)
             dialogImageSelectMode.dialogImageSelect.show()
 
+            //다이얼로그 창 안에서 3가지 버튼 클릭 상태에 따른 폰트 변화
+            dialogImageSelectMode.dialogImageSelect.radioGruop_imageSelect_Mode.setOnCheckedChangeListener { _, checkedId ->
+
+                when(checkedId) {
+                    R.id.radiobutton_option1 ->{
+                        dialogImageSelectMode.dialogImageSelect.radiobutton_option1.setTypeface(null, Typeface.BOLD)
+                        dialogImageSelectMode.dialogImageSelect.radiobutton_option2.setTypeface(null, Typeface.NORMAL)
+                        dialogImageSelectMode.dialogImageSelect.radiobutton_option3.setTypeface(null, Typeface.NORMAL)
+                    }
+                    R.id.radiobutton_option2 -> {
+                        dialogImageSelectMode.dialogImageSelect.radiobutton_option1.setTypeface(null, Typeface.NORMAL)
+                        dialogImageSelectMode.dialogImageSelect.radiobutton_option2.setTypeface(null, Typeface.BOLD)
+                        dialogImageSelectMode.dialogImageSelect.radiobutton_option3.setTypeface(null, Typeface.NORMAL)
+                        }
+                    R.id.radiobutton_option3 -> {
+                        dialogImageSelectMode.dialogImageSelect.radiobutton_option1.setTypeface(null, Typeface.NORMAL)
+                        dialogImageSelectMode.dialogImageSelect.radiobutton_option2.setTypeface(null, Typeface.NORMAL)
+                        dialogImageSelectMode.dialogImageSelect.radiobutton_option3.setTypeface(null, Typeface.BOLD)
+                    }
+                }
+            }
 
             dialogImageSelectMode.dialogImageSelect.button_newSelfStoryaddFinish.setOnClickListener {
 
                 when (dialogImageSelectMode.dialogImageSelect.radioGruop_imageSelect_Mode.checkedRadioButtonId) {
-                    R.id.radiobutton_option1_ResetAfterNewList -> {
-
+                    R.id.radiobutton_option1 -> {
                     }
-                    R.id.radiobutton_option2_default -> {
+                    R.id.radiobutton_option2 -> {
 
                             pigmeViewModel!!.insert(
                                 editTextImageSelectSelfStory.text.toString(),
@@ -122,40 +148,24 @@ class FragmentSelfStoryImageSelect : Fragment(), RecyclerviewImageSelectClcikEve
                             Toast.LENGTH_SHORT
                         ).show()
 
-
                         /**
                          *  버튼 눌렀을 때만 selfMakingCount를 1로 설정
                         메인 프레그먼트에서 updatedList.shuffled()가 적용되는 순간 사진 고정모드 자체도 먹히지 않음으로 이 순간만 1로 설정
                         메인 프레그먼트 온크레이트 뷰에서 기본 0으로 설정
                          */
 
-                        PrefSingleton.getInstance(requireContext()).selfStoryUsageMark =
-                            1
-                        PrefSingleton.getInstance(requireContext()).RecyclerViewAadapterChangeScore =
-                            1
+                        PrefSingleton.getInstance(requireContext()).selfStoryUsageMark = 1
+                        PrefSingleton.getInstance(requireContext()).RecyclerViewAadapterChangeScore = 1
                         fragmentManager!!.popBackStack("main", 1)
 
                     }
 
-
-                    R.id.radiobutton_option3_deleteAfterNewList -> {
-
+                    R.id.radiobutton_option3 -> {
                     }
                 }
 
                 dialogImageSelectMode.dialogImageSelect.dismiss()
             }
-            /**
-             * TODO: 코루틴 더 연구해서 클릭할때마다 변화게끔 만들어보기
-            uiScope.launch {
-            dialog_imageSelectMode.dialogImageSelect.findViewById<RadioButton>(
-            dialog_imageSelectMode.dialogImageSelect.radioGruop_imageSelect_Mode.checkedRadioButtonId
-            ).run {
-            setTypeface(null, Typeface.BOLD)
-            }
-
-            }
-             */
 
         }
 
@@ -201,7 +211,6 @@ class FragmentSelfStoryImageSelect : Fragment(), RecyclerviewImageSelectClcikEve
             }
 
         }
-
         root
     }
 
@@ -211,27 +220,29 @@ class FragmentSelfStoryImageSelect : Fragment(), RecyclerviewImageSelectClcikEve
         if (requestCode == REQUEST_IMAGE_CODE) {
             val image = data?.data
             image?.let {
-                if (Build.VERSION.SDK_INT < 28) {
-                    imageView_backgroundImage.setImageURI(image)
-                    //   val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver,
-                    // image)
-                    //  imageView_backgroundImage.setImageBitmap(bitmap)
-                    textView_imageBackgroundResIdCheck.text = image.toString()
-
-                } else {
-                    val source =
-                        ImageDecoder.createSource(requireActivity().contentResolver, image)
-                    val bitmap = ImageDecoder.decodeBitmap(source)
-                    imageView_backgroundImage.setImageBitmap(bitmap)
-                }
+                    imageView_backgroundImage.setImageURI(it)
+                    textView_imageBackgroundResIdCheck.text = it.toString()
+                viewModel.pigmeImageSelectInsert(it.toString())
             }
+
         }
     }
 
     override fun onclickEvent(position: String) {
-        imageView_backgroundImage.setImageURI(Uri.parse("android.resource://com.example.wisesaying/$position"))
+        var uriStringValue = "android.resource://com.example.wisesaying/$position"
+        if (position.length>20) {
+            uriStringValue = position
+        }
+        imageView_backgroundImage.setImageURI(Uri.parse(uriStringValue))
         textView_imageBackgroundResIdCheck.text = position
     }
-
 }
 
+//   val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver,
+// image)
+//  imageView_backgroundImage.setImageBitmap(bitmap)
+
+// val source =
+//    ImageDecoder.createSource(requireActivity().contentResolver, image)
+//  val bitmap = ImageDecoder.decodeBitmap(source)
+//  imageView_backgroundImage.setImageBitmap(bitmap)
