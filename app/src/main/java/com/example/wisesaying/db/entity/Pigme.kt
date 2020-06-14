@@ -1,5 +1,7 @@
 package com.example.wisesaying.db.entity
 
+
+import android.net.Uri
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -10,6 +12,5 @@ import androidx.room.PrimaryKey
 data class Pigme(
     @PrimaryKey
     var textStory: String,
-    var image: Int,
-    var imageUri : String?
+    var image: String
 )

@@ -1,5 +1,6 @@
 package com.example.wisesaying.view.adapter
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.wisesaying.R
 import com.example.wisesaying.databinding.RecyclerviewImageselectHolderBinding
 
-class RecyclerViewImageSelectAdapter(var imageSampleList: List<Int> = listOf(),
+class RecyclerViewImageSelectAdapter(var imageSampleList: List<String> = listOf(),
 recyclerviewImageSelectClcikevent: RecyclerviewImageSelectClcikEvent) :
     RecyclerView.Adapter<RecyclerViewImageSelectAdapter.ImageSelectHolder>() {
 
@@ -34,7 +35,13 @@ recyclerviewImageSelectClcikevent: RecyclerviewImageSelectClcikEvent) :
     override fun onBindViewHolder(holder: ImageSelectHolder, position: Int) {
 
         holder.binding?.apply {
-            imageViewSampleimage.setImageResource(imageSampleList[position])
+            imageSampleList[position].let{
+                var uriStringValue = "android.resource://com.example.wisesaying/$it"
+                if(it.length > 20){
+                    uriStringValue = it
+                }
+                imageViewSampleimage.setImageURI(Uri.parse(uriStringValue))
+            }
         }
 
     }

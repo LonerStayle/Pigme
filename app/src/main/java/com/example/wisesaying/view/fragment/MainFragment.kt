@@ -1,9 +1,12 @@
 package com.example.wisesaying.view.fragment
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 
 import android.os.Bundle
-import android.os.Handler
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -29,7 +32,7 @@ import kotlinx.coroutines.launch
 
 
 class MainFragment : Fragment() {
-    private var image: Array<Int>? = null
+private var image :Array<String>? = null
     private val textings by lazy { resources.getStringArray(R.array.wise_Saying) }
 
     /** val stack = Stack<String>() */
@@ -74,14 +77,14 @@ class MainFragment : Fragment() {
 
 
         // 이미지 사진들 배열에 담기
-        image = Array(100) { 0 }
+        image = Array(100) {""}
         for (i in image!!.indices) {
-            image!![i] += resources.getIdentifier(
-                "a" + (i + 1),
-                "drawable",
-                "com.example.wisesaying"
-            )
+            image!![i] += resources.getIdentifier("a"+(1+i),"drawable",activity!!.packageName).toString()
         }
+
+        Toast.makeText(context, image!![0],Toast.LENGTH_SHORT).show()
+
+
 
         //viewPagerModel에 배열에 사진과 명언 글귀 모두 담기
         val modelList = mutableListOf<Pigme>()
@@ -89,10 +92,7 @@ class MainFragment : Fragment() {
             modelList.add(
                 Pigme(
                     textings[i],
-                    image!![i]
-                    , null
-                )
-            )
+                    image!![i]) )
         }
 
 
@@ -140,11 +140,16 @@ class MainFragment : Fragment() {
                 PrefSingleton.getInstance(requireContext()).modelListPref =
                     (viewPager.adapter as ViewPagerAdapter).modelList
 
-                // 매직넘버 - > 콜백함수로 바꿀것
-                viewPager.currentItem = PrefSingleton.getInstance(requireContext()).currentViewpager
-                Handler().postDelayed({
+                /**
+                 * TODO:매직넘버 - > 콜백함수로 바꾸는법 연구 좀더 공부가 필요함..
+                 */
+                CoroutineScope(Dispatchers.Main).launch {
+                    viewPager.visibility = View.GONE
+                    viewPager.currentItem =
+                        PrefSingleton.getInstance(requireContext()).currentViewpager
+                    delay(100)
                     viewPager.visibility = View.VISIBLE
-                }, 180)
+                }
             }
 
             frameLayoutImageModeCheck.visibility == View.GONE && frameLayoutSelfstotyUsagemarks.visibility == View.GONE -> {
@@ -157,11 +162,12 @@ class MainFragment : Fragment() {
                 PrefSingleton.getInstance(requireContext()).modelListPrefSelfStory =
                     (viewPager.adapter as ViewPagerAdapter).modelList
 
-                // 매직넘버 - > 콜백함수로 바꿀것
+
 
                 CoroutineScope(Dispatchers.Main).launch {
                     viewPager.visibility = View.GONE
-                    viewPager.currentItem = PrefSingleton.getInstance(requireContext()).currentViewpager
+                    viewPager.currentItem =
+                        PrefSingleton.getInstance(requireContext()).currentViewpager
                     delay(100)
                     viewPager.visibility = View.VISIBLE
                 }
@@ -210,11 +216,7 @@ class MainFragment : Fragment() {
 
 
 
-        Toast.makeText(
-            context,
-            "현재페이지:${viewPager.currentItem},Self:${PrefSingleton.getInstance(requireContext()).selfStoryUsageMark}",
-            Toast.LENGTH_SHORT
-        ).show()
+     //   Toast.makeText( context, "현재페이지:${viewPager.currentItem},Self:${PrefSingleton.getInstance(requireContext()).selfStoryUsageMark}", Toast.LENGTH_SHORT ).show()
 
         //공유 기능
         imageButtonShare.setOnClickListener {

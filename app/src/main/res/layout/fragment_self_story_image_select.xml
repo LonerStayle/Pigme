@@ -86,7 +86,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_imageSelect_selfStory"
         tools:text="이미지 백그라운드 리소스 체크용"
-        android:visibility="gone"/>
+        android:textSize="20sp"
+        android:visibility="visible"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton_galleryImageSelect"

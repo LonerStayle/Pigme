@@ -1,10 +1,12 @@
 package com.example.wisesaying.preference
 
 import android.content.Context
+import android.net.Uri
 import androidx.preference.PreferenceManager
 import com.example.wisesaying.db.entity.Pigme
 import org.json.JSONArray
 import org.json.JSONException
+
 
 class PrefSingleton private constructor(context: Context) {
 
@@ -145,19 +147,19 @@ class PrefSingleton private constructor(context: Context) {
         get() {
             val jsonTextString = pref.getString(Key.MODELLIST_PREF_TEXT_STORY.name, null)
             val jsonImage = pref.getString(Key.MODELLIST_PREF_IMAGE.name, null)
-            val jsonImageUri = pref.getString(Key.MODELLIST_PREF_IMAGE_URI.name, null)
+
             val urls = mutableListOf<Pigme>()
             if (jsonTextString != null) {
                 try {
                     val textStory = JSONArray(jsonTextString)
                     val image = JSONArray(jsonImage)
-                    val imageUri = JSONArray(jsonImageUri)
 
                     for (i in 0 until textStory.length()) {
                         val urlStory = textStory.optString(i)
-                        val urlImage = image.optString(i).toInt()
-                        val urlImageUri = imageUri.optString(i)
-                        urls.add(i, Pigme(urlStory, urlImage, urlImageUri))
+                        val urlImage = image.optString(i)
+
+
+                        urls.add(i, Pigme(urlStory, urlImage))
                     }
                 } catch (e: JSONException) {
                     e.printStackTrace()
@@ -169,21 +171,18 @@ class PrefSingleton private constructor(context: Context) {
 
             val textStory = JSONArray()
             val image = JSONArray()
-            val imageUri = JSONArray()
+
             for (i in value.indices) {
                 textStory.put(value[i].textStory)
                 image.put(value[i].image)
-                imageUri.put(value[i].imageUri)
             }
             if (value.isNotEmpty()) {
                 pref.edit().putString(Key.MODELLIST_PREF_TEXT_STORY.name, textStory.toString())
                     .putString(Key.MODELLIST_PREF_IMAGE.name, image.toString())
-                    .putString(Key.MODELLIST_PREF_IMAGE_URI.name, imageUri.toString())
                     .apply()
             } else {
                 pref.edit().putString(Key.MODELLIST_PREF_TEXT_STORY.name, null)
                     .putString(Key.MODELLIST_PREF_IMAGE.name, null)
-                    .putString(Key.MODELLIST_PREF_IMAGE_URI.name, null)
                     .apply()
             }
         }
@@ -193,20 +192,23 @@ class PrefSingleton private constructor(context: Context) {
         get() {
             val jsonTextString = pref.getString(Key.MODELLIST_PREF_SELF_STORY_TEXT_STORY.name, null)
             val jsonImage = pref.getString(Key.MODELLIST_PREF_SELF_STORY_IMAGE.name, null)
-            val jsonImageUri = pref.getString(Key.MODELLIST_PREF_SELF_STORY_IMAGE_URI.name, null)
+
             val urls = mutableListOf<Pigme>()
             if (jsonTextString != null) {
                 try {
                     val textStory = JSONArray(jsonTextString)
                     val image = JSONArray(jsonImage)
-                    val imageuri = JSONArray(jsonImageUri)
+
+
 
                     for (i in 0 until textStory.length()) {
                         val uriStory = textStory.optString(i)
-                        val uriImage = image.optString(i).toInt()
-                        val uriImageuri = imageuri.optString(i)
-                        urls.add(i, Pigme(uriStory, uriImage, uriImageuri))
+                        val uriImage = image.optString(i)
+
+
+                        urls.add(i, Pigme(uriStory,uriImage))
                     }
+
 
                 } catch (e: JSONException) {
                     e.printStackTrace()
@@ -214,29 +216,28 @@ class PrefSingleton private constructor(context: Context) {
             }
             return urls
         }
-
         set(value) {
             val textStory = JSONArray()
             val image = JSONArray()
-            val imageuri = JSONArray()
+           // val imageuri = JSONArray()
             for (i in value.indices) {
                 textStory.put(value[i].textStory)
                 image.put(value[i].image)
-                imageuri.put(value[i].imageUri)
+                //imageuri.put(value[i].imageUri)
             }
             if (value.isNotEmpty()) {
                 pref.edit()
                     .putString(Key.MODELLIST_PREF_SELF_STORY_TEXT_STORY.name, textStory.toString())
                     .putString(Key.MODELLIST_PREF_SELF_STORY_IMAGE.name, image.toString())
-                    .putString(Key.MODELLIST_PREF_SELF_STORY_IMAGE_URI.name, imageuri.toString())
+                   // .putString(Key.MODELLIST_PREF_SELF_STORY_IMAGE_URI.name, imageuri.toString())
                     .apply()
             } else {
                 pref.edit().putString(Key.MODELLIST_PREF_SELF_STORY_TEXT_STORY.name, null)
                     .putString(Key.MODELLIST_PREF_SELF_STORY_IMAGE.name, null)
-                    .putString(Key.MODELLIST_PREF_SELF_STORY_IMAGE_URI.name, null)
+                  //  .putString(Key.MODELLIST_PREF_SELF_STORY_IMAGE_URI.name, null)
                     .apply()
             }
         }
 
-
 }
+
