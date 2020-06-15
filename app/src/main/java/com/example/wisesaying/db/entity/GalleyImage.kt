@@ -1,13 +1,11 @@
 package com.example.wisesaying.db.entity
 
-
 import androidx.room.Entity
+
 import androidx.room.PrimaryKey
 
 @Entity
-data class Pigme(
+data class GalleyImage (
     @PrimaryKey
-    var textStory: String,
-    var image: String
-
+    var galleryImage: String
 )
