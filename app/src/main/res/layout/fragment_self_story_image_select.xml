@@ -6,9 +6,7 @@
     <variable
         name="story"
         type="String" />
-    <variable
-        name="pigmeViewModel"
-        type="com.example.wisesaying.viewmodel.PigmeViewModel" />
+
 
 </data>
 

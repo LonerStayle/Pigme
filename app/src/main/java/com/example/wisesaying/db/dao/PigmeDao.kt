@@ -8,7 +8,7 @@ import com.example.wisesaying.db.entity.Pigme
 interface PigmeDao {
     @Query("SELECT*FROM Pigme")
     fun getAllPigmeList():LiveData<List<Pigme>>
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(pigme: Pigme)
     @Delete
     fun delete(pigme: Pigme)

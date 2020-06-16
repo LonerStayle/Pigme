@@ -26,8 +26,10 @@ class PremissonRequestDialogInterface(context: AppCompatActivity) {
     //ImageSelecLastDialog
     val dialogImageSelect = Dialog(context, R.style.Theme_AppCompat_Light_Dialog_Alert)
 
+    val dialogDeleteImageSelect = Dialog(context, R.style.Theme_AppCompat_Light_Dialog_Alert)
+
     // 권한요청 질문 다이얼로그
-  private  val dialogPremissonRequstfrset_listner = DialogInterface.OnClickListener { _, which ->
+  private val dialogPremissonRequstfrset_listner = DialogInterface.OnClickListener { _, which ->
         when (which) {
             /**
              * 이늄 클래스 와 when 같이 쓰면 좋음
@@ -86,6 +88,7 @@ class PremissonRequestDialogInterface(context: AppCompatActivity) {
 
     fun dialogImageSelectBuilderSetting(premissonRequestDialogInterface: PremissonRequestDialogInterface) {
         premissonRequestDialogInterface.dialogImageSelect.setContentView(R.layout.dialog_self_story_image_select_buttonevent)
+        premissonRequestDialogInterface.dialogDeleteImageSelect.setContentView(R.layout.dialog_image_select_mode_recycler_view_)
     }
     /**
      * 함수안에서 해결 할경우 show

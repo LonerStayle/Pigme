@@ -63,7 +63,7 @@
                 android:hint="새롭게 추가할 글을 입력해주세요 "
                 android:text="@={story}"
                 android:textColor="#536DFE"
-                android:textSize="18sp"
+                android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

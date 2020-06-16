@@ -9,7 +9,7 @@ import android.content.DialogInterface
  *
  * FIXME: 굳이 변수명 사용 필요가없음 .
  */
-object ImagePremissonRequestDialog {
+object Dialog {
     fun show(
         context: Context,
         dialogtitle: String = "",

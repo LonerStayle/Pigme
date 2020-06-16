@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 
 
 class MainFragment : Fragment() {
-private var image :Array<String>? = null
+    private var image: Array<String>? = null
     private val textings by lazy { resources.getStringArray(R.array.wise_Saying) }
 
     /** val stack = Stack<String>() */
@@ -77,13 +77,13 @@ private var image :Array<String>? = null
 
 
         // 이미지 사진들 배열에 담기
-        image = Array(100) {""}
+        image = Array(100) { "" }
         for (i in image!!.indices) {
-            image!![i] += resources.getIdentifier("a"+(1+i),"drawable",activity!!.packageName).toString()
+            image!![i] += resources.getIdentifier("a" + (1 + i), "drawable", activity!!.packageName)
+                .toString()
         }
 
-        Toast.makeText(context, image!![0],Toast.LENGTH_SHORT).show()
-
+        Toast.makeText(context, image!![0], Toast.LENGTH_SHORT).show()
 
 
         //viewPagerModel에 배열에 사진과 명언 글귀 모두 담기
@@ -92,7 +92,9 @@ private var image :Array<String>? = null
             modelList.add(
                 Pigme(
                     textings[i],
-                    image!![i]) )
+                    image!![i]
+                )
+            )
         }
 
 
@@ -190,11 +192,19 @@ private var image :Array<String>? = null
                         PrefSingleton.getInstance(requireContext()).fremeLayoutSelfstoryUsagemarksVisibility =
                             0x00000008
                     }
+
                     PrefSingleton.getInstance(requireContext()).selfStoryUsageMark == 1 && frameLayoutSelfstotyUsagemarks.visibility == View.GONE -> {
                         (this.modelList as MutableList<Pigme>).add(
                             viewPager.currentItem,
                             updatedList.last()
                         )
+                    }
+                    PrefSingleton.getInstance(requireContext()).selfStoryUsageMark == 2 -> {
+                        this.modelList = listOf(updatedList.last())
+                        (this.modelList as MutableList<Pigme>).reverse()
+                        frameLayoutSelfstotyUsagemarks.visibility = View.GONE
+                        PrefSingleton.getInstance(requireContext()).fremeLayoutSelfstoryUsagemarksVisibility =
+                            0x00000008
                     }
                 }
                 PrefSingleton.getInstance(requireContext()).modelListPrefSelfStory = this.modelList
@@ -215,8 +225,7 @@ private var image :Array<String>? = null
         })
 
 
-
-     //   Toast.makeText( context, "현재페이지:${viewPager.currentItem},Self:${PrefSingleton.getInstance(requireContext()).selfStoryUsageMark}", Toast.LENGTH_SHORT ).show()
+        //   Toast.makeText( context, "현재페이지:${viewPager.currentItem},Self:${PrefSingleton.getInstance(requireContext()).selfStoryUsageMark}", Toast.LENGTH_SHORT ).show()
 
         //공유 기능
         imageButtonShare.setOnClickListener {
@@ -263,7 +272,7 @@ private var image :Array<String>? = null
                         .commit()
                 }
                 !floatingActionButtonSelfStoryToMoveOnoff -> {
-                    fragmentManager!!.popBackStack()
+                    fragmentManager!!.popBackStack("main", 1)
 
                 }
             }

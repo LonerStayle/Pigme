@@ -16,7 +16,8 @@ import com.example.wisesaying.db.entity.GalleyImage
 
 class RecyclerViewImageSelectAdapter(
     var imageSampleList: MutableList<GalleyImage> = mutableListOf(),
-   var imageView: ImageView,  var textView: TextView
+    var imageViewbacgroundImage: ImageView, var textViewImageBackgroundResIdCheck: TextView,
+    var textViewGalleryGuide:TextView
 ) : RecyclerView.Adapter<RecyclerViewImageSelectAdapter.ImageSelectHolder>() {
 
 
@@ -41,7 +42,14 @@ class RecyclerViewImageSelectAdapter(
                 imageViewSampleimage.setImageURI(Uri.parse(uriStringValue))
             }
 
-            holder.itemView.setOnClickListener { holder.listnerLamda(imageSampleList[position].galleryImage,imageView,textView)}
+            holder.itemView.setOnClickListener {
+                holder.listnerLamda(
+                    imageSampleList[position].galleryImage,
+                    imageViewbacgroundImage,
+                    textViewImageBackgroundResIdCheck,
+                    textViewGalleryGuide
+                )
+            }
         }
     }
 
@@ -50,12 +58,17 @@ class RecyclerViewImageSelectAdapter(
 
         val binding = DataBindingUtil.bind<RecyclerviewImageselectHolderBinding>(view)
 
-        val listnerLamda = { imageString: String, imageView: ImageView, textView: TextView ->
-            var uriStringValue = "android.resource://com.example.wisesaying/${imageString}"
-            if (imageString.length > 20)
-                uriStringValue = imageString
-            imageView.setImageURI(Uri.parse(uriStringValue))
-            textView.text = uriStringValue
-        }
+        val listnerLamda =
+            { imageString: String, imageViewbacgroundImage: ImageView, textViewImageBackgroundResIdCheck: TextView,
+                textViewGalleryGuide:TextView->
+                var uriStringValue = "android.resource://com.example.wisesaying/${imageString}"
+                if (imageString.length > 20)
+                    uriStringValue = imageString
+
+                imageViewbacgroundImage.setImageURI(Uri.parse(uriStringValue))
+                textViewImageBackgroundResIdCheck.text = uriStringValue
+                textViewGalleryGuide.clearAnimation()
+                textViewGalleryGuide.visibility = View.GONE
+            }
     }
 }

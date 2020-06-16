@@ -1,8 +1,5 @@
 package com.example.wisesaying.view.fragment
 
-
-
-
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -15,10 +12,7 @@ import androidx.fragment.app.Fragment
 import com.example.wisesaying.R
 import com.example.wisesaying.databinding.FragmentSelfStoryBinding
 import com.example.wisesaying.view.activity.keyboardShow_Hide
-
-
 class FragmentSelfStory : Fragment() {
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,6 +22,7 @@ class FragmentSelfStory : Fragment() {
         false
     ).run {
         buttonFragementSelfStory.setOnClickListener {
+            keyboardShow_Hide(requireContext(), editTextSelfStory)
 
             if (TextUtils.isEmpty(story)) {
                 Toast.makeText(context, "새로운 글을 입력해주세요", Toast.LENGTH_SHORT)
@@ -45,7 +40,6 @@ class FragmentSelfStory : Fragment() {
                 .addToBackStack("selfStory")
                 .commit()
 
-            keyboardShow_Hide(requireContext(), editTextSelfStory)
 
         }
 

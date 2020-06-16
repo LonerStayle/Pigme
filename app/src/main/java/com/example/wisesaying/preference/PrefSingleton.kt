@@ -219,22 +219,21 @@ class PrefSingleton private constructor(context: Context) {
         set(value) {
             val textStory = JSONArray()
             val image = JSONArray()
-           // val imageuri = JSONArray()
+
             for (i in value.indices) {
                 textStory.put(value[i].textStory)
                 image.put(value[i].image)
-                //imageuri.put(value[i].imageUri)
+
             }
             if (value.isNotEmpty()) {
                 pref.edit()
                     .putString(Key.MODELLIST_PREF_SELF_STORY_TEXT_STORY.name, textStory.toString())
                     .putString(Key.MODELLIST_PREF_SELF_STORY_IMAGE.name, image.toString())
-                   // .putString(Key.MODELLIST_PREF_SELF_STORY_IMAGE_URI.name, imageuri.toString())
+
                     .apply()
             } else {
                 pref.edit().putString(Key.MODELLIST_PREF_SELF_STORY_TEXT_STORY.name, null)
                     .putString(Key.MODELLIST_PREF_SELF_STORY_IMAGE.name, null)
-                  //  .putString(Key.MODELLIST_PREF_SELF_STORY_IMAGE_URI.name, null)
                     .apply()
             }
         }

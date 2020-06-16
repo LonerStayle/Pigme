@@ -5,4 +5,6 @@
     <color name="colorAccent">#03DAC5</color>
 
     <color name="frameLayout_FragmentSelfStoryBackground">#88000000</color>
+    <color name="dialogThirdSelectPressColor">#76FF03</color>
+    <color name="dialogThirdSelectNotPressColor">#00B0FF</color>
 </resources>
