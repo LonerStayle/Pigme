@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil
 import com.example.wisesaying.R
 import com.example.wisesaying.databinding.FragmentRecyclerViewBinding
 import com.example.wisesaying.preference.PrefSingleton
-import com.example.wisesaying.view.adapter.RecyclerViewSelfStoryAdapter
+import com.example.wisesaying.view.adapter.RecyclerViewAllListAdapter
 
 class FragmentRecyclerView : Fragment() {
 
@@ -24,8 +24,8 @@ class FragmentRecyclerView : Fragment() {
 
 
         when(PrefSingleton.getInstance(requireContext()).RecyclerViewAadapterChangeScore) {
-            0-> recyclerview.adapter = RecyclerViewSelfStoryAdapter(PrefSingleton.getInstance(requireContext()).modelListPref)
-            1-> recyclerview.adapter = RecyclerViewSelfStoryAdapter(PrefSingleton.getInstance(requireContext()).modelListPrefSelfStory)
+            0-> recyclerview.adapter = RecyclerViewAllListAdapter(PrefSingleton.getInstance(requireContext()).modelListPref)
+            1-> recyclerview.adapter = RecyclerViewAllListAdapter(PrefSingleton.getInstance(requireContext()).modelListPrefSelfStory)
         }
         root
     }

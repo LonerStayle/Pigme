@@ -1,25 +1,27 @@
 package com.example.wisesaying.view.activity
 
-import android.content.Context
+import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.databinding.DataBindingUtil
 import com.example.wisesaying.view.fragment.FragmentSetting
 import com.example.wisesaying.R
 import com.example.wisesaying.databinding.ActivityMainBinding
 import com.example.wisesaying.preference.PrefSingleton
-import com.example.wisesaying.view.dialog.PremissonRequestDialogInterface
+import com.example.wisesaying.view.dialog.DialogSimple
 import com.example.wisesaying.view.fragment.*
 import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.coroutines.*
 
 /**
  * 리팩토링 시작
  */
 class MainActivity : AppCompatActivity() {
+    private val dialogTitle by lazy{ R.string.RequestPermissionTitle}
+    private val dialogMessage by lazy { R.string.RequestPermissionText }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,15 +32,41 @@ class MainActivity : AppCompatActivity() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.frameLayout, MainFragment())
             .commit()
+
         //최초 실행시 requestPermissonScore에 따라 다이얼로그 띄우기
+        if (PrefSingleton.getInstance(this).requestScore == 0 || PrefSingleton.getInstance(this).requestScore == 2)
 
-        if (PrefSingleton.getInstance(this).requestScore == 0 || PrefSingleton.getInstance(this).requestScore == 2) {
-            val dialogInterface = PremissonRequestDialogInterface(this)
-            dialogInterface.dialogfrestAndSecondBuilderSetting(dialogInterface)
-            dialogInterface.dialogPremissonRequstfrset.show()
-        }
+            //Why ResId가 안먹힘 ??
+            DialogSimple.show(this,
+                "다이어트 경고문 뜨게 하기",
+                "당신의 다이어트 효과를 극대화 하기 위해 잠금화면 풀 시 자동으로 식욕제거 자극화면을 뜨게 만듭니다."
+                        +"동의 하시겠습니까?",
+                "네",
+                {
+                    PrefSingleton.getInstance(this).requestScore = 1
+                    val fragment =
+                        supportFragmentManager.findFragmentById(R.id.fregment_SettingLayout)
+                    if (fragment is FragmentSetting) {
+                        fragment.switchWidget_Setting_Premisson.isChecked = true
+                    }
+                },
+                "아니오",
+                {
+                    PrefSingleton.getInstance(this).requestScore = 2
+                    val fragment =
+                        supportFragmentManager.findFragmentById(R.id.fregment_SettingLayout)
+                    if (fragment is FragmentSetting) {
+                        fragment.switchWidget_Setting_Premisson.isChecked = false
 
-
+                        val secondDialog = AlertDialog.Builder(this)
+                            .setTitle(R.string.RequestPermissionTitle2)
+                            .setMessage(R.string.RequestPermissionText2)
+                            .setPositiveButton("네") { _, _ ->
+                                return@setPositiveButton
+                            }
+                        secondDialog.show()
+                    }
+                })
     }
 
 
@@ -69,7 +97,7 @@ class MainActivity : AppCompatActivity() {
          * 사용자가 종료하지 않고 이어서 계속 사용한다면 어이없이 어플이 종료되지 않도록 유도함
          */
         if (supportFragmentManager.backStackEntryCount == 1) {
-            Toast.makeText(this, R.string.toast, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.toast_AppExitLastText, Toast.LENGTH_SHORT).show()
             if (!isFinishing) {
                 CoroutineScope(Dispatchers.Main).launch {
                     delay(5000)
@@ -101,7 +129,3 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-fun keyboardShow_Hide(context: Context, view: View) {
-    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    imm.hideSoftInputFromWindow(view.windowToken, 0)
-}

@@ -10,8 +10,24 @@
 
     <string name="FragmentSetting_switchWidgetSettingPremisson_On">스마트폰 잠금화면 해제 시 자동적으로 앱이 실행됩니다.</string>
     <string name="FragmentSetting_switchWidgetSettingPremisson_Off">스마트폰 잠금화면 해제 시 자동적으로 앱이 실행되지 않습니다.</string>
+
     <string name="Fragment_Setting_switchWidgetSettingImageControl_On">앱 재실행 시 마지막으로 본 사진을 불러옵니다.</string>
     <string name="Fragment_Setting_switchWidgetSettingImageControl_Off">앱 재실행 시 사진 순서들이 무작위로 바뀝니다.</string>
+
+    <string name="dialogImageSelectInTitle">경고 메세지</string>
+    <string name="dialogImageSelectInMessages">어떤 사진, 글이던 모두 초기화 되고 \n 현재 추가하신" +
+                                    " 글과 사진만 남게됩니다. 괜찮으시겠습니까? </string>
+    <string name="dialogImageSelectInPositiveText">네 괜찮습니다</string>
+
+    <string name="dialogGalleryRequestPremissonInTitle">갤러리 사진 허용권한</string>
+    <string name="dialogGalleryRequestPremissonInMessage">사진을 불러오려면 사용자의 권한이 필요합니다. \n 권한을 허용하시겠습니까?</string>
+
+    <string name="dialogGalleryRequestPremissonInPositiveText">허용합니다.</string>
+    <string name="dialogGalleryRequestPremissonInNegativeText">거절합니다.</string>
+
+    <string name="toast_galleyImageUriAddAlarm">추가한 사진은 아래 리스트에 추가됩니다.</string>
+    <string name="toast_selfStroyNoImageSelectText">사진을 선택해주세요</string>
+
 
     <string-array name="wise_Saying">
         <item>다이어트는 내일부터? 이번 생은 패스하자 ^^</item>
@@ -137,11 +153,13 @@
     </string-array>
 
 
-    <string name="toast">한번 더 누르면 종료 됩니다.</string>
+    <string name="toast_AppExitLastText">한번 더 누르면 종료 됩니다.</string>
     <string name="notImage">이미지가 열리지 않습니다.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="textViewgalleryguideText">아이콘을 통해 사진을 추가 할 수 있습니다.</string>
+    <string name="buttonNewSelefStroyImageSelect">선택 완료</string>
 
 
 </resources>

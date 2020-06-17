@@ -43,8 +43,9 @@ class FragmentSetting : Fragment() {
             }
 
             val textON = "ON\t"
-            val textOFF = "OFF\t"
+           val textOFF = "OFF\t"
             //TASK 조절 스위치
+
             var clickCount = 0
             switchWidgetSettingPremisson.setOnCheckedChangeListener { _, isChecked ->
                 clickCount++
@@ -60,7 +61,7 @@ class FragmentSetting : Fragment() {
 
                         switchWidgetSettingPremisson.text = textON
                         PrefSingleton.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonText =
-                            textON
+                           textON
 
                         if (clickCount <= 4)
                             Toast.makeText(
@@ -107,9 +108,7 @@ class FragmentSetting : Fragment() {
                             0x00000008
 
                         if (clickCount <= 4)
-
-                            Toast.makeText(
-                                context,
+                            Toast.makeText(context,
                                 R.string.Fragment_Setting_switchWidgetSettingImageControl_On,
                                 Toast.LENGTH_SHORT
                             ).show()
@@ -147,7 +146,6 @@ class FragmentSetting : Fragment() {
                 transactionRecyclerView.commit()
 
                 root.visibility = View.GONE
-                //메인 프레그먼트에서 뷰페이저 비지블 조절해보기
                 // 콜백함수를 알아보자
             }
 

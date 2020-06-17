@@ -1,11 +1,9 @@
 package com.example.wisesaying.view.fragment
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.*
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -27,11 +25,10 @@ import com.example.wisesaying.databinding.FragmentSelfStoryImageSelectBinding
 import com.example.wisesaying.db.PigmeDatabase
 import com.example.wisesaying.db.entity.GalleyImage
 import com.example.wisesaying.preference.PrefSingleton
-import com.example.wisesaying.view.activity.keyboardShow_Hide
-import com.example.wisesaying.view.adapter.RecyclerViewDialogInAdapter
+import com.example.wisesaying.view.adapter.RecyclerViewDialogInDialogAdapter
 import com.example.wisesaying.view.adapter.RecyclerViewImageSelectAdapter
-import com.example.wisesaying.view.dialog.Dialog
-import com.example.wisesaying.view.dialog.PremissonRequestDialogInterface
+import com.example.wisesaying.view.dialog.DialogInLayoutCreateMode
+import com.example.wisesaying.view.dialog.DialogSimple
 import com.example.wisesaying.viewmodel.PigmeViewModel
 import com.example.wisesaying.viewmodel.PigmeViewModelFactory
 import kotlinx.android.synthetic.main.dialog_image_select_mode_recycler_view_.*
@@ -65,8 +62,6 @@ class FragmentSelfStoryImageSelect : Fragment() {
         false
     ).run {
 
-       // keyboardShow_Hide(requireContext(), editTextImageSelectSelfStory)
-
 
         story = (arguments?.getString("selfStory"))
         textViewGalleryguide.startAnimation(animationButtonGallery)
@@ -80,20 +75,20 @@ class FragmentSelfStoryImageSelect : Fragment() {
             ).toString()
         }
 
-        recyclerViewImageSelect.adapter =
+        recyclerViewImageSelectInExampleImage.adapter =
             RecyclerViewImageSelectAdapter(
                 image,
                 imageViewBackgroundImage,
                 textViewImageBackgroundResIdCheck,
                 textViewGalleryguide
             )
-        recyclerViewImageSelect.layoutManager =
+        recyclerViewImageSelectInExampleImage.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
 
 
         viewModel.pigmeImageSelectVersion.observe(viewLifecycleOwner, Observer {
-            (recyclerViewImageSelect.adapter as RecyclerViewImageSelectAdapter).run {
+            (recyclerViewImageSelectInExampleImage.adapter as RecyclerViewImageSelectAdapter).run {
                 if (it.isEmpty()) {
                     for (i in image.indices)
                         viewModel.galleyNewImageinsert(image = image[i].galleryImage)
@@ -107,18 +102,17 @@ class FragmentSelfStoryImageSelect : Fragment() {
 
 
 
-        buttonNewSelfStoryADD.setOnClickListener {
+        buttonNewSelefStroyImageSelect.setOnClickListener {
 
             if (textViewImageBackgroundResIdCheck.text == "") {
-                Toast.makeText(requireActivity(), "사진을 선택해주세요", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), R.string.toast_selfStroyNoImageSelectText, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            //키보드 가리기
 
 
             //다이얼로그 부르기
             val dialogImageSelectMode =
-                PremissonRequestDialogInterface(requireActivity() as AppCompatActivity)
+                DialogInLayoutCreateMode(requireActivity() as AppCompatActivity)
             dialogImageSelectMode.dialogImageSelectBuilderSetting(dialogImageSelectMode)
             dialogImageSelectMode.dialogImageSelect.show()
 
@@ -175,30 +169,33 @@ class FragmentSelfStoryImageSelect : Fragment() {
 
                 when (dialogImageSelectMode.dialogImageSelect.radioGruop_imageSelect_Mode.checkedRadioButtonId) {
                     R.id.radiobutton_option1 -> {
-                        Dialog.show(
+                        //why?? 선생님꼐 여쭤보자
+                        DialogSimple.show(
                             requireContext(), "경고 메세지", "어떤 사진, 글이던 모두 초기화 되고 \n 현재 추가하신" +
-                                    " 글과 사진만 남게됩니다. 괜찮으시겠습니까? ","네 괜찮습니다",{
+                                    " 글과 사진만 남게됩니다. 괜찮으시겠습니까? ", "네 괜찮습니다", {
                                 viewModel.insert(
-                                    editTextImageSelectSelfStory.text.toString(),
+                                    editTextImageSelectSelfStoryInText.text.toString(),
                                     textViewImageBackgroundResIdCheck.text.toString()
                                 )
 
                                 PrefSingleton.getInstance(requireContext()).selfStoryUsageMark = 2
-                                PrefSingleton.getInstance(requireContext()).RecyclerViewAadapterChangeScore = 1
-                                fragmentManager!!.popBackStack("main", 1) },"아니요 다시 선택하겠습니다",{return@show}
+                                PrefSingleton.getInstance(requireContext()).RecyclerViewAadapterChangeScore =
+                                    1
+                                fragmentManager!!.popBackStack("main", 1)
+                            }, "아니요 다시 선택하겠습니다", { return@show }
                         )
 
                     }
                     R.id.radiobutton_option2 -> {
 
                         viewModel.insert(
-                            editTextImageSelectSelfStory.text.toString(),
+                            editTextImageSelectSelfStoryInText.text.toString(),
                             textViewImageBackgroundResIdCheck.text.toString()
                         )
 
                         Toast.makeText(
                             requireActivity(),
-                            "작성하신 글귀가 새롭게 추가 되었습니다.",
+                            "작성하신 사진 글이 새롭게 추가 되었습니다.",
                             Toast.LENGTH_SHORT
                         ).show()
 
@@ -213,9 +210,13 @@ class FragmentSelfStoryImageSelect : Fragment() {
                         fragmentManager!!.popBackStack("main", 1)
                     }
                     R.id.radiobutton_option3 -> {
-                        dialogImageSelectMode.dialogDeleteImageSelect.show()
-                            dialogImageSelectMode.dialogDeleteImageSelect.recyclerView_dialogimageSelectMode.adapter =
-                                RecyclerViewDialogInAdapter(PrefSingleton.getInstance(requireContext()).modelListPrefSelfStory)
+                        dialogImageSelectMode.dialogInImageDeleteDialog.show()
+                        dialogImageSelectMode.dialogInImageDeleteDialog.recyclerView_DialogInDialog.adapter =
+                            RecyclerViewDialogInDialogAdapter(
+                                PrefSingleton.getInstance(
+                                    requireContext()
+                                ).modelListPrefSelfStory
+                            )
                     }
                 }
 
@@ -242,14 +243,19 @@ class FragmentSelfStoryImageSelect : Fragment() {
                             requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE
                         )
                     ) {
-                        Dialog.show(requireContext(), "사진", "필수", "예",
+                        DialogSimple.show(requireContext(),
+                            "갤러리 사진 허용권한",
+                            "사진을 불러오려면 사용자의 권한이 필요합니다. \\n 권한을 허용하시겠습니까?",
+                            "허용합니다.",
                             {
                                 ActivityCompat.requestPermissions(
                                     requireActivity(),
                                     arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                                     REQUEST_EXTERNAL_STORAGE_PREMISSON
                                 )
-                            }, "아니요", {})
+                            },
+                            "거절합니다.",
+                            {return@show})
                     } else {
                         ActivityCompat.requestPermissions(
                             requireActivity(),
@@ -271,13 +277,13 @@ class FragmentSelfStoryImageSelect : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val image = data?.data
+        val galleyImageUri = data?.data
 
-        image?.let {
+        galleyImageUri?.let {
             imageView_backgroundImage.setImageURI(it)
             textView_imageBackgroundResIdCheck.text = it.toString()
             viewModel.galleyNewImageinsert(it.toString())
-            Toast.makeText(context, "새로 추가한 사진은 아래 리스트에서 확인 하실수 있습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, R.string.toast_galleyImageUriAddAlarm, Toast.LENGTH_SHORT).show()
 
         }
 
@@ -285,10 +291,11 @@ class FragmentSelfStoryImageSelect : Fragment() {
             textView_galleryguide.clearAnimation()
             textView_galleryguide.visibility = View.GONE
         }
-        recyclerView_imageSelect.scrollToPosition(0)
+        recyclerView_imageSelectInExampleImage.scrollToPosition(0)
     }
-}
 
+
+}
 
 //   val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver,
 // image)

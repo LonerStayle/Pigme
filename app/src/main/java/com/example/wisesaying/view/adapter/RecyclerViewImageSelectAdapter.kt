@@ -9,14 +9,14 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wisesaying.R
-import com.example.wisesaying.databinding.FragmentSelfStoryImageSelectBinding
 import com.example.wisesaying.databinding.RecyclerviewImageselectHolderBinding
 import com.example.wisesaying.db.entity.GalleyImage
 
 
 class RecyclerViewImageSelectAdapter(
     var imageSampleList: MutableList<GalleyImage> = mutableListOf(),
-    var imageViewbacgroundImage: ImageView, var textViewImageBackgroundResIdCheck: TextView,
+    var imageViewbacgroundImage: ImageView,
+    var textViewImageBackgroundResIdCheck: TextView,
     var textViewGalleryGuide:TextView
 ) : RecyclerView.Adapter<RecyclerViewImageSelectAdapter.ImageSelectHolder>() {
 
@@ -43,7 +43,7 @@ class RecyclerViewImageSelectAdapter(
             }
 
             holder.itemView.setOnClickListener {
-                holder.listnerLamda(
+                holder.clickListener(
                     imageSampleList[position].galleryImage,
                     imageViewbacgroundImage,
                     textViewImageBackgroundResIdCheck,
@@ -58,7 +58,7 @@ class RecyclerViewImageSelectAdapter(
 
         val binding = DataBindingUtil.bind<RecyclerviewImageselectHolderBinding>(view)
 
-        val listnerLamda =
+        val clickListener =
             { imageString: String, imageViewbacgroundImage: ImageView, textViewImageBackgroundResIdCheck: TextView,
                 textViewGalleryGuide:TextView->
                 var uriStringValue = "android.resource://com.example.wisesaying/${imageString}"

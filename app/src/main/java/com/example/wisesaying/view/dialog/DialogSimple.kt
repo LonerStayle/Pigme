@@ -9,12 +9,12 @@ import android.content.DialogInterface
  *
  * FIXME: 굳이 변수명 사용 필요가없음 .
  */
-object Dialog {
+object DialogSimple {
     fun show(
         context: Context,
-        dialogtitle: String = "",
-        dialogmessage: String = "",
-        positiveText: String = "",
+        dialogtitle: String,
+        dialogmessage: String ,
+        positiveText: String ,
         onPositive: () -> Unit = {},
         negativeText: String = "",
         onNegative: () -> Unit = {}
@@ -25,6 +25,7 @@ object Dialog {
                 onPositive()
             }
         .setNegativeButton(negativeText) { _, _ ->
+
             onNegative()
         }
         .create()

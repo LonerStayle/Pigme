@@ -1,7 +1,6 @@
 package com.example.wisesaying.view.adapter
 
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +10,8 @@ import com.example.wisesaying.R
 import com.example.wisesaying.databinding.RecyclerviewSelfstoryHolderBinding
 import com.example.wisesaying.db.entity.Pigme
 
-class RecyclerViewSelfStoryAdapter(var modelList:List<Pigme> = listOf()) :
-    RecyclerView.Adapter<RecyclerViewSelfStoryAdapter.ViewHolder>() {
+class RecyclerViewAllListAdapter(var modelList:List<Pigme> = listOf()) :
+    RecyclerView.Adapter<RecyclerViewAllListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         LayoutInflater.from(parent.context)
@@ -22,7 +21,6 @@ class RecyclerViewSelfStoryAdapter(var modelList:List<Pigme> = listOf()) :
 
     override fun getItemCount(): Int = modelList.size
 
-    //    Why????
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         holder.binding!!.apply {

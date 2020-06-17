@@ -196,12 +196,12 @@ class MainFragment : Fragment() {
                     PrefSingleton.getInstance(requireContext()).selfStoryUsageMark == 1 && frameLayoutSelfstotyUsagemarks.visibility == View.GONE -> {
                         (this.modelList as MutableList<Pigme>).add(
                             viewPager.currentItem,
-                            updatedList.last()
-                        )
+                            updatedList.last())
+
                     }
                     PrefSingleton.getInstance(requireContext()).selfStoryUsageMark == 2 -> {
-                        this.modelList = listOf(updatedList.last())
-                        (this.modelList as MutableList<Pigme>).reverse()
+                        (this.modelList as MutableList<Pigme>).clear()
+                        (this.modelList as MutableList<Pigme>).add(updatedList.last())
                         frameLayoutSelfstotyUsagemarks.visibility = View.GONE
                         PrefSingleton.getInstance(requireContext()).fremeLayoutSelfstoryUsagemarksVisibility =
                             0x00000008

@@ -21,14 +21,14 @@ class PrefSingleton private constructor(context: Context) {
         FRAGMENT_SETTING_SWITCH_WIDGET_SETTING_PREMISSON_ISCHECKED("fragmentSettingSwitchWidgetSettingPremissonisChecked"),
         FRAGMENT_SETTING_SWITCH_WIDGET_SETTING_PREMISSON_TEXT("fragmentSettingSwitchWidgetSettingPremissonText"),
         FRAGMENT_SETTING_SWITCH_WIDGET_SETTING_IMAGE_CONTROL_ISCHECKED("fragmentsettingswitchwidgetsettingimagecontrolischecked"),
-        FRAGMENT_SETTING_SWITCH_WIDGET_SETTING_IMAGE_CONTROL_TEXT("fragment_setting_switch_widget_setting_image_control_text")
-      , MODELLIST_PREF_TEXT_STORY("modelListPreftextstory"),
+        FRAGMENT_SETTING_SWITCH_WIDGET_SETTING_IMAGE_CONTROL_TEXT("fragment_setting_switch_widget_setting_image_control_text"),
+
+        MODELLIST_PREF_TEXT_STORY("modelListPreftextstory"),
         MODELLIST_PREF_IMAGE("modelListPrefimage"),
-        MODELLIST_PREF_IMAGE_URI("modelListPrefimageuri"),
 
         MODELLIST_PREF_SELF_STORY_TEXT_STORY("modelListPrefselfstorytextstory"),
         MODELLIST_PREF_SELF_STORY_IMAGE("modelListPrefselfstoryimage"),
-        MODELLIST_PREF_SELF_STORY_IMAGE_URI("modelListPrefselfstoryimageuri")
+
 
 
     }
