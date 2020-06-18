@@ -20,13 +20,10 @@ import kotlinx.coroutines.*
  * 리팩토링 시작
  */
 class MainActivity : AppCompatActivity() {
-    private val dialogTitle by lazy{ R.string.RequestPermissionTitle}
-    private val dialogMessage by lazy { R.string.RequestPermissionText }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        PrefSingleton.getInstance(this).requestScore
         DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         // 권한 요청 선택결과에 따라 프레그먼트에 기록하기 위한 프레그먼트 실행, 현재 Visivble 모드
         val transaction = supportFragmentManager.beginTransaction()
@@ -36,11 +33,9 @@ class MainActivity : AppCompatActivity() {
         //최초 실행시 requestPermissonScore에 따라 다이얼로그 띄우기
         if (PrefSingleton.getInstance(this).requestScore == 0 || PrefSingleton.getInstance(this).requestScore == 2)
 
-            //Why ResId가 안먹힘 ??
             DialogSimple.show(this,
-                "다이어트 경고문 뜨게 하기",
-                "당신의 다이어트 효과를 극대화 하기 위해 잠금화면 풀 시 자동으로 식욕제거 자극화면을 뜨게 만듭니다."
-                        +"동의 하시겠습니까?",
+                R.string.dialogRequestPermissionTitle,
+                R.string.dialogRequestPermissionText,
                 "네",
                 {
                     PrefSingleton.getInstance(this).requestScore = 1
@@ -59,8 +54,8 @@ class MainActivity : AppCompatActivity() {
                         fragment.switchWidget_Setting_Premisson.isChecked = false
 
                         val secondDialog = AlertDialog.Builder(this)
-                            .setTitle(R.string.RequestPermissionTitle2)
-                            .setMessage(R.string.RequestPermissionText2)
+                            .setTitle(R.string.dialogRequestPermissionTitle2)
+                            .setMessage(R.string.dialogRequestPermissionText2)
                             .setPositiveButton("네") { _, _ ->
                                 return@setPositiveButton
                             }

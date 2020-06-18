@@ -12,8 +12,8 @@ import android.content.DialogInterface
 object DialogSimple {
     fun show(
         context: Context,
-        dialogtitle: String,
-        dialogmessage: String ,
+        dialogtitle: Int,
+        dialogmessage: Int ,
         positiveText: String ,
         onPositive: () -> Unit = {},
         negativeText: String = "",

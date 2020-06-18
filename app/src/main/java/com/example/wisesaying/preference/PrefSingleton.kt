@@ -9,7 +9,8 @@ import org.json.JSONException
 
 
 class PrefSingleton private constructor(context: Context) {
-
+// 네임은 _ 가 생김 val key 따로 만들것
+    //내부에 네임이 있어서 심지어 키값 없애도 자공함
     enum class Key(name: String) {
         SAVE_DATA("saveData"),
         SELF_STORY_USAGEMARK("selfstoryusagemark"),

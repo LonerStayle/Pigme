@@ -171,8 +171,8 @@ class FragmentSelfStoryImageSelect : Fragment() {
                     R.id.radiobutton_option1 -> {
                         //why?? 선생님꼐 여쭤보자
                         DialogSimple.show(
-                            requireContext(), "경고 메세지", "어떤 사진, 글이던 모두 초기화 되고 \n 현재 추가하신" +
-                                    " 글과 사진만 남게됩니다. 괜찮으시겠습니까? ", "네 괜찮습니다", {
+                            requireContext(), R.string.dialogImageSelectInTitle, R.string.dialogGalleryRequestPremissonInMessage,
+                            "네 괜찮습니다", {
                                 viewModel.insert(
                                     editTextImageSelectSelfStoryInText.text.toString(),
                                     textViewImageBackgroundResIdCheck.text.toString()
@@ -244,8 +244,8 @@ class FragmentSelfStoryImageSelect : Fragment() {
                         )
                     ) {
                         DialogSimple.show(requireContext(),
-                            "갤러리 사진 허용권한",
-                            "사진을 불러오려면 사용자의 권한이 필요합니다. \\n 권한을 허용하시겠습니까?",
+                            R.string.dialogGalleryRequestPremissonInTitle,
+                            R.string.dialogGalleryRequestPremissonInMessage,
                             "허용합니다.",
                             {
                                 ActivityCompat.requestPermissions(

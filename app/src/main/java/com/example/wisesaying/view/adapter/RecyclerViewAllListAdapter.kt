@@ -10,7 +10,7 @@ import com.example.wisesaying.R
 import com.example.wisesaying.databinding.RecyclerviewSelfstoryHolderBinding
 import com.example.wisesaying.db.entity.Pigme
 
-class RecyclerViewAllListAdapter(var modelList:List<Pigme> = listOf()) :
+class RecyclerViewAllListAdapter(private var modelList:List<Pigme> = listOf()) :
     RecyclerView.Adapter<RecyclerViewAllListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(

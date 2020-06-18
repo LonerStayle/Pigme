@@ -20,13 +20,11 @@ class RecyclerViewImageSelectAdapter(
     var textViewGalleryGuide:TextView
 ) : RecyclerView.Adapter<RecyclerViewImageSelectAdapter.ImageSelectHolder>() {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageSelectHolder =
         ImageSelectHolder(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.recyclerview_imageselect_holder, parent, false)
         )
-
 
     override fun getItemCount(): Int = imageSampleList.size
 
@@ -58,6 +56,7 @@ class RecyclerViewImageSelectAdapter(
 
         val binding = DataBindingUtil.bind<RecyclerviewImageselectHolderBinding>(view)
 
+        //함수로 바꿔써도됨 리스너 개념은 아님
         val clickListener =
             { imageString: String, imageViewbacgroundImage: ImageView, textViewImageBackgroundResIdCheck: TextView,
                 textViewGalleryGuide:TextView->

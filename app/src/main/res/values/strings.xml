@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">Wise saying</string>
-    <string name="RequestPermissionTitle">다이어트 경고문 뜨게 하기</string>
-    <string name="RequestPermissionText">당신의 다이어트 효과를 극대화 하기 위해 잠금화면 풀 시 자동으로 식욕제거 자극화면을 뜨게 만듭니다.
+    <string name="dialogRequestPermissionTitle">다이어트 경고문 뜨게 하기</string>
+    <string name="dialogRequestPermissionText">당신의 다이어트 효과를 극대화 하기 위해 잠금화면 풀 시 자동으로 식욕제거 자극화면을 뜨게 만듭니다.
         동의 하시겠습니까?</string>
 
-    <string name="RequestPermissionTitle2">앱 자동실행 재설정 방법</string>
-    <string name="RequestPermissionText2">오른쪽 하단에 있는 설정 표시에서 ON/OFF 표시로 언제든지 다시 설정 하실 수 있습니다.</string>
+    <string name="dialogRequestPermissionTitle2">앱 자동실행 재설정 방법</string>
+    <string name="dialogRequestPermissionText2">오른쪽 하단에 있는 설정 표시에서 ON/OFF 표시로 언제든지 다시 설정 하실 수 있습니다.</string>
     <string name="FinalStack">이전 사진이 존재하지 않습니다.</string>
 
     <string name="FragmentSetting_switchWidgetSettingPremisson_On">스마트폰 잠금화면 해제 시 자동적으로 앱이 실행됩니다.</string>

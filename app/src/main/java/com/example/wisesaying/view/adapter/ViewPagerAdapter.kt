@@ -27,9 +27,6 @@ class ViewPagerAdapter(var modelList: List<Pigme> = listOf()) :
 
         holder.binding?.apply {
             modelList[position].textStory.let { textViewStory.text = it }
-
-
-
             modelList[position].image.let {
 
                 var uriStringValue ="android.resource://com.example.wisesaying/$it"
