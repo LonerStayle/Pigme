@@ -30,7 +30,7 @@
             android:text="글 추가하기"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#FD6C6C"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/textView_selfStoryInfo"
@@ -40,7 +40,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="0dp"
-            android:layout_height="320dp"
+            android:layout_height="400dp"
             android:background="@drawable/fragment_self_story_layoutbackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

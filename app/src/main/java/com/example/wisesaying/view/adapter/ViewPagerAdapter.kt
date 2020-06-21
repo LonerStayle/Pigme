@@ -26,25 +26,28 @@ class ViewPagerAdapter(var modelList: List<Pigme> = listOf()) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         holder.binding?.apply {
-            modelList[position].textStory.let { textViewStory.text = it }
-            modelList[position].image.let {
+            modelList.get(position).textStory.let { textViewStory.text = it }
+            modelList.get(position).image.let {
 
-                var uriStringValue ="android.resource://com.example.wisesaying/$it"
-                if(it.length > 20){
+                var uriStringValue = "android.resource://com.example.wisesaying/$it"
+
+                if (it.length > 20) {
                     uriStringValue = it
                 }
-                imageView.setImageURI(Uri.parse(uriStringValue)) }
+
+                imageView.setImageURI(Uri.parse(uriStringValue))
+            }
 
         }
     }
 
     inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-val binding =  DataBindingUtil.bind<ViewpagerBinding>(view)
-
-        }
-
+        val binding = DataBindingUtil.bind<ViewpagerBinding>(view)
 
     }
+
+
+}
 
 
 

@@ -3,7 +3,7 @@ package com.example.wisesaying.broadcastreceiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.example.wisesaying.preference.PrefSingleton
+import com.example.wisesaying.preference.PrefRequestPremisson
 import com.example.wisesaying.view.activity.MainActivity
 
 
@@ -17,7 +17,7 @@ class BootReceiver() : BroadcastReceiver() {
         if(intent.action != Intent.ACTION_USER_PRESENT) return
 
         val intent = Intent(context, MainActivity::class.java)
-        if (PrefSingleton.getInstance(context).requestScore == 1) {
+        if (PrefRequestPremisson.getInstance(context).requestScore == 1) {
             // 한번에 두개 사용가능
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or
                     Intent.FLAG_ACTIVITY_SINGLE_TOP )

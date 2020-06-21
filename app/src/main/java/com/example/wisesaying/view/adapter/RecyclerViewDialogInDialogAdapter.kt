@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.wisesaying.R
 import com.example.wisesaying.databinding.RecyclerviewThirdImagemodeSelectHolderBinding
 import com.example.wisesaying.db.entity.Pigme
-import com.example.wisesaying.preference.PrefSingleton
 
 class RecyclerViewDialogInDialogAdapter(var modellist: List<Pigme> = listOf()) :
     RecyclerView.Adapter<RecyclerViewDialogInDialogAdapter.ImageItemViewHolder>() {
@@ -29,57 +28,42 @@ class RecyclerViewDialogInDialogAdapter(var modellist: List<Pigme> = listOf()) :
 
     override fun onBindViewHolder(holder: ImageItemViewHolder, position: Int) {
 
+
         holder.binding?.apply {
-//            modellist[position].textStory.let {
-//                textViewRecyclerViewInItemtext.text = it
-//            }
-//            modellist[position].image.let {
-//                var uriStringValue = "android.resource://com.example.wisesaying/$it"
-//                if (it.length > 20) {
-//                    uriStringValue = it
+//            with(modellist[position]) {
+//                textViewRecyclerViewInItemtext.text = textStory
+//                var uriStringValue = image
+//                if (image.length > 20) {
+//                    uriStringValue = image
 //                }
 //                imageViewRecyclerViewInItemImage.setImageURI(Uri.parse(uriStringValue))
 //            }
-
-            with(modellist[position]){
+            modellist[position].apply {
                 textViewRecyclerViewInItemtext.text = textStory
-                var uriStringValue = image
-                if (image.length > 20) {
-                    uriStringValue = image
-                }
-                imageViewRecyclerViewInItemImage.setImageURI(Uri.parse(uriStringValue))
-
+                    var uriStringValue = "android.resource://com.example.wisesaying/$image"
+                    if (image.length > 20) {
+                        uriStringValue = image
+                    }
+                    imageViewRecyclerViewInItemImage.setImageURI(Uri.parse(uriStringValue))
             }
 
-//리스너가 아니라 함수개념
-            // 바꾸기
             holder.itemView.setOnClickListener {
                 if (textViewBackgroundColorChecked.text == "#00B0FF") {
-                    holder.clickListener(backgrounColorInsertLayout, textViewBackgroundColorChecked)
+                    holder.binding.backgrounColorInsertLayout.setBackgroundColor(Color.parseColor("#76FF03"))
+                    textViewBackgroundColorChecked.text = "#76FF03"
+
                 } else {
-                    holder.clickListener2(
-                        backgrounColorInsertLayout,
-                        textViewBackgroundColorChecked
-                    )
+                    holder.binding.backgrounColorInsertLayout.setBackgroundColor(Color.parseColor("#00B0FF"))
+                    textViewBackgroundColorChecked.text = "#00B0FF"
                 }
             }
         }
-
     }
 
 
     inner class ImageItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = DataBindingUtil.bind<RecyclerviewThirdImagemodeSelectHolderBinding>(view)
-        val clickListener =
-            { layout: ConstraintLayout, textview: TextView ->
-                layout.setBackgroundColor(Color.parseColor("#76FF03"))
-                textview.text = "#76FF03"
-            }
-        val clickListener2 =
-            { layout: ConstraintLayout, textview: TextView ->
-                layout.setBackgroundColor(Color.parseColor("#00B0FF"))
-                textview.text = "#00B0FF"
-            }
+
     }
 
 }

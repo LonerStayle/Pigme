@@ -9,9 +9,16 @@ interface PigmeDao {
     @Query("SELECT*FROM Pigme")
     fun getAllPigmeList():LiveData<List<Pigme>>
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun allInsert(pigmelist: List<Pigme>)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(pigme: Pigme)
+
     @Delete
     fun delete(pigme: Pigme)
+    @Delete
+    fun listDelete(pigme: List<Pigme>)
+    @Update
+    fun allUpdate(pigmelist: List<Pigme>)
 
     @Query("SELECT * FROM GalleyImage ")
     fun getGalleyNewImageList():LiveData<List<GalleyImage>>

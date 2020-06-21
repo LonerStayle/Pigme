@@ -24,7 +24,10 @@ import com.example.wisesaying.R
 import com.example.wisesaying.databinding.FragmentSelfStoryImageSelectBinding
 import com.example.wisesaying.db.PigmeDatabase
 import com.example.wisesaying.db.entity.GalleyImage
-import com.example.wisesaying.preference.PrefSingleton
+import com.example.wisesaying.preference.PrefAllListAdapter
+import com.example.wisesaying.preference.PrefModelList
+import com.example.wisesaying.preference.PrefRequestPremisson
+import com.example.wisesaying.preference.PrefUsageMark
 import com.example.wisesaying.view.adapter.RecyclerViewDialogInDialogAdapter
 import com.example.wisesaying.view.adapter.RecyclerViewImageSelectAdapter
 import com.example.wisesaying.view.dialog.DialogInLayoutCreateMode
@@ -75,6 +78,7 @@ class FragmentSelfStoryImageSelect : Fragment() {
             ).toString()
         }
 
+
         recyclerViewImageSelectInExampleImage.adapter =
             RecyclerViewImageSelectAdapter(
                 image,
@@ -86,17 +90,15 @@ class FragmentSelfStoryImageSelect : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
 
-
         viewModel.pigmeImageSelectVersion.observe(viewLifecycleOwner, Observer {
             (recyclerViewImageSelectInExampleImage.adapter as RecyclerViewImageSelectAdapter).run {
                 if (it.isEmpty()) {
                     for (i in image.indices)
-                        viewModel.galleyNewImageinsert(image = image[i].galleryImage)
+                        viewModel.galleyNewImageinsert(image[i].galleryImage)
                 }
                 imageSampleList = it as MutableList<GalleyImage>
                 imageSampleList.reverse()
                 notifyDataSetChanged()
-
             }
         })
 
@@ -105,7 +107,11 @@ class FragmentSelfStoryImageSelect : Fragment() {
         buttonNewSelefStroyImageSelect.setOnClickListener {
 
             if (textViewImageBackgroundResIdCheck.text == "") {
-                Toast.makeText(requireActivity(), R.string.toast_selfStroyNoImageSelectText, Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireActivity(),
+                    R.string.toast_selfStroyNoImageSelectText,
+                    Toast.LENGTH_SHORT
+                ).show()
                 return@setOnClickListener
             }
 
@@ -169,20 +175,22 @@ class FragmentSelfStoryImageSelect : Fragment() {
 
                 when (dialogImageSelectMode.dialogImageSelect.radioGruop_imageSelect_Mode.checkedRadioButtonId) {
                     R.id.radiobutton_option1 -> {
-                        //why?? 선생님꼐 여쭤보자
                         DialogSimple.show(
-                            requireContext(), R.string.dialogImageSelectInTitle, R.string.dialogGalleryRequestPremissonInMessage,
-                            "네 괜찮습니다", {
+                            requireContext(),
+                            R.string.dialogImageSelectInTitle,
+                            R.string.dialogGalleryRequestPremissonInMessage,
+                            "네 괜찮습니다",
+                            {
                                 viewModel.insert(
                                     editTextImageSelectSelfStoryInText.text.toString(),
                                     textViewImageBackgroundResIdCheck.text.toString()
                                 )
 
-                                PrefSingleton.getInstance(requireContext()).selfStoryUsageMark = 2
-                                PrefSingleton.getInstance(requireContext()).RecyclerViewAadapterChangeScore =
-                                    1
+                                PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark = 2
                                 fragmentManager!!.popBackStack("main", 1)
-                            }, "아니요 다시 선택하겠습니다", { return@show }
+                            },
+                            "아니요 다시 선택하겠습니다",
+                            { return@show }
                         )
 
                     }
@@ -204,8 +212,8 @@ class FragmentSelfStoryImageSelect : Fragment() {
                         메인 프레그먼트에서 updatedList.shuffled()가 적용되는 순간 사진 고정모드 자체도 먹히지 않음으로 이 순간만 1로 설정
                         메인 프레그먼트 온크레이트 뷰에서 기본 0으로 설정
                          */
-                        PrefSingleton.getInstance(requireContext()).selfStoryUsageMark = 1
-                        PrefSingleton.getInstance(requireContext()).RecyclerViewAadapterChangeScore =
+                        PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark = 1
+                        PrefAllListAdapter.getInstance(requireContext()).recyclerViewAdapterChangeScore =
                             1
                         fragmentManager!!.popBackStack("main", 1)
                     }
@@ -213,9 +221,9 @@ class FragmentSelfStoryImageSelect : Fragment() {
                         dialogImageSelectMode.dialogInImageDeleteDialog.show()
                         dialogImageSelectMode.dialogInImageDeleteDialog.recyclerView_DialogInDialog.adapter =
                             RecyclerViewDialogInDialogAdapter(
-                                PrefSingleton.getInstance(
+                                PrefModelList.getInstance(
                                     requireContext()
-                                ).modelListPrefSelfStory
+                                ).modelListPref
                             )
                     }
                 }
@@ -255,7 +263,7 @@ class FragmentSelfStoryImageSelect : Fragment() {
                                 )
                             },
                             "거절합니다.",
-                            {return@show})
+                            { return@show })
                     } else {
                         ActivityCompat.requestPermissions(
                             requireActivity(),
@@ -283,7 +291,8 @@ class FragmentSelfStoryImageSelect : Fragment() {
             imageView_backgroundImage.setImageURI(it)
             textView_imageBackgroundResIdCheck.text = it.toString()
             viewModel.galleyNewImageinsert(it.toString())
-            Toast.makeText(context, R.string.toast_galleyImageUriAddAlarm, Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, R.string.toast_galleyImageUriAddAlarm, Toast.LENGTH_SHORT)
+                .show()
 
         }
 

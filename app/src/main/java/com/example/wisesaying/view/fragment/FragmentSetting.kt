@@ -11,7 +11,9 @@ import androidx.fragment.app.Fragment
 import com.example.wisesaying.R
 
 import com.example.wisesaying.databinding.FragmentSettingsBinding
-import com.example.wisesaying.preference.PrefSingleton
+import com.example.wisesaying.preference.PrefFragmentSetting
+import com.example.wisesaying.preference.PrefRequestPremisson
+import com.example.wisesaying.preference.PrefVisibility
 
 
 class FragmentSetting : Fragment() {
@@ -30,16 +32,16 @@ class FragmentSetting : Fragment() {
 
             switchWidgetSettingPremisson.apply {
                 isChecked =
-                    PrefSingleton.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonisChecked
+                    PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonisChecked
                 text =
-                    PrefSingleton.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonText
+                    PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonText
             }
 
             switchWidgetSettingImageControl.apply {
                 isChecked =
-                    PrefSingleton.getInstance(requireContext()).fragmentsettingSwitchwidgetSettingImageControlisChecked
+                    PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingImageControlisChecked
                 text =
-                    PrefSingleton.getInstance(requireContext()).fragmentsettingSwitchwidgetSettingImageControlText
+                    PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingImageControlText
             }
 
             val textON = "ON\t"
@@ -54,13 +56,13 @@ class FragmentSetting : Fragment() {
                  */
                 when (isChecked) {
                     true -> {
-                        PrefSingleton.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonisChecked =
+                        PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonisChecked =
                             isChecked
 
-                        PrefSingleton.getInstance(requireContext()).requestScore = 1
+                        PrefRequestPremisson.getInstance(requireContext()).requestScore = 1
 
                         switchWidgetSettingPremisson.text = textON
-                        PrefSingleton.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonText =
+                        PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonText =
                            textON
 
                         if (clickCount <= 4)
@@ -72,14 +74,14 @@ class FragmentSetting : Fragment() {
                     }
 
                     false -> {
-                        PrefSingleton.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonisChecked =
+                        PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonisChecked =
                             isChecked
 
-                        PrefSingleton.getInstance(requireContext()).requestScore = 2
+                        PrefRequestPremisson.getInstance(requireContext()).requestScore = 2
 
 
                         switchWidgetSettingPremisson.text = textOFF
-                        PrefSingleton.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonText =
+                        PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonText =
                             textOFF
 
                         if (clickCount <= 4)
@@ -99,12 +101,12 @@ class FragmentSetting : Fragment() {
 
                 when(isChecked) {
                     true -> {
-                        PrefSingleton.getInstance(requireContext()).fragmentsettingSwitchwidgetSettingImageControlisChecked =
+                        PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingImageControlisChecked =
                             isChecked
                         switchWidgetSettingImageControl.text = textON
-                        PrefSingleton.getInstance(requireContext()).fragmentsettingSwitchwidgetSettingImageControlText =
+                        PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingImageControlText =
                             textON
-                        PrefSingleton.getInstance(requireContext()).frameLayoutImageModeCheckVisibility =
+                        PrefVisibility.getInstance(requireContext()).frameLayoutImageModeCheckVisibility =
                             0x00000008
 
                         if (clickCount <= 4)
@@ -114,14 +116,14 @@ class FragmentSetting : Fragment() {
                             ).show()
                     }
                     false -> {
-                            PrefSingleton.getInstance(requireContext()).fragmentsettingSwitchwidgetSettingImageControlisChecked =
+                        PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingImageControlisChecked =
                                 isChecked
 
                             switchWidgetSettingImageControl.text = textOFF
-                            PrefSingleton.getInstance(requireContext()).fragmentsettingSwitchwidgetSettingImageControlText =
+                        PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingImageControlText =
                                 textOFF
 
-                            PrefSingleton.getInstance(requireContext()).frameLayoutImageModeCheckVisibility =
+                            PrefVisibility.getInstance(requireContext()).frameLayoutImageModeCheckVisibility =
                                 0x00000000
 
                             if (clickCount <= 4)

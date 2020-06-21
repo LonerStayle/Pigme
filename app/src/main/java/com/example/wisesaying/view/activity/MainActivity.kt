@@ -9,7 +9,8 @@ import androidx.databinding.DataBindingUtil
 import com.example.wisesaying.view.fragment.FragmentSetting
 import com.example.wisesaying.R
 import com.example.wisesaying.databinding.ActivityMainBinding
-import com.example.wisesaying.preference.PrefSingleton
+import com.example.wisesaying.preference.PrefRequestPremisson
+import com.example.wisesaying.preference.PrefViewPagerItem
 import com.example.wisesaying.view.dialog.DialogSimple
 import com.example.wisesaying.view.fragment.*
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -31,14 +32,14 @@ class MainActivity : AppCompatActivity() {
             .commit()
 
         //최초 실행시 requestPermissonScore에 따라 다이얼로그 띄우기
-        if (PrefSingleton.getInstance(this).requestScore == 0 || PrefSingleton.getInstance(this).requestScore == 2)
+        if (PrefRequestPremisson.getInstance(this).requestScore == 0 || PrefRequestPremisson.getInstance(this).requestScore == 2)
 
             DialogSimple.show(this,
                 R.string.dialogRequestPermissionTitle,
                 R.string.dialogRequestPermissionText,
                 "네",
                 {
-                    PrefSingleton.getInstance(this).requestScore = 1
+                    PrefRequestPremisson.getInstance(this).requestScore = 1
                     val fragment =
                         supportFragmentManager.findFragmentById(R.id.fregment_SettingLayout)
                     if (fragment is FragmentSetting) {
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                 },
                 "아니오",
                 {
-                    PrefSingleton.getInstance(this).requestScore = 2
+                    PrefRequestPremisson.getInstance(this).requestScore = 2
                     val fragment =
                         supportFragmentManager.findFragmentById(R.id.fregment_SettingLayout)
                     if (fragment is FragmentSetting) {
@@ -119,7 +120,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        PrefSingleton.getInstance(this).currentViewpager = viewPager.currentItem
+        PrefViewPagerItem.getInstance(this).currentViewpager = viewPager.currentItem
         super.onDestroy()
     }
 }

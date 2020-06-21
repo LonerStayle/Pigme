@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.example.wisesaying.R
 import com.example.wisesaying.databinding.FragmentRecyclerViewBinding
-import com.example.wisesaying.preference.PrefSingleton
+import com.example.wisesaying.preference.PrefAllListAdapter
+import com.example.wisesaying.preference.PrefModelList
+import com.example.wisesaying.preference.PrefRequestPremisson
 import com.example.wisesaying.view.adapter.RecyclerViewAllListAdapter
 
 class FragmentRecyclerView : Fragment() {
@@ -22,12 +24,11 @@ class FragmentRecyclerView : Fragment() {
         R.layout.fragment_recycler_view, container, false
     ).run {
 
+          recyclerview.adapter = RecyclerViewAllListAdapter(PrefModelList.getInstance(requireContext()).modelListPref)
 
-        when(PrefSingleton.getInstance(requireContext()).RecyclerViewAadapterChangeScore) {
-            0-> recyclerview.adapter = RecyclerViewAllListAdapter(PrefSingleton.getInstance(requireContext()).modelListPref)
-            1-> recyclerview.adapter = RecyclerViewAllListAdapter(PrefSingleton.getInstance(requireContext()).modelListPrefSelfStory)
-        }
         root
+        }
+
     }
-}
+
 

@@ -1,15 +1,10 @@
 package com.example.wisesaying.viewmodel
-import android.graphics.Bitmap
-import android.net.Uri
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.MutableLiveData
 import com.example.wisesaying.db.dao.PigmeDao
 import com.example.wisesaying.db.entity.GalleyImage
 import com.example.wisesaying.db.entity.Pigme
 import kotlinx.coroutines.*
-import java.lang.Exception
 
 
 class PigmeViewModel(private val pigmeSource: PigmeDao) : ViewModel() {
@@ -33,8 +28,25 @@ class PigmeViewModel(private val pigmeSource: PigmeDao) : ViewModel() {
                    )
                }
            }
-
     }
+
+
+    fun listInsert(pigme:List<Pigme>){
+        uiScope.launch {
+            withContext(Dispatchers.IO){
+                pigmeSource.allInsert(pigme)
+            }
+        }
+    }
+
+    fun listdelete(pigme:List<Pigme>) {
+        uiScope.launch {
+            withContext(Dispatchers.IO){
+                pigmeSource.listDelete(pigme)
+            }
+        }
+    }
+
     fun insert(story:String, image:String){
         uiScope.launch {
             withContext(Dispatchers.IO){
@@ -51,6 +63,7 @@ class PigmeViewModel(private val pigmeSource: PigmeDao) : ViewModel() {
             }
         }
     }
+
 }
 
 /**

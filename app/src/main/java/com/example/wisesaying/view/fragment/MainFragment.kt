@@ -1,17 +1,13 @@
 package com.example.wisesaying.view.fragment
 
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.FrameLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.Observer
@@ -19,7 +15,7 @@ import com.example.wisesaying.*
 import com.example.wisesaying.databinding.FragmentMainBinding
 import com.example.wisesaying.db.PigmeDatabase
 import com.example.wisesaying.db.entity.Pigme
-import com.example.wisesaying.preference.PrefSingleton
+import com.example.wisesaying.preference.*
 
 import com.example.wisesaying.view.adapter.ViewPagerAdapter
 import com.example.wisesaying.viewmodel.PigmeViewModel
@@ -29,6 +25,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.*
+import java.util.Collections.*
 
 
 class MainFragment : Fragment() {
@@ -56,16 +54,15 @@ class MainFragment : Fragment() {
         false
     ).run {
         // 온크레이트 뷰가 다시 일어나면 0 으로
-        PrefSingleton.getInstance(requireContext()).selfStoryUsageMark = 0
+        PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark = 0
 
         // 명언 추가 기능 사용 여부 on일시 GONE
         frameLayoutSelfstotyUsagemarks.visibility =
-            PrefSingleton.getInstance(requireContext()).fremeLayoutSelfstoryUsagemarksVisibility
-
+            PrefVisibility.getInstance(requireContext()).fremeLayoutSelfstoryUsagemarksVisibility
 
         // 앱 새로시작할때 마다 이미지 순서 랜덤인지 아닌지 확인 on일시 GONE
         frameLayoutImageModeCheck.visibility =
-            PrefSingleton.getInstance(requireContext()).frameLayoutImageModeCheckVisibility
+            PrefVisibility.getInstance(requireContext()).frameLayoutImageModeCheckVisibility
 
         val transaction = fragmentManager!!.beginTransaction()
         transaction.replace(
@@ -75,157 +72,117 @@ class MainFragment : Fragment() {
             .addToBackStack(null)
             .commit()
 
-
-        // 이미지 사진들 배열에 담기
         image = Array(100) { "" }
-        for (i in image!!.indices) {
-            image!![i] += resources.getIdentifier("a" + (1 + i), "drawable", activity!!.packageName)
-                .toString()
-        }
 
-        Toast.makeText(context, image!![0], Toast.LENGTH_SHORT).show()
+        if (PrefUsageMark.getInstance(requireContext()).liveDataFirstUseTrace) {
 
+            for (i in textings.indices) {
+                val modelList = mutableListOf<Pigme>()
 
-        //viewPagerModel에 배열에 사진과 명언 글귀 모두 담기
-        val modelList = mutableListOf<Pigme>()
-        for (i in textings.indices) {
-            modelList.add(
-                Pigme(
-                    textings[i],
-                    image!![i]
-                )
-            )
-        }
+                image!![i] += (resources.getIdentifier(
+                    "a" + (1 + i),
+                    "drawable",
+                    activity!!.packageName
 
-
-
-        when {
-            /**
-             * frameLayoutImageModeCheck ->VISIBLE  사진 랜덤으로 생성 ,
-             * frameLayoutSelfstotyUsagemarks->VISIBLE 새로 추가된 명언 글귀가 한개라도 없는 상태
-             * frameLayoutImageModeCheck ->GONE   사진 고정생성 모드,
-             * frameLayoutSelfstotyUsagemarks-> GONE 새롭게 추가된 글귀가 하나라도 존재할 때
-             */
-            frameLayoutImageModeCheck.visibility == View.VISIBLE && frameLayoutSelfstotyUsagemarks.visibility == View.VISIBLE -> {
-
-                viewPager.adapter =
-                    ViewPagerAdapter(
-                        modelList.shuffled()
-                    )
-
-                PrefSingleton.getInstance(requireContext()).RecyclerViewAadapterChangeScore = 0
-
-                PrefSingleton.getInstance(requireContext()).modelListPref =
-                    (viewPager.adapter as ViewPagerAdapter).modelList
+                ).toString())
+                modelList.add(Pigme(textings[i], image!![i]))
+                viewModel.listInsert(modelList)
             }
-
-            frameLayoutImageModeCheck.visibility == View.VISIBLE && frameLayoutSelfstotyUsagemarks.visibility == View.GONE -> {
-
-                viewPager.adapter =
-                    ViewPagerAdapter(
-                        PrefSingleton.getInstance(requireContext()).modelListPrefSelfStory.shuffled()
-                    )
-
-
-                PrefSingleton.getInstance(requireContext()).modelListPrefSelfStory =
-                    (viewPager.adapter as ViewPagerAdapter).modelList
-            }
-
-            frameLayoutImageModeCheck.visibility == View.GONE && frameLayoutSelfstotyUsagemarks.visibility == View.VISIBLE -> {
-                PrefSingleton.getInstance(requireContext()).RecyclerViewAadapterChangeScore = 0
-
-                viewPager.adapter =
-                    ViewPagerAdapter(
-                        PrefSingleton.getInstance(requireContext()).modelListPref
-                    )
-
-                PrefSingleton.getInstance(requireContext()).modelListPref =
-                    (viewPager.adapter as ViewPagerAdapter).modelList
-
-                /**
-                 * TODO:매직넘버 - > 콜백함수로 바꾸는법 연구 좀더 공부가 필요함..
-                 */
-                CoroutineScope(Dispatchers.Main).launch {
-                    viewPager.visibility = View.GONE
-                    viewPager.currentItem =
-                        PrefSingleton.getInstance(requireContext()).currentViewpager
-                    delay(100)
-                    viewPager.visibility = View.VISIBLE
-                }
-            }
-
-            frameLayoutImageModeCheck.visibility == View.GONE && frameLayoutSelfstotyUsagemarks.visibility == View.GONE -> {
-
-                viewPager.adapter =
-                    ViewPagerAdapter(
-                        PrefSingleton.getInstance(requireContext()).modelListPrefSelfStory
-                    )
-
-                PrefSingleton.getInstance(requireContext()).modelListPrefSelfStory =
-                    (viewPager.adapter as ViewPagerAdapter).modelList
-
-
-
-                CoroutineScope(Dispatchers.Main).launch {
-                    viewPager.visibility = View.GONE
-                    viewPager.currentItem =
-                        PrefSingleton.getInstance(requireContext()).currentViewpager
-                    delay(100)
-                    viewPager.visibility = View.VISIBLE
-                }
-
-            }
-
         }
 
 
         viewModel.pigmeList.observe(viewLifecycleOwner, Observer { updatedList ->
-            (viewPager.adapter as ViewPagerAdapter).apply {
+            if (PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark == -1) {
+                return@Observer
 
+            } else if (PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark == 0) {
                 when {
-                    PrefSingleton.getInstance(requireContext()).selfStoryUsageMark == 1 && frameLayoutSelfstotyUsagemarks.visibility == View.VISIBLE -> {
-                        (this.modelList as MutableList<Pigme>).addAll(
-                            viewPager.currentItem,
-                            updatedList
-                        )
-                        frameLayoutSelfstotyUsagemarks.visibility = View.GONE
-                        PrefSingleton.getInstance(requireContext()).fremeLayoutSelfstoryUsagemarksVisibility =
-                            0x00000008
-                    }
+                    frameLayoutImageModeCheck.visibility == View.VISIBLE &&
+                            frameLayoutSelfstotyUsagemarks.visibility == View.VISIBLE -> {
+                        PrefUsageMark.getInstance(requireContext()).liveDataFirstUseTrace = false
 
-                    PrefSingleton.getInstance(requireContext()).selfStoryUsageMark == 1 && frameLayoutSelfstotyUsagemarks.visibility == View.GONE -> {
-                        (this.modelList as MutableList<Pigme>).add(
-                            viewPager.currentItem,
-                            updatedList.last())
+                        viewPager.adapter = ViewPagerAdapter(updatedList.shuffled())
+
 
                     }
-                    PrefSingleton.getInstance(requireContext()).selfStoryUsageMark == 2 -> {
-                        (this.modelList as MutableList<Pigme>).clear()
-                        (this.modelList as MutableList<Pigme>).add(updatedList.last())
-                        frameLayoutSelfstotyUsagemarks.visibility = View.GONE
-                        PrefSingleton.getInstance(requireContext()).fremeLayoutSelfstoryUsagemarksVisibility =
-                            0x00000008
+                    frameLayoutImageModeCheck.visibility == View.VISIBLE &&
+                            frameLayoutSelfstotyUsagemarks.visibility == View.GONE -> {
+                        viewPager.adapter = ViewPagerAdapter(updatedList.shuffled())
+
+
+                    }
+
+                    frameLayoutImageModeCheck.visibility == View.GONE &&
+                            frameLayoutSelfstotyUsagemarks.visibility == View.VISIBLE ||
+                            frameLayoutImageModeCheck.visibility == View.GONE &&
+                            frameLayoutSelfstotyUsagemarks.visibility == View.GONE -> {
+
+                        viewPager.adapter =
+                            ViewPagerAdapter(PrefModelList.getInstance(requireContext()).modelListPref)
+
+
+
+                        /**
+                         * TODO:매직넘버 - > 콜백함수로 바꾸는법 연구 좀더 공부가 필요함..
+                         */
+                        CoroutineScope(Dispatchers.Main).launch {
+                            viewPager.visibility = View.GONE
+                            viewPager.currentItem =
+                                PrefViewPagerItem.getInstance(requireContext()).currentViewpager
+                            delay(100)
+                            viewPager.visibility = View.VISIBLE
+                        }
+
+                        PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark = -1
+                        viewModel.listInsert( (viewPager.adapter as ViewPagerAdapter).modelList)
+
+                    }
+
+                }
+
+                PrefModelList.getInstance(requireContext()).modelListPref =
+                    (viewPager.adapter as ViewPagerAdapter).modelList
+
+
+
+                //명언 추가 했을때
+            } else if (PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark > 0) {
+
+                if (PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark == 1) {
+
+                    (viewPager.adapter as ViewPagerAdapter).run {
+
+                        (this.modelList as MutableList<Pigme>).add(viewPager.currentItem,updatedList.last())
+
+                        PrefModelList.getInstance(requireContext()).modelListPref = this.modelList
+
+                        visibilityGoneModeUse(frameLayoutSelfstotyUsagemarks)
+                        notifyDataSetChanged()
+                        PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark = -1
+                        viewModel.listInsert(this.modelList)
+                    }
+//명언 모두 초기화 후 하나만 생성했을 때
+                } else if (PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark == 2) {
+                    (viewPager.adapter as ViewPagerAdapter).apply {
+
+                        this.modelList = listOf(updatedList.last())
+
+                        PrefModelList.getInstance(requireContext()).modelListPref = this.modelList
+
+                        visibilityGoneModeUse(frameLayoutSelfstotyUsagemarks)
+                        notifyDataSetChanged()
+
+                        PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark = -1
+                        val deleteList = updatedList as MutableList<Pigme>
+                        deleteList.removeAt(updatedList.lastIndex)
+
+                        viewModel.listdelete(deleteList)
+
                     }
                 }
-                PrefSingleton.getInstance(requireContext()).modelListPrefSelfStory = this.modelList
-                notifyDataSetChanged()
-                /**
-                 *  랜덤으로 돌리고자 한다면 .
-                val randomIndex = Random().nextInt(this.modelList.lastIndex+1)
-                (this.modelList as MutableList<Pigme>).add(randomIndex,updatedList.last())
-                마지막 인덱스에서 생성은
-                (this.modelList as MutableList<Pigme>).add(updatedList.last())
-                첫번째 인덱스에서 생성은
-                (this.modelList as MutableList<Pigme>).add(0,updatedList.last())
-                마지막으로 본화면에서 생성은
-                (this.modelList as MutableList<Pigme>).add(viewPager.currentItem,updatedList.last())
-                 */
-
             }
         })
 
-
-        //   Toast.makeText( context, "현재페이지:${viewPager.currentItem},Self:${PrefSingleton.getInstance(requireContext()).selfStoryUsageMark}", Toast.LENGTH_SHORT ).show()
 
         //공유 기능
         imageButtonShare.setOnClickListener {
@@ -278,8 +235,16 @@ class MainFragment : Fragment() {
             }
         }
 
+
         root
     }
+
+    fun visibilityGoneModeUse(frameLayoutSelfstotyUsagemarks: FrameLayout) {
+        frameLayoutSelfstotyUsagemarks.visibility = View.GONE
+        PrefVisibility.getInstance(requireContext()).fremeLayoutSelfstoryUsagemarksVisibility =
+            0x00000008
+    }
+
 
 }
 
