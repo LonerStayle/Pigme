@@ -21,7 +21,7 @@ class RecyclerViewDialogInDialogAdapter(
     var context: Context
 ) :
     RecyclerView.Adapter<RecyclerViewDialogInDialogAdapter.ImageItemViewHolder>() {
-   val saveDeleteListElement = mutableListOf<Int>()
+   private val saveDeleteListElement = mutableListOf<Int>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageItemViewHolder =
         ImageItemViewHolder(

@@ -24,18 +24,14 @@ class RecyclerViewAllListAdapter(private var modelList:List<Pigme> = listOf()) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         holder.binding!!.apply {
-            modelList[position].textStory.let {
-               textViewRecyclerView.text = it
-            }
 
-            modelList[position].image.let {
-                var uriStringValue = "android.resource://com.example.wisesaying/$it"
-                if(it.length > 20){
-                    uriStringValue = it
-                }
-                imageViewRecyclerView.setImageURI(Uri.parse(uriStringValue))
+            var uriStringValue= "android.resource://com.example.wisesaying/${modelList[position].image}"
+            if (modelList[position].image.length > 20) {
+                uriStringValue = modelList[position].image
             }
+            modelList[position].image = uriStringValue
 
+            pigme = modelList[position]
         }
     }
 

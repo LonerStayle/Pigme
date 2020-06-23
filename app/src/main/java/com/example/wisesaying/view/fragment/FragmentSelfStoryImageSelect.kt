@@ -87,8 +87,9 @@ class FragmentSelfStoryImageSelect : Fragment() {
                 image,
                 imageViewBackgroundImage,
                 textViewImageBackgroundResIdCheck,
-                textViewGalleryguide
+                textViewImageBackgroundResIdCheck
             )
+
         recyclerViewImageSelectInExampleImage.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
@@ -254,11 +255,10 @@ class FragmentSelfStoryImageSelect : Fragment() {
 
 
                                 for (i in deleteListOfIndex.indices) {
-                                  viewModel.delete(deleteList[deleteListOfIndex[i]])
+                                    viewModel.delete(deleteList[deleteListOfIndex[i]])
                                 }
 
-                                (dialogImageSelectMode.dialogInImageDeleteDialog.recyclerView_DialogInDialogDeleteList.adapter
-                                        as RecyclerViewDialogInDialogAdapter).saveDeleteListElement.clear()
+
                                 PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex.clear()
                                 dialogImageSelectMode.dialogInImageDeleteDialog.dismiss()
 
@@ -340,7 +340,7 @@ class FragmentSelfStoryImageSelect : Fragment() {
 
         }
 
-        if (textView_imageBackgroundResIdCheck.text.toString().length > 2) {
+        if (textView_imageBackgroundResIdCheck.text.toString().isNotEmpty()) {
             textView_galleryguide.clearAnimation()
             textView_galleryguide.visibility = View.GONE
         }

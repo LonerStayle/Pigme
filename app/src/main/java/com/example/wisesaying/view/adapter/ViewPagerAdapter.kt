@@ -26,7 +26,7 @@ class ViewPagerAdapter(var modelList: List<Pigme> = listOf()) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         holder.binding?.apply {
-            modelList[position].textStory.let { textViewStory.text = it }
+            modelList[position].textStory.let { textStory = it }
             modelList[position].image.let {
 
                 var uriStringValue = "android.resource://com.example.wisesaying/$it"
@@ -34,8 +34,7 @@ class ViewPagerAdapter(var modelList: List<Pigme> = listOf()) :
                 if (it.length > 20) {
                     uriStringValue = it
                 }
-
-                imageView.setImageURI(Uri.parse(uriStringValue))
+                url = uriStringValue
             }
 
         }

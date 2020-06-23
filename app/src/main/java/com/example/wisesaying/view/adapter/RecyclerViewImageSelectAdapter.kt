@@ -16,8 +16,8 @@ import com.example.wisesaying.db.entity.GalleyImage
 class RecyclerViewImageSelectAdapter(
     var imageSampleList: MutableList<GalleyImage> = mutableListOf(),
     var imageViewbacgroundImage: ImageView,
-    var textViewImageBackgroundResIdCheck: TextView,
-    var textViewGalleryGuide:TextView
+    var textViewGalleryGuide:TextView,
+    var textViewImageBackgroundResIdCheck:TextView
 ) : RecyclerView.Adapter<RecyclerViewImageSelectAdapter.ImageSelectHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageSelectHolder =
@@ -37,7 +37,7 @@ class RecyclerViewImageSelectAdapter(
                 if (it.length > 20) {
                     uriStringValue = it
                 }
-                imageViewSampleimage.setImageURI(Uri.parse(uriStringValue))
+                selectImageUrl = uriStringValue
             }
 
             holder.itemView.setOnClickListener {
@@ -53,13 +53,13 @@ class RecyclerViewImageSelectAdapter(
 
         //함수로 바꿔써도됨 리스너 개념은 아님
         fun clickFunction() {
-            binding.apply {
+            binding?.apply {
                 var uriStringValue = "android.resource://com.example.wisesaying/${imageSampleList[adapterPosition].galleryImage}"
                 if (imageSampleList[adapterPosition].galleryImage.length > 20)
                     uriStringValue = imageSampleList[adapterPosition].galleryImage
 
                 imageViewbacgroundImage.setImageURI(Uri.parse(uriStringValue))
-                textViewImageBackgroundResIdCheck.text = uriStringValue
+                  textViewImageBackgroundResIdCheck.text = uriStringValue
                 textViewGalleryGuide.clearAnimation()
                 textViewGalleryGuide.visibility = View.GONE
             }
