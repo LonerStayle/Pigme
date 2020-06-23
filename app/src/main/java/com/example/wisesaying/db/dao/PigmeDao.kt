@@ -13,13 +13,14 @@ interface PigmeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(pigme: Pigme)
 
+
     @Delete
     fun delete(pigme: Pigme)
+
     @Delete
     fun listDelete(pigme: List<Pigme>)
-    @Update
-    fun allUpdate(pigmelist: List<Pigme>)
 
+//GalleyImage
     @Query("SELECT * FROM GalleyImage ")
     fun getGalleyNewImageList():LiveData<List<GalleyImage>>
 

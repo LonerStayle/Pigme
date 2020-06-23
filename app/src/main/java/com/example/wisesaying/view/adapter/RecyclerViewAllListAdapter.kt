@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wisesaying.R
-import com.example.wisesaying.databinding.RecyclerviewSelfstoryHolderBinding
+import com.example.wisesaying.databinding.RecyclerviewAlllistHolderBinding
 import com.example.wisesaying.db.entity.Pigme
 
 class RecyclerViewAllListAdapter(private var modelList:List<Pigme> = listOf()) :
@@ -15,7 +15,7 @@ class RecyclerViewAllListAdapter(private var modelList:List<Pigme> = listOf()) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         LayoutInflater.from(parent.context)
-            .inflate(R.layout.recyclerview_selfstory_holder, parent, false)
+            .inflate(R.layout.recyclerview_alllist_holder, parent, false)
     )
 
 
@@ -40,7 +40,7 @@ class RecyclerViewAllListAdapter(private var modelList:List<Pigme> = listOf()) :
     }
 
     inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val binding = DataBindingUtil.bind<RecyclerviewSelfstoryHolderBinding>(view)
+        val binding = DataBindingUtil.bind<RecyclerviewAlllistHolderBinding>(view)
     }
 
 }

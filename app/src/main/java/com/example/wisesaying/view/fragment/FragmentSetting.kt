@@ -142,7 +142,7 @@ class FragmentSetting : Fragment() {
                 val transactionRecyclerView = fragmentManager!!.beginTransaction()
                 transactionRecyclerView.replace(
                     R.id.frameLayout_RecyclerView,
-                    FragmentRecyclerView()
+                    FragmentAllList()
                 )
                 transactionRecyclerView.addToBackStack(null)
                 transactionRecyclerView.commit()

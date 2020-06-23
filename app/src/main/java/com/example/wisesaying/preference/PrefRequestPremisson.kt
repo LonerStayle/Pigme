@@ -13,12 +13,6 @@ class PrefRequestPremisson private constructor(context: Context) {
     enum class Key {
         SAVE_DATA,
 
-
-        MODELLIST_PREF_TEXT_STORY,
-        MODELLIST_PREF_IMAGE,
-        MODELLIST_PREF_SELF_STORY_TEXT_STORY,
-        MODELLIST_PREF_SELF_STORY_IMAGE
-
     }
 
     companion object {

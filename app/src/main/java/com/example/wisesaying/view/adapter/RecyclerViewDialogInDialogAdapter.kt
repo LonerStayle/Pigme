@@ -1,5 +1,6 @@
 package com.example.wisesaying.view.adapter
 
+import android.content.Context
 import android.graphics.Color
 import android.net.Uri
 import android.view.LayoutInflater
@@ -12,10 +13,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.wisesaying.R
 import com.example.wisesaying.databinding.RecyclerviewThirdImagemodeSelectHolderBinding
 import com.example.wisesaying.db.entity.Pigme
+import com.example.wisesaying.preference.PrefUsageMark
 
-class RecyclerViewDialogInDialogAdapter(var modellist: List<Pigme> = listOf()) :
+
+class RecyclerViewDialogInDialogAdapter(
+    var modellist: List<Pigme> = listOf(),
+    var context: Context
+) :
     RecyclerView.Adapter<RecyclerViewDialogInDialogAdapter.ImageItemViewHolder>() {
-
+   val saveDeleteListElement = mutableListOf<Int>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageItemViewHolder =
         ImageItemViewHolder(
@@ -40,21 +46,30 @@ class RecyclerViewDialogInDialogAdapter(var modellist: List<Pigme> = listOf()) :
 //            }
             modellist[position].apply {
                 textViewRecyclerViewInItemtext.text = textStory
-                    var uriStringValue = "android.resource://com.example.wisesaying/$image"
-                    if (image.length > 20) {
-                        uriStringValue = image
-                    }
-                    imageViewRecyclerViewInItemImage.setImageURI(Uri.parse(uriStringValue))
-            }
+                var uriStringValue = "android.resource://com.example.wisesaying/$image"
+                if (image.length > 20) {
+                    uriStringValue = image }
+                imageViewRecyclerViewInItemImage.setImageURI(Uri.parse(uriStringValue)) }
+
 
             holder.itemView.setOnClickListener {
-                if (textViewBackgroundColorChecked.text == "#00B0FF") {
-                    holder.binding.backgrounColorInsertLayout.setBackgroundColor(Color.parseColor("#76FF03"))
-                    textViewBackgroundColorChecked.text = "#76FF03"
+
+                if (textViewBackgroundColorChecked.text == "#76FF03") {
+                   backgrounColorInsertLayout.setBackgroundColor(Color.parseColor("#00B0FF"))
+                    textViewBackgroundColorChecked.text = "#00B0FF"
+
+
+                       saveDeleteListElement.remove(modellist.indexOf(modellist[position]))
+
+                    PrefUsageMark.getInstance(context).deleteModelListOfIndex = saveDeleteListElement
 
                 } else {
-                    holder.binding.backgrounColorInsertLayout.setBackgroundColor(Color.parseColor("#00B0FF"))
-                    textViewBackgroundColorChecked.text = "#00B0FF"
+                    backgrounColorInsertLayout.setBackgroundColor(Color.parseColor("#76FF03"))
+                    textViewBackgroundColorChecked.text = "#76FF03"
+
+                    saveDeleteListElement.add(modellist.indexOf(modellist[position]))
+
+                    PrefUsageMark.getInstance(context).deleteModelListOfIndex = saveDeleteListElement
                 }
             }
         }

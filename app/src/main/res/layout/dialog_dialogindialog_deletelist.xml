@@ -10,14 +10,14 @@
     android:layout_gravity="center">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView_DialogInDialog"
+        android:id="@+id/recyclerView_DialogInDialogDeleteList"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="1dp"
         android:layout_marginLeft="1dp"
         android:layout_marginEnd="1dp"
         android:layout_marginRight="1dp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/button_listOfIndexDelete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -25,13 +25,12 @@
         app:spanCount="4"/>
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/button"
+        android:id="@+id/button_listOfIndexDelete"
         android:layout_width="25dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:src="@drawable/image_button_trash_can32"
-        android:text="완료"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

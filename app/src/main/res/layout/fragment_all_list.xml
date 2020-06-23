@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="300dp"
         android:layout_height="match_parent"
-        tools:context=".view.fragment.FragmentRecyclerView">
+        tools:context=".view.fragment.FragmentAllList">
 
 
         <androidx.recyclerview.widget.RecyclerView

@@ -25,6 +25,4 @@ class PrefViewPagerItem private constructor(context: Context){
             pref.edit()
                 .putInt(Key.CURRENT_VIEWPAGER.name, value).apply()
         }
-
-
 }

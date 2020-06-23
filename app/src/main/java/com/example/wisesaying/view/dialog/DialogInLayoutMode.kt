@@ -1,8 +1,6 @@
 package com.example.wisesaying.view.dialog
 
-import android.app.AlertDialog
 import android.app.Dialog
-import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import com.example.wisesaying.R
 
@@ -21,7 +19,7 @@ class DialogInLayoutCreateMode(context: AppCompatActivity) {
 
     fun dialogImageSelectBuilderSetting(dialogInLayoutCreateMode: DialogInLayoutCreateMode) {
         dialogInLayoutCreateMode.dialogImageSelect.setContentView(R.layout.dialog_self_story_image_select_buttonevent)
-        dialogInLayoutCreateMode.dialogInImageDeleteDialog.setContentView(R.layout.dialog_image_select_mode_recycler_view_)
+        dialogInLayoutCreateMode.dialogInImageDeleteDialog.setContentView(R.layout.dialog_dialogindialog_deletelist)
     }
     /**
      * 함수안에서 해결 할경우 show

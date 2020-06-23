@@ -41,12 +41,7 @@ class RecyclerViewImageSelectAdapter(
             }
 
             holder.itemView.setOnClickListener {
-                holder.clickListener(
-                    imageSampleList[position].galleryImage,
-                    imageViewbacgroundImage,
-                    textViewImageBackgroundResIdCheck,
-                    textViewGalleryGuide
-                )
+               holder.clickFunction()
             }
         }
     }
@@ -57,17 +52,17 @@ class RecyclerViewImageSelectAdapter(
         val binding = DataBindingUtil.bind<RecyclerviewImageselectHolderBinding>(view)
 
         //함수로 바꿔써도됨 리스너 개념은 아님
-        val clickListener =
-            { imageString: String, imageViewbacgroundImage: ImageView, textViewImageBackgroundResIdCheck: TextView,
-                textViewGalleryGuide:TextView->
-                var uriStringValue = "android.resource://com.example.wisesaying/${imageString}"
-                if (imageString.length > 20)
-                    uriStringValue = imageString
+        fun clickFunction() {
+            binding.apply {
+                var uriStringValue = "android.resource://com.example.wisesaying/${imageSampleList[adapterPosition].galleryImage}"
+                if (imageSampleList[adapterPosition].galleryImage.length > 20)
+                    uriStringValue = imageSampleList[adapterPosition].galleryImage
 
                 imageViewbacgroundImage.setImageURI(Uri.parse(uriStringValue))
                 textViewImageBackgroundResIdCheck.text = uriStringValue
                 textViewGalleryGuide.clearAnimation()
                 textViewGalleryGuide.visibility = View.GONE
             }
+        }
     }
 }

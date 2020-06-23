@@ -19,14 +19,13 @@ import androidx.databinding.DataBindingUtil.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wisesaying.R
 import com.example.wisesaying.databinding.FragmentSelfStoryImageSelectBinding
 import com.example.wisesaying.db.PigmeDatabase
 import com.example.wisesaying.db.entity.GalleyImage
-import com.example.wisesaying.preference.PrefAllListAdapter
-import com.example.wisesaying.preference.PrefModelList
-import com.example.wisesaying.preference.PrefRequestPremisson
+import com.example.wisesaying.db.entity.Pigme
 import com.example.wisesaying.preference.PrefUsageMark
 import com.example.wisesaying.view.adapter.RecyclerViewDialogInDialogAdapter
 import com.example.wisesaying.view.adapter.RecyclerViewImageSelectAdapter
@@ -34,9 +33,13 @@ import com.example.wisesaying.view.dialog.DialogInLayoutCreateMode
 import com.example.wisesaying.view.dialog.DialogSimple
 import com.example.wisesaying.viewmodel.PigmeViewModel
 import com.example.wisesaying.viewmodel.PigmeViewModelFactory
-import kotlinx.android.synthetic.main.dialog_image_select_mode_recycler_view_.*
+import kotlinx.android.synthetic.main.dialog_dialogindialog_deletelist.*
 import kotlinx.android.synthetic.main.dialog_self_story_image_select_buttonevent.*
 import kotlinx.android.synthetic.main.fragment_self_story_image_select.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class FragmentSelfStoryImageSelect : Fragment() {
@@ -213,19 +216,60 @@ class FragmentSelfStoryImageSelect : Fragment() {
                         메인 프레그먼트 온크레이트 뷰에서 기본 0으로 설정
                          */
                         PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark = 1
-                        PrefAllListAdapter.getInstance(requireContext()).recyclerViewAdapterChangeScore =
-                            1
                         fragmentManager!!.popBackStack("main", 1)
                     }
                     R.id.radiobutton_option3 -> {
+                        viewModel.pigmeList.observe(viewLifecycleOwner, Observer {
+                            dialogImageSelectMode.dialogInImageDeleteDialog.recyclerView_DialogInDialogDeleteList.adapter =
+                                RecyclerViewDialogInDialogAdapter(it, requireContext())
+
+                            (dialogImageSelectMode.dialogInImageDeleteDialog.recyclerView_DialogInDialogDeleteList.adapter
+                                    as RecyclerViewDialogInDialogAdapter).notifyDataSetChanged()
+                        })
+
                         dialogImageSelectMode.dialogInImageDeleteDialog.show()
-                        dialogImageSelectMode.dialogInImageDeleteDialog.recyclerView_DialogInDialog.adapter =
-                            RecyclerViewDialogInDialogAdapter(
-                                PrefModelList.getInstance(
-                                    requireContext()
-                                ).modelListPref
-                            )
+
+                        dialogImageSelectMode.dialogInImageDeleteDialog.button_listOfIndexDelete.setOnClickListener {
+
+                            PrefUsageMark.getInstance(requireContext()).selfStoryDeleteModeToInsertDataPassingEditTextImageSelectSelfStoryInText =
+                                editTextImageSelectSelfStoryInText.text.toString()
+                            PrefUsageMark.getInstance(requireContext()).selfStoryDeleteModeToInsertDataPassingTextViewImageBackgroundResIdCheck =
+                                textViewImageBackgroundResIdCheck.text.toString()
+
+
+                            if (PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex.isEmpty())
+                                Toast.makeText(
+                                    requireContext(),
+                                    "삭제할 요소들을 선택해주세요",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            else {
+
+                                val deleteListOfIndex =
+                                    PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex
+
+                                val deleteList =
+                                    (dialogImageSelectMode.dialogInImageDeleteDialog.recyclerView_DialogInDialogDeleteList.adapter
+                                            as RecyclerViewDialogInDialogAdapter).modellist
+
+
+                                for (i in deleteListOfIndex.indices) {
+                                  viewModel.delete(deleteList[deleteListOfIndex[i]])
+                                }
+
+                                (dialogImageSelectMode.dialogInImageDeleteDialog.recyclerView_DialogInDialogDeleteList.adapter
+                                        as RecyclerViewDialogInDialogAdapter).saveDeleteListElement.clear()
+                                PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex.clear()
+                                dialogImageSelectMode.dialogInImageDeleteDialog.dismiss()
+
+                                PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark = 3
+                                fragmentManager!!.popBackStack("main", 1)
+
+                            }
+                        }
+
                     }
+
                 }
 
                 dialogImageSelectMode.dialogImageSelect.dismiss()

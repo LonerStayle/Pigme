@@ -31,6 +31,7 @@ class PigmeViewModel(private val pigmeSource: PigmeDao) : ViewModel() {
     }
 
 
+
     fun listInsert(pigme:List<Pigme>){
         uiScope.launch {
             withContext(Dispatchers.IO){
@@ -59,7 +60,7 @@ class PigmeViewModel(private val pigmeSource: PigmeDao) : ViewModel() {
     fun delete(pigme: Pigme){
         uiScope.launch {
             withContext(Dispatchers.IO){
-                pigmeSource.insert(pigme)
+                pigmeSource.delete(pigme)
             }
         }
     }
