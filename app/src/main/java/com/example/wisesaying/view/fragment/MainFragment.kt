@@ -224,7 +224,7 @@ class MainFragment : Fragment() {
 
         //플로팅 온오프 표시
         var floatingActionButtonSelfStoryToMoveOnoff = false
-        floatingActionButtonSelfStoryToMove.setOnClickListener {
+        imageButtonSelfStoryToMove.setOnClickListener {
             floatingActionButtonSelfStoryToMoveOnoff = !floatingActionButtonSelfStoryToMoveOnoff
 
             when {

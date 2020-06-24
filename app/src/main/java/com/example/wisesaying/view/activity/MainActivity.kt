@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         // 권한 요청 선택결과에 따라 프레그먼트에 기록하기 위한 프레그먼트 실행, 현재 Visivble 모드
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.frameLayout, MainFragment())
+        transaction.replace(R.id.constraintLayout, MainFragment())
             .commit()
 
         //최초 실행시 requestPermissonScore에 따라 다이얼로그 띄우기

@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 
 import com.example.wisesaying.R
+import com.example.wisesaying.databinding.FragmentMainBinding
 
 import com.example.wisesaying.databinding.FragmentSettingsBinding
 import com.example.wisesaying.preference.PrefFragmentSetting
@@ -16,7 +17,7 @@ import com.example.wisesaying.preference.PrefRequestPremisson
 import com.example.wisesaying.preference.PrefVisibility
 
 
-class FragmentSetting : Fragment() {
+class FragmentSetting() : Fragment() {
 
 
     override fun onCreateView(
@@ -141,7 +142,7 @@ class FragmentSetting : Fragment() {
 
                 val transactionRecyclerView = fragmentManager!!.beginTransaction()
                 transactionRecyclerView.replace(
-                    R.id.frameLayout_RecyclerView,
+                    R.id.constraintLayout_AllList,
                     FragmentAllList()
                 )
                 transactionRecyclerView.addToBackStack(null)
@@ -149,6 +150,8 @@ class FragmentSetting : Fragment() {
 
                 root.visibility = View.GONE
                 // 콜백함수를 알아보자
+
+
             }
 
 

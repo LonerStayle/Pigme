@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.wisesaying.R
 import com.example.wisesaying.databinding.RecyclerviewImageselectHolderBinding
 import com.example.wisesaying.db.entity.GalleyImage
@@ -58,7 +59,8 @@ class RecyclerViewImageSelectAdapter(
                 if (imageSampleList[adapterPosition].galleryImage.length > 20)
                     uriStringValue = imageSampleList[adapterPosition].galleryImage
 
-                imageViewbacgroundImage.setImageURI(Uri.parse(uriStringValue))
+                Glide.with(imageViewbacgroundImage.context).load(uriStringValue).into(imageViewbacgroundImage)
+
                   textViewImageBackgroundResIdCheck.text = uriStringValue
                 textViewGalleryGuide.clearAnimation()
                 textViewGalleryGuide.visibility = View.GONE

@@ -21,6 +21,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.wisesaying.R
 import com.example.wisesaying.databinding.FragmentSelfStoryImageSelectBinding
 import com.example.wisesaying.db.PigmeDatabase
@@ -332,7 +333,8 @@ class FragmentSelfStoryImageSelect : Fragment() {
         val galleyImageUri = data?.data
 
         galleyImageUri?.let {
-            imageView_backgroundImage.setImageURI(it)
+            Glide.with(this).load(it).into(imageView_backgroundImage)
+            //imageView_backgroundImage.setImageURI(it)
             textView_imageBackgroundResIdCheck.text = it.toString()
             viewModel.galleyNewImageinsert(it.toString())
             Toast.makeText(context, R.string.toast_galleyImageUriAddAlarm, Toast.LENGTH_SHORT)
@@ -347,14 +349,4 @@ class FragmentSelfStoryImageSelect : Fragment() {
         recyclerView_imageSelectInExampleImage.scrollToPosition(0)
     }
 
-
 }
-
-//   val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver,
-// image)
-//  imageView_backgroundImage.setImageBitmap(bitmap)
-
-// val source =
-//    ImageDecoder.createSource(requireActivity().contentResolver, image)
-//  val bitmap = ImageDecoder.decodeBitmap(source)
-//  imageView_backgroundImage.setImageBitmap(bitmap)
