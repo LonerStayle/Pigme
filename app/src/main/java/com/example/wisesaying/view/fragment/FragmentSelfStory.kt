@@ -25,7 +25,7 @@ class FragmentSelfStory : Fragment() {
         false
     ).run {
         buttonFragementSelfStory.setOnClickListener {
-            keyboardShowHiding(requireContext(), editTextSelfStory)
+            keyBoardShowHiding(requireContext(), editTextSelfStory)
 
             if (TextUtils.isEmpty(story)) {
                 Toast.makeText(context, "새로운 글을 입력해주세요", Toast.LENGTH_SHORT)
@@ -42,15 +42,11 @@ class FragmentSelfStory : Fragment() {
             fragment.replace(R.id.frameLayout_selfStoryFragment, fragmentSelfStoryImageSelect)
                 .addToBackStack("selfStory")
                 .commit()
-
-
         }
-
-
         root
     }
 
-    fun keyboardShowHiding(context: Context, view: View) {
+    private fun keyBoardShowHiding(context: Context, view: View) {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }

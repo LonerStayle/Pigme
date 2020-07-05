@@ -90,14 +90,8 @@ class MainFragment : Fragment() {
             }
 
 
-            /**
-             * TODO: 콜백 사용법 연구 후 매직넘버 삭제 예정임.
-             */
-            CoroutineScope(Dispatchers.Main).launch {
-                delay(500)
                 viewPager.adapter = ViewPagerAdapter(modelList.shuffled())
                 viewModel.listInsert((viewPager.adapter as ViewPagerAdapter).modelList)
-            }
 
         }
 
@@ -148,19 +142,19 @@ class MainFragment : Fragment() {
 
                         viewPager.adapter = ViewPagerAdapter(updatedList)
 
+
+                        PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
+                            UsageMark.OBSERVER_IN_VIEW_MODEL_FINAL_WORK
+                        viewModel.listInsert((viewPager.adapter as ViewPagerAdapter).modelList)
+
                         /**
                          * TODO:매직넘버 - > 콜백함수로 바꾸는법 연구 좀더 공부가 필요함..
                          */
                         CoroutineScope(Dispatchers.Main).launch {
-
+                            delay(100)
                             viewPager.currentItem =
                                 PrefViewPagerItem.getInstance(requireContext()).currentViewpager
-                            delay(100)
-
                         }
-                        PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
-                            UsageMark.OBSERVER_IN_VIEW_MODEL_FINAL_WORK
-                        viewModel.listInsert((viewPager.adapter as ViewPagerAdapter).modelList)
 
                     }
                 }
@@ -202,7 +196,7 @@ class MainFragment : Fragment() {
                         }
 
                     }
-                    UsageMark.SELF_STORY_USAGE_MARK_DELETE_AFTER_INSERT-> {
+                    UsageMark.SELF_STORY_USAGE_MARK_DELETE-> {
                         (viewPager.adapter as ViewPagerAdapter).apply {
                             this.modelList = updatedList
                             notifyDataSetChanged()

@@ -14,24 +14,21 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 
 import androidx.databinding.DataBindingUtil.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.wisesaying.R
 import com.example.wisesaying.databinding.FragmentSelfStoryImageSelectBinding
-import com.example.wisesaying.databinding.RecyclerviewThirdImagemodeSelectHolderBinding
 import com.example.wisesaying.db.PigmeDatabase
 import com.example.wisesaying.db.entity.GalleyImage
-import com.example.wisesaying.db.entity.Pigme
 import com.example.wisesaying.preference.PrefUsageMark
 import com.example.wisesaying.view.adapter.RecyclerViewDialogInDialogAdapter
 import com.example.wisesaying.view.adapter.RecyclerViewImageSelectAdapter
+import com.example.wisesaying.view.constscore.UsageMark
 import com.example.wisesaying.view.dialog.DialogInLayoutCreateMode
 import com.example.wisesaying.view.dialog.DialogSimple
 import com.example.wisesaying.viewmodel.PigmeViewModel
@@ -39,11 +36,6 @@ import com.example.wisesaying.viewmodel.PigmeViewModelFactory
 import kotlinx.android.synthetic.main.dialog_dialogindialog_deletelist.*
 import kotlinx.android.synthetic.main.dialog_self_story_image_select_buttonevent.*
 import kotlinx.android.synthetic.main.fragment_self_story_image_select.*
-import kotlinx.android.synthetic.main.recyclerview_third_imagemode_select_holder.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 
 class FragmentSelfStoryImageSelect : Fragment() {
@@ -185,19 +177,20 @@ class FragmentSelfStoryImageSelect : Fragment() {
                     R.id.radiobutton_option1 -> {
                         DialogSimple.show(
                             requireContext(),
-                            R.string.dialogImageSelectInTitle,
-                            R.string.dialogGalleryRequestPremissonInMessage,
-                            "네 괜찮습니다",
+                            R.string.dialogResetAfterImageSelectInTitle,
+                            R.string.dialogResetAfterImageSelectInMessages,
+                            R.string.dialogResetAfterImageSelectInPositiveText,
                             {
                                 viewModel.insert(
                                     editTextImageSelectSelfStoryInText.text.toString(),
                                     textViewImageBackgroundResIdCheck.text.toString()
                                 )
 
-                                PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark = 2
+                                PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
+                                    UsageMark.SELF_STORY_USAGE_MARK_RESET_AFTER_INSERT
                                 fragmentManager!!.popBackStack("main", 1)
                             },
-                            "아니요 다시 선택하겠습니다",
+                            R.string.dialogResetAfterImageSelectInNegativeText,
                             { return@show }
                         )
 
@@ -220,7 +213,8 @@ class FragmentSelfStoryImageSelect : Fragment() {
                         메인 프레그먼트에서 updatedList.shuffled()가 적용되는 순간 사진 고정모드 자체도 먹히지 않음으로 이 순간만 1로 설정
                         메인 프레그먼트 온크레이트 뷰에서 기본 0으로 설정
                          */
-                        PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark = 1
+                        PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
+                            UsageMark.SELF_STORY_USAGE_MARK_INSERT
                         fragmentManager!!.popBackStack("main", 1)
                     }
                     R.id.radiobutton_option3 -> {
@@ -273,7 +267,7 @@ class FragmentSelfStoryImageSelect : Fragment() {
                                     dialogImageSelectMode.dialogInImageDeleteDialog.dismiss()
 
                                     PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
-                                        3
+                                        UsageMark.SELF_STORY_USAGE_MARK_DELETE
                                     fragmentManager!!.popBackStack("main", 1)
 
                                 }
@@ -309,7 +303,7 @@ class FragmentSelfStoryImageSelect : Fragment() {
                         DialogSimple.show(requireContext(),
                             R.string.dialogGalleryRequestPremissonInTitle,
                             R.string.dialogGalleryRequestPremissonInMessage,
-                            "허용합니다.",
+                            R.string.dialogGalleryRequestPremissonInPositiveText,
                             {
                                 ActivityCompat.requestPermissions(
                                     requireActivity(),
@@ -317,7 +311,7 @@ class FragmentSelfStoryImageSelect : Fragment() {
                                     REQUEST_EXTERNAL_STORAGE_PREMISSON
                                 )
                             },
-                            "거절합니다.",
+                            R.string.dialogGalleryRequestPremissonInNegativeText,
                             { return@show })
                     } else {
                         ActivityCompat.requestPermissions(

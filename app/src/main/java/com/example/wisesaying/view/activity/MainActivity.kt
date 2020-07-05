@@ -11,6 +11,7 @@ import com.example.wisesaying.R
 import com.example.wisesaying.databinding.ActivityMainBinding
 import com.example.wisesaying.preference.PrefRequestPremisson
 import com.example.wisesaying.preference.PrefViewPagerItem
+import com.example.wisesaying.view.constscore.UsageMark
 import com.example.wisesaying.view.dialog.DialogSimple
 import com.example.wisesaying.view.fragment.*
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -32,28 +33,30 @@ class MainActivity : AppCompatActivity() {
             .commit()
 
         //최초 실행시 requestPermissonScore에 따라 다이얼로그 띄우기
-        if (PrefRequestPremisson.getInstance(this).requestScore == 0 || PrefRequestPremisson.getInstance(this).requestScore == 2)
+        if (PrefRequestPremisson.getInstance(this).requestScore == UsageMark.REQUEST_NEGATIVE)
 
             DialogSimple.show(this,
                 R.string.dialogRequestPermissionTitle,
                 R.string.dialogRequestPermissionText,
-                "네",
+                R.string.PositiveMassage,
                 {
-                    PrefRequestPremisson.getInstance(this).requestScore = 1
+                    PrefRequestPremisson.getInstance(this).requestScore =
+                        UsageMark.REQUEST_POSITIVE
                     val fragment =
                         supportFragmentManager.findFragmentById(R.id.fregment_SettingLayout)
                     if (fragment is FragmentSetting) {
                         fragment.switchWidget_Setting_Premisson.isChecked = true
                     }
                 },
-                "아니오",
+                R.string.NegativeMassage,
                 {
-                    PrefRequestPremisson.getInstance(this).requestScore = 2
+                    PrefRequestPremisson.getInstance(this).requestScore =
+                        UsageMark.REQUEST_NEGATIVE
                     val fragment =
                         supportFragmentManager.findFragmentById(R.id.fregment_SettingLayout)
                     if (fragment is FragmentSetting) {
                         fragment.switchWidget_Setting_Premisson.isChecked = false
-
+                    }
                         val secondDialog = AlertDialog.Builder(this)
                             .setTitle(R.string.dialogRequestPermissionTitle2)
                             .setMessage(R.string.dialogRequestPermissionText2)
@@ -61,25 +64,13 @@ class MainActivity : AppCompatActivity() {
                                 return@setPositiveButton
                             }
                         secondDialog.show()
-                    }
+
+
                 })
     }
 
 
     override fun onBackPressed() {
-        /**
-         * 기본적으로 프레그먼트 셋팅 레이아웃이 프레그먼트 매니저를 이용한 commit이 된 상태임, mainFragment 맨 처음 화면에서 gone 처리 되어있어서 안보일 뿐임.
-         *  그래서 프레그먼트 셋팅 레이아웃에서 addtobackstack(null)를 사용한 상태라서 뒤로가기를 기본적으로 두번~세번 해야 앱이 종료됨
-         */
-
-
-        /**
-         *  뒤로가기 버튼 누르면 앱이 바로 종료되지 않고, 프레그먼트 셋팅 레이아웃이 메모리상에서 제거됨 그래서 프레그먼트 레이아웃을 다시 키려고 하면
-         *  버튼 클릭 리스너가 적용되질 않음
-         *
-         *  한번 더 프레그먼트 매니저로 addtoBackstack(null) 사용 구문만 없이 다시 커밋함
-         */
-
         val fragmentSettingTransaction = supportFragmentManager.beginTransaction()
         fragmentSettingTransaction.replace(
             R.id.fregment_SettingLayout,

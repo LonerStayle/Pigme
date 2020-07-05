@@ -5,6 +5,8 @@ object UsageMark {
     const val SELF_STORY_NOT_USAGE_MARK = 0
     const val SELF_STORY_USAGE_MARK_INSERT = 1
     const val SELF_STORY_USAGE_MARK_RESET_AFTER_INSERT = 2
-    const val SELF_STORY_USAGE_MARK_DELETE_AFTER_INSERT = 3
+    const val SELF_STORY_USAGE_MARK_DELETE = 3
 
+    const val REQUEST_POSITIVE = 1
+    const val REQUEST_NEGATIVE = 0
 }

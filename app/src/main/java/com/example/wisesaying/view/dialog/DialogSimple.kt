@@ -2,20 +2,19 @@ package com.example.wisesaying.view.dialog
 
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 
 object DialogSimple {
     fun show(
         context: Context,
-        dialogtitle: Int,
-        dialogmessage: Int ,
-        positiveText: String ,
+        dialogTitle: Int,
+        dialogMessage: Int,
+        positiveText: Int,
         onPositive: () -> Unit = {},
-        negativeText: String = "",
-        onNegative: () -> Unit = {}
+        negativeText: Int,
+        onNegative: (() -> Unit) = {}
     ) =  AlertDialog.Builder(context)
-            .setTitle(dialogtitle)
-            .setMessage(dialogmessage)
+            .setTitle(dialogTitle)
+            .setMessage(dialogMessage)
             .setPositiveButton(positiveText) { _, _ ->
                 onPositive()
             }

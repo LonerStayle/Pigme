@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Wise saying</string>
+    <string name="PositiveMassage">네</string>
+    <string name="NegativeMassage">아니오</string>
     <string name="dialogRequestPermissionTitle">다이어트 경고문 뜨게 하기</string>
     <string name="dialogRequestPermissionText">당신의 다이어트 효과를 극대화 하기 위해 잠금화면 풀 시 자동으로 식욕제거 자극화면을 뜨게 만듭니다.
         동의 하시겠습니까?</string>
@@ -14,10 +16,12 @@
     <string name="Fragment_Setting_switchWidgetSettingImageControl_On">앱 재실행 시 마지막으로 본 사진을 불러옵니다.</string>
     <string name="Fragment_Setting_switchWidgetSettingImageControl_Off">앱 재실행 시 사진 순서들이 무작위로 바뀝니다.</string>
 
-    <string name="dialogImageSelectInTitle">경고 메세지</string>
-    <string name="dialogImageSelectInMessages">어떤 사진, 글이던 모두 초기화 되고 \n 현재 추가하신" +
-                                    " 글과 사진만 남게됩니다. 괜찮으시겠습니까? </string>
-    <string name="dialogImageSelectInPositiveText">네 괜찮습니다</string>
+    <string name="dialogResetAfterImageSelectInTitle">경고 메세지</string>
+    <string name="dialogResetAfterImageSelectInMessages">어떤 사진, 글이던 모두 초기화 되고 \n 현재 추가하신 글과 사진만 남게됩니다.
+        괜찮으시겠습니까? </string>
+    <string name="dialogResetAfterImageSelectInPositiveText">네 괜찮습니다</string>
+
+    <string name="dialogResetAfterImageSelectInNegativeText">아니요 다시 선택하겠습니다</string>
 
     <string name="dialogGalleryRequestPremissonInTitle">갤러리 사진 허용권한</string>
     <string name="dialogGalleryRequestPremissonInMessage">사진을 불러오려면 사용자의 권한이 필요합니다. \n 권한을 허용하시겠습니까?</string>
