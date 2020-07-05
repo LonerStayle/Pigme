@@ -1,8 +1,10 @@
 package com.example.wisesaying.view.fragment
 
 import android.content.Intent
+import android.net.Uri
 
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +20,8 @@ import com.example.wisesaying.db.entity.Pigme
 import com.example.wisesaying.preference.*
 
 import com.example.wisesaying.view.adapter.ViewPagerAdapter
+import com.example.wisesaying.view.constscore.UsageMark
+import com.example.wisesaying.view.visibility.visibilityGoneModeUse
 import com.example.wisesaying.viewmodel.PigmeViewModel
 import com.example.wisesaying.viewmodel.PigmeViewModelFactory
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -41,6 +45,7 @@ class MainFragment : Fragment() {
     }
 
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,9 +55,10 @@ class MainFragment : Fragment() {
         container,
         false
     ).run {
-        // 온크레이트 뷰가 다시 일어나면 0 으로
-        PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark = 0
 
+        // 온크레이트 뷰가 다시 일어나면 0 으로
+        PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
+            UsageMark.SELF_STORY_NOT_USAGE_MARK
 
         // 명언 추가 기능 사용 여부 on일시 GONE
         frameLayoutSelfstotyUsagemarks.visibility =
@@ -82,18 +88,29 @@ class MainFragment : Fragment() {
                 ).toString())
                 modelList.add(Pigme(textings[i], image!![i]))
             }
-            viewPager.visibility = View.GONE
-            viewPager.adapter = ViewPagerAdapter(modelList.shuffled())
-            viewModel.listInsert((viewPager.adapter as ViewPagerAdapter).modelList)
+
+
+            /**
+             * TODO: 콜백 사용법 연구 후 매직넘버 삭제 예정임.
+             */
+            CoroutineScope(Dispatchers.Main).launch {
+                delay(500)
+                viewPager.adapter = ViewPagerAdapter(modelList.shuffled())
+                viewModel.listInsert((viewPager.adapter as ViewPagerAdapter).modelList)
+            }
+
         }
 
 
 
         viewModel.pigmeList.observe(viewLifecycleOwner, Observer { updatedList ->
-            if (PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark == -1) {
+            if (PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark ==
+                UsageMark.OBSERVER_IN_VIEW_MODEL_FINAL_WORK) {
+                viewPager.visibility = View.VISIBLE
                 return@Observer
 
-            } else if (PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark == 0) {
+            } else if (PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark ==
+                UsageMark.SELF_STORY_NOT_USAGE_MARK) {
 
                 when {
 
@@ -106,7 +123,9 @@ class MainFragment : Fragment() {
                             viewPager.visibility = View.VISIBLE
                         } else {
                             viewPager.adapter = ViewPagerAdapter(updatedList.shuffled())
-                            PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark = -1
+                            PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
+                                UsageMark.OBSERVER_IN_VIEW_MODEL_FINAL_WORK
+
                             viewModel.listInsert((viewPager.adapter as ViewPagerAdapter).modelList)
                         }
                     }
@@ -115,8 +134,11 @@ class MainFragment : Fragment() {
                             frameLayoutSelfstotyUsagemarks.visibility == View.GONE -> {
                         viewPager.adapter = ViewPagerAdapter(updatedList.shuffled())
 
-                        PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark = -1
+
+                        PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
+                            UsageMark.OBSERVER_IN_VIEW_MODEL_FINAL_WORK
                         viewModel.listInsert((viewPager.adapter as ViewPagerAdapter).modelList)
+
                     }
 
                     frameLayoutImageModeCheck.visibility == View.GONE &&
@@ -130,24 +152,24 @@ class MainFragment : Fragment() {
                          * TODO:매직넘버 - > 콜백함수로 바꾸는법 연구 좀더 공부가 필요함..
                          */
                         CoroutineScope(Dispatchers.Main).launch {
-                            viewPager.visibility = View.GONE
+
                             viewPager.currentItem =
                                 PrefViewPagerItem.getInstance(requireContext()).currentViewpager
                             delay(100)
-                            viewPager.visibility = View.VISIBLE
-                        }
 
-                        PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark = -1
+                        }
+                        PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
+                            UsageMark.OBSERVER_IN_VIEW_MODEL_FINAL_WORK
                         viewModel.listInsert((viewPager.adapter as ViewPagerAdapter).modelList)
+
                     }
                 }
 
 
-                //명언 추가 했을때
-            } else if (PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark >= 1) {
+            } else  {
 
                 when (PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark) {
-                    1 -> {
+                    UsageMark.SELF_STORY_USAGE_MARK_INSERT -> {
 
                         (viewPager.adapter as ViewPagerAdapter).run {
 
@@ -156,37 +178,43 @@ class MainFragment : Fragment() {
                                 updatedList.last()
                             )
 
-                            visibilityGoneModeUse(frameLayoutSelfstotyUsagemarks)
+                            visibilityGoneModeUse(frameLayoutSelfstotyUsagemarks,requireContext())
                             notifyDataSetChanged()
-                            PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark = -1
+                            PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
+                                UsageMark.OBSERVER_IN_VIEW_MODEL_FINAL_WORK
                             viewModel.listInsert(this.modelList)
                         }
-                        //명언 모두 초기화 후 하나만 생성했을 때
+
                     }
-                    2 -> {
+                    UsageMark.SELF_STORY_USAGE_MARK_RESET_AFTER_INSERT -> {
                         (viewPager.adapter as ViewPagerAdapter).apply {
 
                             this.modelList = listOf(updatedList.last())
 
-                            visibilityGoneModeUse(frameLayoutSelfstotyUsagemarks)
+                            visibilityGoneModeUse(frameLayoutSelfstotyUsagemarks,requireContext())
                             notifyDataSetChanged()
 
-                            PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark = -1
+                            PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
+                                UsageMark.OBSERVER_IN_VIEW_MODEL_FINAL_WORK
                             val deleteList = updatedList as MutableList<Pigme>
                             deleteList.removeAt(updatedList.lastIndex)
                             viewModel.listdelete(deleteList)
                         }
-                        //명언 부분 삭제후 하나만 생성했을 때
+
                     }
-                    3 -> {
+                    UsageMark.SELF_STORY_USAGE_MARK_DELETE_AFTER_INSERT-> {
                         (viewPager.adapter as ViewPagerAdapter).apply {
                             this.modelList = updatedList
                             notifyDataSetChanged()
 
-                            PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark = 1
+                            PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
+                                UsageMark.SELF_STORY_USAGE_MARK_INSERT
+
                             viewModel.insert(
-                                PrefUsageMark.getInstance(requireContext()).selfStoryDeleteModeToInsertDataPassingEditTextImageSelectSelfStoryInText,
-                                PrefUsageMark.getInstance(requireContext()).selfStoryDeleteModeToInsertDataPassingTextViewImageBackgroundResIdCheck
+                                PrefUsageMark.getInstance(requireContext())
+                                    .selfStoryDeleteAfterInsertDataText,
+                                PrefUsageMark.getInstance(requireContext())
+                                    .selfStoryDeleteAfterInsertDataImage
                             )
                         }
                     }
@@ -243,18 +271,14 @@ class MainFragment : Fragment() {
                     fragmentManager!!.popBackStack("main", 1)
 
                 }
+
             }
         }
-
 
         root
     }
 
-    fun visibilityGoneModeUse(frameLayoutSelfstotyUsagemarks: FrameLayout) {
-        frameLayoutSelfstotyUsagemarks.visibility = View.GONE
-        PrefVisibility.getInstance(requireContext()).fremeLayoutSelfstoryUsagemarksVisibility =
-            0x00000008
-    }
+
 
 
 }

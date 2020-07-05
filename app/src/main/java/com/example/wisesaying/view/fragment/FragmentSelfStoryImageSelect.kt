@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 
 import androidx.databinding.DataBindingUtil.*
 import androidx.fragment.app.Fragment
@@ -24,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.wisesaying.R
 import com.example.wisesaying.databinding.FragmentSelfStoryImageSelectBinding
+import com.example.wisesaying.databinding.RecyclerviewThirdImagemodeSelectHolderBinding
 import com.example.wisesaying.db.PigmeDatabase
 import com.example.wisesaying.db.entity.GalleyImage
 import com.example.wisesaying.db.entity.Pigme
@@ -37,6 +39,7 @@ import com.example.wisesaying.viewmodel.PigmeViewModelFactory
 import kotlinx.android.synthetic.main.dialog_dialogindialog_deletelist.*
 import kotlinx.android.synthetic.main.dialog_self_story_image_select_buttonevent.*
 import kotlinx.android.synthetic.main.fragment_self_story_image_select.*
+import kotlinx.android.synthetic.main.recyclerview_third_imagemode_select_holder.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -222,52 +225,59 @@ class FragmentSelfStoryImageSelect : Fragment() {
                     }
                     R.id.radiobutton_option3 -> {
                         viewModel.pigmeList.observe(viewLifecycleOwner, Observer {
-                            dialogImageSelectMode.dialogInImageDeleteDialog.recyclerView_DialogInDialogDeleteList.adapter =
+                            dialogImageSelectMode.dialogInImageDeleteDialog
+                                .recyclerView_DialogInDialogDeleteList.adapter =
                                 RecyclerViewDialogInDialogAdapter(it, requireContext())
 
-                            (dialogImageSelectMode.dialogInImageDeleteDialog.recyclerView_DialogInDialogDeleteList.adapter
+                            (dialogImageSelectMode.dialogInImageDeleteDialog
+                                .recyclerView_DialogInDialogDeleteList.adapter
                                     as RecyclerViewDialogInDialogAdapter).notifyDataSetChanged()
                         })
 
                         dialogImageSelectMode.dialogInImageDeleteDialog.show()
 
-                        dialogImageSelectMode.dialogInImageDeleteDialog.button_listOfIndexDelete.setOnClickListener {
+                        dialogImageSelectMode.dialogInImageDeleteDialog
+                            .button_listOfIndexDelete.setOnClickListener {
 
-                            PrefUsageMark.getInstance(requireContext()).selfStoryDeleteModeToInsertDataPassingEditTextImageSelectSelfStoryInText =
-                                editTextImageSelectSelfStoryInText.text.toString()
-                            PrefUsageMark.getInstance(requireContext()).selfStoryDeleteModeToInsertDataPassingTextViewImageBackgroundResIdCheck =
-                                textViewImageBackgroundResIdCheck.text.toString()
-
-
-                            if (PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex.isEmpty())
-                                Toast.makeText(
-                                    requireContext(),
-                                    "삭제할 요소들을 선택해주세요",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            else {
-
-                                val deleteListOfIndex =
-                                    PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex
-
-                                val deleteList =
-                                    (dialogImageSelectMode.dialogInImageDeleteDialog.recyclerView_DialogInDialogDeleteList.adapter
-                                            as RecyclerViewDialogInDialogAdapter).modellist
+                                PrefUsageMark.getInstance(requireContext())
+                                    .selfStoryDeleteAfterInsertDataText =
+                                    editTextImageSelectSelfStoryInText.text.toString()
+                                PrefUsageMark.getInstance(requireContext())
+                                    .selfStoryDeleteAfterInsertDataImage =
+                                    textViewImageBackgroundResIdCheck.text.toString()
 
 
-                                for (i in deleteListOfIndex.indices) {
-                                    viewModel.delete(deleteList[deleteListOfIndex[i]])
+                                if (PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex.isEmpty())
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "삭제할 요소들을 선택해주세요",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                else {
+
+                                    val deleteListOfIndex =
+                                        PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex
+
+                                    val deleteList =
+                                        (dialogImageSelectMode.dialogInImageDeleteDialog
+                                            .recyclerView_DialogInDialogDeleteList.adapter
+                                                as RecyclerViewDialogInDialogAdapter).modellist
+
+
+                                    for (i in deleteListOfIndex.indices) {
+                                        viewModel.delete(deleteList[deleteListOfIndex[i]])
+                                    }
+
+
+                                    PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex.clear()
+                                    dialogImageSelectMode.dialogInImageDeleteDialog.dismiss()
+
+                                    PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
+                                        3
+                                    fragmentManager!!.popBackStack("main", 1)
+
                                 }
-
-
-                                PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex.clear()
-                                dialogImageSelectMode.dialogInImageDeleteDialog.dismiss()
-
-                                PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark = 3
-                                fragmentManager!!.popBackStack("main", 1)
-
                             }
-                        }
 
                     }
 

@@ -78,7 +78,7 @@ class PrefUsageMark private constructor(context: Context) {
                     .apply()
             }
         }
-    var selfStoryDeleteModeToInsertDataPassingEditTextImageSelectSelfStoryInText: String
+    var selfStoryDeleteAfterInsertDataText: String
         get() = pref.getString(
             Key.SELF_STORY_DELETE_MODE_TO_MAIN_FRAGMENT_INSERT_DATA_PASSING_EDIT_TEXT_IMAGE_SELECT_SELF_STORY_IN_TEXT.name,
             null
@@ -90,7 +90,7 @@ class PrefUsageMark private constructor(context: Context) {
             )
                 .apply()
         }
-    var selfStoryDeleteModeToInsertDataPassingTextViewImageBackgroundResIdCheck: String
+    var selfStoryDeleteAfterInsertDataImage: String
         get() = pref.getString(
             Key.SELF_STORY_DELETE_MODE_TO_MAIN_FRAGMENT_INSERT_DATA_PASSING_TEXT_VIEW_IMAGE_BACK_GROUND_RESID_CHECK.name,
             null

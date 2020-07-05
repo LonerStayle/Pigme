@@ -4,11 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 
-/**
- * 아직 사용 못해봄..
- *
- * FIXME: 굳이 변수명 사용 필요가없음 .
- */
 object DialogSimple {
     fun show(
         context: Context,
