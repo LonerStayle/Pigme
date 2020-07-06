@@ -6,14 +6,18 @@
 
     <data>
         <variable
+            name="selfStroy"
+            type="String" />
+        <variable
             name="imageUri"
             type="String" />
+
+
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/backgrounColorInsertLayout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/dialogThirdSelectNotPressColor">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/imageView_recyclerViewInItemImage"
@@ -37,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#40000000"
-            android:text="asdafa"
+            android:text="@{selfStroy}"
             android:textColor="#FFF"
             android:textSize="8sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -50,7 +54,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:text="00B0FF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

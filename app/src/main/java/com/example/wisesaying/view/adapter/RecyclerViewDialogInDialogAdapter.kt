@@ -2,13 +2,10 @@ package com.example.wisesaying.view.adapter
 
 import android.content.Context
 import android.graphics.Color
-import android.net.Uri
+import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wisesaying.R
@@ -23,6 +20,8 @@ class RecyclerViewDialogInDialogAdapter(
 ) :
     RecyclerView.Adapter<RecyclerViewDialogInDialogAdapter.ImageItemViewHolder>() {
     private val saveDeleteListElement = mutableListOf<Int>()
+    private val mSelectedItems = SparseBooleanArray(0)
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageItemViewHolder =
         ImageItemViewHolder(
@@ -37,56 +36,69 @@ class RecyclerViewDialogInDialogAdapter(
     override fun onBindViewHolder(holder: ImageItemViewHolder, position: Int) {
 
         holder.binding?.apply {
-//            with(modellist[position]) {
-//                textViewRecyclerViewInItemtext.text = textStory
-//                var uriStringValue = image
-//                if (image.length > 20) {
-//                    uriStringValue = image
-//                }
-//                imageViewRecyclerViewInItemImage.setImageURI(Uri.parse(uriStringValue))
-//            }
-            modellist[position].apply {
-                textViewRecyclerViewInItemtext.text = textStory
-                var uriStringValue = "android.resource://com.example.wisesaying/$image"
-                if (image.length > 20) {
-                    uriStringValue = image
-                }
-                imageUri = uriStringValue
-            }
 
+            modellist[position].apply {
+                backgrounColorInsertLayout.setBackgroundResource(holder.backgroundColorChanged())
+                selfStroy = textStory
+                imageUri = imageUrl(image)
+            }
 
             holder.itemView.setOnClickListener {
 
-
-                if (textViewBackgroundColorChecked.text == "#76FF03") {
-                    backgrounColorInsertLayout.setBackgroundColor(Color.parseColor("#00B0FF"))
-                    textViewBackgroundColorChecked.text = "#00B0FF"
-
-
-                    saveDeleteListElement.remove(modellist.indexOf(modellist[position]))
-
-                    PrefUsageMark.getInstance(context).deleteModelListOfIndex =
-                        saveDeleteListElement
-
-
+                if (mSelectedItems.get(position, false)) {
+                    mSelectedItems.put(position, false)
+                    holder.bindTheNotUseColorChange()
                 } else {
-                    backgrounColorInsertLayout.setBackgroundColor(Color.parseColor("#76FF03"))
-                    textViewBackgroundColorChecked.text = "#76FF03"
-
-                    saveDeleteListElement.add(modellist.indexOf(modellist[position]))
-
-                    PrefUsageMark.getInstance(context).deleteModelListOfIndex =
-                        saveDeleteListElement
-
+                    mSelectedItems.put(position, true)
+                    holder.bindTheUseColorChange()
                 }
-                holder.itemViewType
+
             }
 
         }
     }
 
-    open inner class ImageItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ImageItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = DataBindingUtil.bind<RecyclerviewThirdImagemodeSelectHolderBinding>(view)
+
+
+        fun bindTheNotUseColorChange() {
+
+
+            binding?.backgrounColorInsertLayout?.setBackgroundResource(R.color.dialogThirdSelectNotPressColor)
+
+            saveDeleteListElement.remove(modellist.indexOf(modellist[adapterPosition]))
+
+            PrefUsageMark.getInstance(context).deleteModelListOfIndex =
+                saveDeleteListElement
+
+        }
+
+        fun bindTheUseColorChange() {
+            binding?.backgrounColorInsertLayout?.setBackgroundResource(R.color.dialogThirdSelectPressColor)
+
+            saveDeleteListElement.add(modellist.indexOf(modellist[adapterPosition]))
+
+            PrefUsageMark.getInstance(context).deleteModelListOfIndex =
+                saveDeleteListElement
+
+        }
+
+        fun backgroundColorChanged(): Int {
+
+            return if (mSelectedItems.get(adapterPosition, false))
+                R.color.dialogThirdSelectPressColor
+            else
+                R.color.dialogThirdSelectNotPressColor
+        }
+    }
+
+    private fun imageUrl(image: String): String {
+        var uriStringValue = "android.resource://com.example.wisesaying/$image"
+        if (image.length > 20) {
+            uriStringValue = image
+        }
+        return uriStringValue
 
     }
 

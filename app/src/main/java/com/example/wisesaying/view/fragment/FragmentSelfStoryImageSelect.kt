@@ -223,6 +223,9 @@ class FragmentSelfStoryImageSelect : Fragment() {
                                 .recyclerView_DialogInDialogDeleteList.adapter =
                                 RecyclerViewDialogInDialogAdapter(it, requireContext())
 
+                            dialogImageSelectMode.dialogInImageDeleteDialog
+                                .recyclerView_DialogInDialogDeleteList.setHasFixedSize(true)
+
                             (dialogImageSelectMode.dialogInImageDeleteDialog
                                 .recyclerView_DialogInDialogDeleteList.adapter
                                     as RecyclerViewDialogInDialogAdapter).notifyDataSetChanged()
