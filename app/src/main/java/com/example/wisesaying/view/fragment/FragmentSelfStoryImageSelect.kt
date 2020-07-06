@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.RadioButton
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -32,6 +31,7 @@ import com.example.wisesaying.view.adapter.RecyclerViewImageSelectAdapter
 import com.example.wisesaying.view.constscore.UsageMark
 import com.example.wisesaying.view.dialog.DialogInLayoutCreateMode
 import com.example.wisesaying.view.dialog.DialogSimple
+import com.example.wisesaying.view.toast.toastShort
 import com.example.wisesaying.viewmodel.PigmeViewModel
 import com.example.wisesaying.viewmodel.PigmeViewModelFactory
 import kotlinx.android.synthetic.main.dialog_dialogindialog_deletelist.*
@@ -55,9 +55,9 @@ class FragmentSelfStoryImageSelect : Fragment() {
         )
     }
 
-    private val dialogImageSelectMode by lazy{
-
-    DialogInLayoutCreateMode(requireActivity() as AppCompatActivity)}
+    private val dialogImageSelectMode by lazy {
+        DialogInLayoutCreateMode(requireActivity() as AppCompatActivity)
+    }
 
     private val REQUEST_EXTERNAL_STORAGE_PREMISSON = 1002
     private val REQUEST_IMAGE_CODE = 1001
@@ -112,10 +112,9 @@ class FragmentSelfStoryImageSelect : Fragment() {
 
 
             if (textViewImageBackgroundResIdCheck.text == "") {
-                Toast.makeText(
-                    requireActivity(), R.string.toast_selfStroyNoImageSelectText,
-                    Toast.LENGTH_SHORT
-                ).show()
+                toastShort(
+                    context, R.string.toast_selfStroyNoImageSelectText
+                )
                 return@setOnClickListener
             }
             dialogImageSelectMode.dialogImageSelectBuilderSetting(dialogImageSelectMode)
@@ -125,16 +124,14 @@ class FragmentSelfStoryImageSelect : Fragment() {
 
             dialogImageSelectMode.dialogImageSelect.radioGruop_imageSelect_Mode.setOnCheckedChangeListener { _, checkedId ->
 
-                    dialogImageSelectMode.dialogImageSelect.findViewById<RadioButton>(checkedId).run {
-                       val dialog =  dialogImageSelectMode.dialogImageSelect
-                        dialog.radiobutton_option1.setTypeface(null,Typeface.NORMAL)
-                        dialog.radiobutton_option2.setTypeface(null,Typeface.NORMAL)
-                        dialog.radiobutton_option3.setTypeface(null,Typeface.NORMAL)
+                dialogImageSelectMode.dialogImageSelect.findViewById<RadioButton>(checkedId).run {
+                    val dialog = dialogImageSelectMode.dialogImageSelect
+                    dialog.radiobutton_option1.setTypeface(null, Typeface.NORMAL)
+                    dialog.radiobutton_option2.setTypeface(null, Typeface.NORMAL)
+                    dialog.radiobutton_option3.setTypeface(null, Typeface.NORMAL)
 
-                          setTypeface(null, Typeface.BOLD)
-
-
-                    }
+                    setTypeface(null, Typeface.BOLD)
+                }
 
             }
 
@@ -160,7 +157,7 @@ class FragmentSelfStoryImageSelect : Fragment() {
                             R.string.dialogResetAfterImageSelectInNegativeText,
                             { return@show }
                         )
-
+                        toastShort(context, R.string.toast_resetAfterInsert)
                     }
                     R.id.radiobutton_option2 -> {
 
@@ -169,17 +166,11 @@ class FragmentSelfStoryImageSelect : Fragment() {
                             textViewImageBackgroundResIdCheck.text.toString()
                         )
 
-                        Toast.makeText(
-                            requireActivity(),
-                            "작성하신 사진 글이 새롭게 추가 되었습니다.",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        toastShort(
+                            context,
+                            R.string.toast_newSelfStory
+                        )
 
-                        /**
-                         *  버튼 눌렀을 때만 selfMakingCount를 1로 설정
-                        메인 프레그먼트에서 updatedList.shuffled()가 적용되는 순간 사진 고정모드 자체도 먹히지 않음으로 이 순간만 1로 설정
-                        메인 프레그먼트 온크레이트 뷰에서 기본 0으로 설정
-                         */
                         PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
                             UsageMark.SELF_STORY_USAGE_MARK_INSERT
                         fragmentManager!!.popBackStack("main", 1)
@@ -189,9 +180,6 @@ class FragmentSelfStoryImageSelect : Fragment() {
                             dialogImageSelectMode.dialogInImageDeleteDialog
                                 .recyclerView_DialogInDialogDeleteList.adapter =
                                 RecyclerViewDialogInDialogAdapter(it, requireContext())
-
-                            dialogImageSelectMode.dialogInImageDeleteDialog
-                                .recyclerView_DialogInDialogDeleteList.setHasFixedSize(true)
 
                             (dialogImageSelectMode.dialogInImageDeleteDialog
                                 .recyclerView_DialogInDialogDeleteList.adapter
@@ -212,11 +200,10 @@ class FragmentSelfStoryImageSelect : Fragment() {
 
 
                                 if (PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex.isEmpty())
-                                    Toast.makeText(
+                                    toastShort(
                                         requireContext(),
-                                        "삭제할 요소들을 선택해주세요",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                        R.string.toast_deleteElementSelect
+                                    )
                                 else {
 
                                     val deleteListOfIndex =
@@ -239,6 +226,7 @@ class FragmentSelfStoryImageSelect : Fragment() {
                                         UsageMark.SELF_STORY_USAGE_MARK_DELETE
                                     fragmentManager!!.popBackStack("main", 1)
 
+                                    toastShort(context, R.string.toast_deleteAfterInsert)
                                 }
                             }
 
@@ -307,11 +295,9 @@ class FragmentSelfStoryImageSelect : Fragment() {
 
         galleyImageUri?.let {
             Glide.with(this).load(it).into(imageView_backgroundImage)
-            //imageView_backgroundImage.setImageURI(it)
             textView_imageBackgroundResIdCheck.text = it.toString()
             viewModel.galleyNewImageinsert(it.toString())
-            Toast.makeText(context, R.string.toast_galleyImageUriAddAlarm, Toast.LENGTH_SHORT)
-                .show()
+            toastShort(context, R.string.toast_galleyImageUriAddAlarm)
 
         }
 

@@ -7,12 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.wisesaying.R
 import com.example.wisesaying.databinding.FragmentSelfStoryBinding
+import com.example.wisesaying.view.toast.toastShort
 
 
 class FragmentSelfStory : Fragment() {
@@ -28,8 +28,7 @@ class FragmentSelfStory : Fragment() {
             keyBoardShowHiding(requireContext(), editTextSelfStory)
 
             if (TextUtils.isEmpty(story)) {
-                Toast.makeText(context, "새로운 글을 입력해주세요", Toast.LENGTH_SHORT)
-                    .show()
+               toastShort(context,R.string.toast_newWrite)
                 return@setOnClickListener
             }
 

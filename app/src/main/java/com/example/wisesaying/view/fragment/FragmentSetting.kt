@@ -4,18 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-
 import com.example.wisesaying.R
-import com.example.wisesaying.databinding.FragmentMainBinding
-
 import com.example.wisesaying.databinding.FragmentSettingsBinding
 import com.example.wisesaying.preference.PrefFragmentSetting
 import com.example.wisesaying.preference.PrefRequestPremisson
 import com.example.wisesaying.preference.PrefVisibility
 import com.example.wisesaying.view.constscore.UsageMark
+import com.example.wisesaying.view.toast.toastShort
 
 
 class FragmentSetting() : Fragment() {
@@ -34,20 +31,16 @@ class FragmentSetting() : Fragment() {
 
         switchWidgetSettingPremisson.apply {
             isChecked =
-                PrefFragmentSetting.getInstance(requireContext()).
-                fragmentSettingSwitchWidgetSettingPremissonisChecked
+                PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonisChecked
             text =
-                PrefFragmentSetting.getInstance(requireContext()).
-                fragmentSettingSwitchWidgetSettingPremissonText
+                PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonText
         }
 
         switchWidgetSettingImageControl.apply {
             isChecked =
-                PrefFragmentSetting.getInstance(requireContext()).
-                fragmentSettingSwitchWidgetSettingImageControlisChecked
+                PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingImageControlisChecked
             text =
-                PrefFragmentSetting.getInstance(requireContext()).
-                fragmentSettingSwitchWidgetSettingImageControlText
+                PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingImageControlText
         }
 
         val textON = "ON\t"
@@ -62,29 +55,25 @@ class FragmentSetting() : Fragment() {
              */
             when (isChecked) {
                 true -> {
-                    PrefFragmentSetting.getInstance(requireContext()).
-                    fragmentSettingSwitchWidgetSettingPremissonisChecked =
+                    PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonisChecked =
                         isChecked
 
                     PrefRequestPremisson.getInstance(requireContext()).requestScore =
                         UsageMark.REQUEST_POSITIVE
 
                     switchWidgetSettingPremisson.text = textON
-                    PrefFragmentSetting.getInstance(requireContext()).
-                    fragmentSettingSwitchWidgetSettingPremissonText =
+                    PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonText =
                         textON
 
                     if (clickCount <= 4)
-                        Toast.makeText(
-                            requireContext(),
-                            R.string.FragmentSetting_switchWidgetSettingPremisson_On,
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        toastShort(
+                           context,
+                            R.string.FragmentSetting_switchWidgetSettingPremisson_On
+                        )
                 }
 
                 false -> {
-                    PrefFragmentSetting.getInstance(requireContext()).
-                    fragmentSettingSwitchWidgetSettingPremissonisChecked =
+                    PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonisChecked =
                         isChecked
 
                     PrefRequestPremisson.getInstance(requireContext()).requestScore =
@@ -92,16 +81,14 @@ class FragmentSetting() : Fragment() {
 
 
                     switchWidgetSettingPremisson.text = textOFF
-                    PrefFragmentSetting.getInstance(requireContext()).
-                    fragmentSettingSwitchWidgetSettingPremissonText =
+                    PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonText =
                         textOFF
 
                     if (clickCount <= 4)
-                        Toast.makeText(
+                        toastShort(
                             context,
-                            R.string.FragmentSetting_switchWidgetSettingPremisson_Off,
-                            Toast.LENGTH_SHORT
-                        ).show()
+                            R.string.FragmentSetting_switchWidgetSettingPremisson_Off
+                        )
                 }
             }
         }
@@ -113,45 +100,37 @@ class FragmentSetting() : Fragment() {
 
             when (isChecked) {
                 true -> {
-                    PrefFragmentSetting.getInstance(requireContext()).
-                    fragmentSettingSwitchWidgetSettingImageControlisChecked =
+                    PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingImageControlisChecked =
                         isChecked
                     switchWidgetSettingImageControl.text = textON
-                    PrefFragmentSetting.getInstance(requireContext()).
-                    fragmentSettingSwitchWidgetSettingImageControlText =
+                    PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingImageControlText =
                         textON
-                    PrefVisibility.getInstance(requireContext()).
-                    frameLayoutImageModeCheckVisibility =
+                    PrefVisibility.getInstance(requireContext()).frameLayoutImageModeCheckVisibility =
                         0x00000008
 
                     if (clickCount <= 4)
-                        Toast.makeText(
+                        toastShort(
                             context,
-                            R.string.Fragment_Setting_switchWidgetSettingImageControl_On,
-                            Toast.LENGTH_SHORT
-                        ).show()
+                            R.string.Fragment_Setting_switchWidgetSettingImageControl_On
+                            )
                 }
                 false -> {
-                    PrefFragmentSetting.getInstance(requireContext()).
-                    fragmentSettingSwitchWidgetSettingImageControlisChecked =
+                    PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingImageControlisChecked =
                         isChecked
 
                     switchWidgetSettingImageControl.text = textOFF
-                    PrefFragmentSetting.getInstance(requireContext()).
-                    fragmentSettingSwitchWidgetSettingImageControlText =
+                    PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingImageControlText =
                         textOFF
 
-                    PrefVisibility.getInstance(requireContext()).
-                    frameLayoutImageModeCheckVisibility =
+                    PrefVisibility.getInstance(requireContext()).frameLayoutImageModeCheckVisibility =
                         0x00000000
 
                     if (clickCount <= 4)
 
-                        Toast.makeText(
+                        toastShort(
                             context,
-                            R.string.Fragment_Setting_switchWidgetSettingImageControl_Off,
-                            Toast.LENGTH_SHORT
-                        ).show()
+                            R.string.Fragment_Setting_switchWidgetSettingImageControl_Off
+                        )
                 }
             }
         }

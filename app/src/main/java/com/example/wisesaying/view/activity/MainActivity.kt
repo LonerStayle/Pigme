@@ -14,6 +14,7 @@ import com.example.wisesaying.preference.PrefViewPagerItem
 import com.example.wisesaying.view.constscore.UsageMark
 import com.example.wisesaying.view.dialog.DialogSimple
 import com.example.wisesaying.view.fragment.*
+import com.example.wisesaying.view.toast.toastShort
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.coroutines.*
@@ -84,7 +85,7 @@ class MainActivity : AppCompatActivity() {
          * 사용자가 종료하지 않고 이어서 계속 사용한다면 어이없이 어플이 종료되지 않도록 유도함
          */
         if (supportFragmentManager.backStackEntryCount == 1) {
-            Toast.makeText(this, R.string.toast_AppExitLastText, Toast.LENGTH_SHORT).show()
+            toastShort(this, R.string.toast_AppExitLastText)
             if (!isFinishing) {
                 CoroutineScope(Dispatchers.Main).launch {
                     delay(5000)

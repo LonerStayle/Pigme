@@ -64,7 +64,6 @@ class RecyclerViewDialogInDialogAdapter(
 
         fun bindTheNotUseColorChange() {
 
-
             binding?.backgrounColorInsertLayout?.setBackgroundResource(R.color.dialogThirdSelectNotPressColor)
 
             saveDeleteListElement.remove(modellist.indexOf(modellist[adapterPosition]))
