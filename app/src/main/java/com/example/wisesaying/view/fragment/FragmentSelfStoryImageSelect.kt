@@ -82,7 +82,7 @@ class FragmentSelfStoryImageSelect : Fragment() {
             RecyclerViewImageSelectAdapter(
                 image,
                 imageViewBackgroundImage,
-                textViewImageBackgroundResIdCheck,
+                textViewGalleryguide,
                 textViewImageBackgroundResIdCheck
             )
 
