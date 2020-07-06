@@ -2,123 +2,124 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-<data>
-    <variable
-        name="story"
-        type="String" />
+
+    <data>
+
+        <variable
+            name="story"
+            type="String" />
 
 
-</data>
+    </data>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.fragment.FragmentSelfStoryImageSelect"
-    android:background="#fff"
-  >
-
-    <Button
-        android:id="@+id/button_newSelefStroyImageSelect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:background="#0091EA"
-        android:text="@string/buttonNewSelefStroyImageSelect"
-        android:textColor="#fff"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView_backgroundImage"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        android:background="@drawable/imageview_backgroundimage"
-        android:scaleType="fitXY"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView_imageSelectInExampleImage"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_newSelefStroyImageSelect" />
-
-
-    <EditText
-        android:id="@+id/editText_imageSelectSelfStoryInText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#40000000"
-        android:gravity="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#ffffff"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:text="@{story}"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView_backgroundImage"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView_backgroundImage"
-        android:focusable="true"
-        />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView_imageSelectInExampleImage"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        android:layout_height="match_parent"
+        android:background="#fff"
+        tools:context=".view.fragment.FragmentSelfStoryImageSelect">
 
-    <TextView
-        android:id="@+id/textView_imageBackgroundResIdCheck"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_imageSelect_selfStory"
-        tools:text="이미지 백그라운드 리소스 체크용"
-        android:textSize="20sp"
-        android:visibility="gone"/>
+        <Button
+            android:id="@+id/button_newSelefStroyImageSelect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:background="#0091EA"
+            android:text="@string/buttonNewSelefStroyImageSelect"
+            android:textColor="#fff"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton_galleryImageSelect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:backgroundTint="#FFF"
-        android:clickable="true"
-        android:focusable="true"
-        android:padding="20dp"
-        android:src="@drawable/image_button_gallery_24px"
-        android:tint="#0091EA"
-        app:fabSize="mini"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView_backgroundImage"
-        app:layout_constraintEnd_toEndOf="@+id/imageView_backgroundImage" />
+        <ImageView
+            android:id="@+id/imageView_backgroundImage"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:background="@drawable/imageview_backgroundimage"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toTopOf="@+id/recyclerView_imageSelectInExampleImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_newSelefStroyImageSelect" />
 
-    <TextView
-        android:id="@+id/textView_galleryguide"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:layout_marginRight="4dp"
-        android:text="@string/textViewgalleryguideText"
-        android:textColor="#FFF"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton_galleryImageSelect"
-        app:layout_constraintEnd_toStartOf="@+id/floatingActionButton_galleryImageSelect"
-        app:layout_constraintTop_toTopOf="@+id/floatingActionButton_galleryImageSelect"
-        app:layout_constraintVertical_bias="0.72" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <EditText
+            android:id="@+id/editText_imageSelectSelfStoryInText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#40000000"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="@{story}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#ffffff"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView_backgroundImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageView_backgroundImage" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_imageSelectInExampleImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/textView_imageBackgroundResIdCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="20sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText_imageSelect_selfStory"
+            tools:text="이미지 백그라운드 리소스 체크용" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton_galleryImageSelect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="#FFF"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="20dp"
+            android:src="@drawable/image_button_gallery_24px"
+            android:tint="#0091EA"
+            app:fabSize="mini"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView_backgroundImage"
+            app:layout_constraintEnd_toEndOf="@+id/imageView_backgroundImage" />
+
+        <TextView
+            android:id="@+id/textView_galleryguide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
+            android:text="@string/textViewgalleryguideText"
+            android:textColor="#FFF"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton_galleryImageSelect"
+            app:layout_constraintEnd_toStartOf="@+id/floatingActionButton_galleryImageSelect"
+            app:layout_constraintTop_toTopOf="@+id/floatingActionButton_galleryImageSelect"
+            app:layout_constraintVertical_bias="0.72" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

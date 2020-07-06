@@ -39,7 +39,7 @@ class RecyclerViewDialogInDialogAdapter(
 
             modellist[position].apply {
                 backgrounColorInsertLayout.setBackgroundResource(holder.backgroundColorChanged())
-                selfStroy = textStory
+                selfStory = textStory
                 imageUri = imageUrl(image)
             }
 
