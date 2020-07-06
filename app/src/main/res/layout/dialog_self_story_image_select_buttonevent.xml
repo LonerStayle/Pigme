@@ -75,6 +75,7 @@
                     android:paddingRight="8dp"
                     android:text="앱 기존 사진 및 글을 유지하면서 추가 \n(기본 사항)"
                     android:textColor="@drawable/radiobutton_selecttextcolorchange"
+                    android:textStyle="bold"
                     android:textSize="12sp" />
 
                 <RadioButton

@@ -3,19 +3,20 @@ package com.example.wisesaying.view.fragment
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.*
+import android.graphics.Typeface
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-
-import androidx.databinding.DataBindingUtil.*
+import androidx.core.view.get
+import androidx.databinding.DataBindingUtil.inflate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -35,8 +36,9 @@ import com.example.wisesaying.viewmodel.PigmeViewModel
 import com.example.wisesaying.viewmodel.PigmeViewModelFactory
 import kotlinx.android.synthetic.main.dialog_dialogindialog_deletelist.*
 import kotlinx.android.synthetic.main.dialog_self_story_image_select_buttonevent.*
+import kotlinx.android.synthetic.main.dialog_self_story_image_select_buttonevent.radiobutton_option1
+import kotlinx.android.synthetic.main.dialog_self_story_image_select_buttonevent.view.*
 import kotlinx.android.synthetic.main.fragment_self_story_image_select.*
-
 
 class FragmentSelfStoryImageSelect : Fragment() {
 
@@ -53,6 +55,10 @@ class FragmentSelfStoryImageSelect : Fragment() {
         )
     }
 
+    private val dialogImageSelectMode by lazy{
+
+    DialogInLayoutCreateMode(requireActivity() as AppCompatActivity)}
+
     private val REQUEST_EXTERNAL_STORAGE_PREMISSON = 1002
     private val REQUEST_IMAGE_CODE = 1001
 
@@ -64,11 +70,11 @@ class FragmentSelfStoryImageSelect : Fragment() {
         false
     ).run {
 
-
         story = (arguments?.getString("selfStory"))
         textViewGalleryguide.startAnimation(animationButtonGallery)
 
-        val image = List<GalleyImage>(5) { GalleyImage("") }.toMutableList()
+        val image = List<GalleyImage>(5) { GalleyImage("") }
+            .toMutableList()
         for (i in image.indices) {
             image[i].galleryImage += resources.getIdentifier(
                 "a" + (i + 1),
@@ -89,7 +95,6 @@ class FragmentSelfStoryImageSelect : Fragment() {
         recyclerViewImageSelectInExampleImage.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
-
         viewModel.pigmeImageSelectVersion.observe(viewLifecycleOwner, Observer {
             (recyclerViewImageSelectInExampleImage.adapter as RecyclerViewImageSelectAdapter).run {
                 if (it.isEmpty()) {
@@ -103,72 +108,34 @@ class FragmentSelfStoryImageSelect : Fragment() {
         })
 
 
-
         buttonNewSelefStroyImageSelect.setOnClickListener {
+
 
             if (textViewImageBackgroundResIdCheck.text == "") {
                 Toast.makeText(
-                    requireActivity(),
-                    R.string.toast_selfStroyNoImageSelectText,
+                    requireActivity(), R.string.toast_selfStroyNoImageSelectText,
                     Toast.LENGTH_SHORT
                 ).show()
                 return@setOnClickListener
             }
-
-
-            //다이얼로그 부르기
-            val dialogImageSelectMode =
-                DialogInLayoutCreateMode(requireActivity() as AppCompatActivity)
             dialogImageSelectMode.dialogImageSelectBuilderSetting(dialogImageSelectMode)
             dialogImageSelectMode.dialogImageSelect.show()
 
             //다이얼로그 창 안에서 3가지 버튼 클릭 상태에 따른 폰트 변화
+
             dialogImageSelectMode.dialogImageSelect.radioGruop_imageSelect_Mode.setOnCheckedChangeListener { _, checkedId ->
 
-                when (checkedId) {
-                    R.id.radiobutton_option1 -> {
-                        dialogImageSelectMode.dialogImageSelect.radiobutton_option1.setTypeface(
-                            null,
-                            Typeface.BOLD
-                        )
-                        dialogImageSelectMode.dialogImageSelect.radiobutton_option2.setTypeface(
-                            null,
-                            Typeface.NORMAL
-                        )
-                        dialogImageSelectMode.dialogImageSelect.radiobutton_option3.setTypeface(
-                            null,
-                            Typeface.NORMAL
-                        )
+                    dialogImageSelectMode.dialogImageSelect.findViewById<RadioButton>(checkedId).run {
+                       val dialog =  dialogImageSelectMode.dialogImageSelect
+                        dialog.radiobutton_option1.setTypeface(null,Typeface.NORMAL)
+                        dialog.radiobutton_option2.setTypeface(null,Typeface.NORMAL)
+                        dialog.radiobutton_option3.setTypeface(null,Typeface.NORMAL)
+
+                          setTypeface(null, Typeface.BOLD)
+
+
                     }
-                    R.id.radiobutton_option2 -> {
-                        dialogImageSelectMode.dialogImageSelect.radiobutton_option1.setTypeface(
-                            null,
-                            Typeface.NORMAL
-                        )
-                        dialogImageSelectMode.dialogImageSelect.radiobutton_option2.setTypeface(
-                            null,
-                            Typeface.BOLD
-                        )
-                        dialogImageSelectMode.dialogImageSelect.radiobutton_option3.setTypeface(
-                            null,
-                            Typeface.NORMAL
-                        )
-                    }
-                    R.id.radiobutton_option3 -> {
-                        dialogImageSelectMode.dialogImageSelect.radiobutton_option1.setTypeface(
-                            null,
-                            Typeface.NORMAL
-                        )
-                        dialogImageSelectMode.dialogImageSelect.radiobutton_option2.setTypeface(
-                            null,
-                            Typeface.NORMAL
-                        )
-                        dialogImageSelectMode.dialogImageSelect.radiobutton_option3.setTypeface(
-                            null,
-                            Typeface.BOLD
-                        )
-                    }
-                }
+
             }
 
             dialogImageSelectMode.dialogImageSelect.button_newSelfStoryaddFinish.setOnClickListener {
@@ -265,7 +232,6 @@ class FragmentSelfStoryImageSelect : Fragment() {
                                         viewModel.delete(deleteList[deleteListOfIndex[i]])
                                     }
 
-
                                     PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex.clear()
                                     dialogImageSelectMode.dialogInImageDeleteDialog.dismiss()
 
@@ -355,5 +321,6 @@ class FragmentSelfStoryImageSelect : Fragment() {
         }
         recyclerView_imageSelectInExampleImage.scrollToPosition(0)
     }
+
 
 }
