@@ -36,8 +36,30 @@ private val viewModel:PigmeViewModel by lazy{
             recyclerview.adapter = RecyclerViewAllListAdapter(it)
             (recyclerview.adapter as RecyclerViewAllListAdapter).notifyDataSetChanged()
         })
+        /**
+         * TODO: 각각 클릭리스너 적용 시킬것
+         */
+        buttonListAdd.setOnClickListener {
+
+        }
+
+        buttonListDelete.setOnClickListener {
+
+        }
+
+        buttonListReset.setOnClickListener {
+
+        }
+
+        buttonPickAndDelete.setOnClickListener {
+
+        }
+        buttonListRestore.setOnClickListener {
+
+        }
 
         root
+
         }
 
     }
