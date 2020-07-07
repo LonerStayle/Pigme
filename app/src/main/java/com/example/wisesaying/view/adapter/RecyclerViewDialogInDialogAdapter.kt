@@ -12,6 +12,7 @@ import com.example.wisesaying.R
 import com.example.wisesaying.databinding.RecyclerviewThirdImagemodeSelectHolderBinding
 import com.example.wisesaying.db.entity.Pigme
 import com.example.wisesaying.preference.PrefUsageMark
+import com.example.wisesaying.view.adapter.imageurl.imageUrl
 
 
 class RecyclerViewDialogInDialogAdapter(
@@ -92,13 +93,5 @@ class RecyclerViewDialogInDialogAdapter(
         }
     }
 
-    private fun imageUrl(image: String): String {
-        var uriStringValue = "android.resource://com.example.wisesaying/$image"
-        if (image.length > 20) {
-            uriStringValue = image
-        }
-        return uriStringValue
-
-    }
 
 }

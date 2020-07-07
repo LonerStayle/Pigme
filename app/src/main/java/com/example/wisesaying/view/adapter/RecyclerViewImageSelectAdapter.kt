@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.example.wisesaying.R
 import com.example.wisesaying.databinding.RecyclerviewImageselectHolderBinding
 import com.example.wisesaying.db.entity.GalleyImage
+import com.example.wisesaying.view.adapter.imageurl.imageUrl
 
 
 class RecyclerViewImageSelectAdapter(
@@ -34,11 +35,7 @@ class RecyclerViewImageSelectAdapter(
 
         holder.binding?.apply {
             imageSampleList[position].galleryImage.let {
-                var uriStringValue = "android.resource://com.example.wisesaying/$it"
-                if (it.length > 20) {
-                    uriStringValue = it
-                }
-                selectImageUrl = uriStringValue
+                selectImageUrl = imageUrl(it)
             }
 
             holder.itemView.setOnClickListener {
@@ -55,13 +52,12 @@ class RecyclerViewImageSelectAdapter(
         //함수로 바꿔써도됨 리스너 개념은 아님
         fun clickFunction() {
             binding?.apply {
-                var uriStringValue = "android.resource://com.example.wisesaying/${imageSampleList[adapterPosition].galleryImage}"
-                if (imageSampleList[adapterPosition].galleryImage.length > 20)
-                    uriStringValue = imageSampleList[adapterPosition].galleryImage
+                val image = imageSampleList[adapterPosition].galleryImage
 
-                Glide.with(imageViewbacgroundImage.context).load(uriStringValue).into(imageViewbacgroundImage)
 
-                  textViewImageBackgroundResIdCheck.text = uriStringValue
+                Glide.with(imageViewbacgroundImage.context).load(imageUrl(image)).into(imageViewbacgroundImage)
+
+                  textViewImageBackgroundResIdCheck.text = imageUrl(image)
                 textViewGalleryGuide.clearAnimation()
                 textViewGalleryGuide.visibility = View.GONE
             }

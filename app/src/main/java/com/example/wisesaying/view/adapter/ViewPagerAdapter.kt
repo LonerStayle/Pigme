@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.wisesaying.R
 import com.example.wisesaying.databinding.ViewpagerBinding
 import com.example.wisesaying.db.entity.Pigme
+import com.example.wisesaying.view.adapter.imageurl.imageUrl
 
 class ViewPagerAdapter(var modelList: List<Pigme> = listOf()) :
     RecyclerView.Adapter<ViewPagerAdapter.ViewHolder>() {
@@ -28,15 +29,8 @@ class ViewPagerAdapter(var modelList: List<Pigme> = listOf()) :
         holder.binding?.apply {
             modelList[position].textStory.let { textStory = it }
             modelList[position].image.let {
-
-                var uriStringValue = "android.resource://com.example.wisesaying/$it"
-
-                if (it.length > 20) {
-                    uriStringValue = it
-                }
-                url = uriStringValue
+                url = imageUrl(it)
             }
-
         }
     }
 

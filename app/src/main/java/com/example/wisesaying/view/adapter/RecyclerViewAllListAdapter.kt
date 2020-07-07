@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.wisesaying.R
 import com.example.wisesaying.databinding.RecyclerviewAlllistHolderBinding
 import com.example.wisesaying.db.entity.Pigme
+import com.example.wisesaying.view.adapter.imageurl.imageUrl
 
 class RecyclerViewAllListAdapter(private var modelList:List<Pigme> = listOf()) :
     RecyclerView.Adapter<RecyclerViewAllListAdapter.ViewHolder>() {
@@ -18,19 +19,13 @@ class RecyclerViewAllListAdapter(private var modelList:List<Pigme> = listOf()) :
             .inflate(R.layout.recyclerview_alllist_holder, parent, false)
     )
 
-
     override fun getItemCount(): Int = modelList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         holder.binding!!.apply {
 
-            var uriStringValue= "android.resource://com.example.wisesaying/${modelList[position].image}"
-            if (modelList[position].image.length > 20) {
-                uriStringValue = modelList[position].image
-            }
-            modelList[position].image = uriStringValue
-
+            modelList[position].image = imageUrl(modelList[position].image)
             pigme = modelList[position]
         }
     }

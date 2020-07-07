@@ -37,8 +37,6 @@ private val viewModel:PigmeViewModel by lazy{
             (recyclerview.adapter as RecyclerViewAllListAdapter).notifyDataSetChanged()
         })
 
-
-
         root
         }
 
