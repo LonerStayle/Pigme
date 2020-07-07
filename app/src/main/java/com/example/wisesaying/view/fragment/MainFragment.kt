@@ -19,8 +19,6 @@ import com.example.wisesaying.preference.PrefViewPagerItem
 import com.example.wisesaying.preference.PrefVisibility
 import com.example.wisesaying.view.adapter.ViewPagerAdapter
 import com.example.wisesaying.view.constscore.UsageMark
-import com.example.wisesaying.view.toast.toastShortinString
-import com.example.wisesaying.view.visibility.visibilityGoneModeUse
 import com.example.wisesaying.viewmodel.PigmeViewModel
 import com.example.wisesaying.viewmodel.PigmeViewModelFactory
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -149,13 +147,6 @@ class MainFragment : Fragment() {
                             viewPager.visibility = View.VISIBLE
                         }
 
-
-
-                        /**
-                         * TODO:매직넘버 - > 콜백함수로 바꾸는법 연구 좀더 공부가 필요함..
-                         */
-
-
                     }
                 }
 
@@ -172,7 +163,7 @@ class MainFragment : Fragment() {
                                 updatedList.last()
                             )
 
-                            visibilityGoneModeUse(frameLayoutSelfstotyUsagemarks, requireContext())
+                            visibilityGoneModeUse()
                             notifyDataSetChanged()
                             PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
                                 UsageMark.OBSERVER_IN_VIEW_MODEL_FINAL_WORK
@@ -185,7 +176,7 @@ class MainFragment : Fragment() {
 
                             this.modelList = listOf(updatedList.last())
 
-                            visibilityGoneModeUse(frameLayoutSelfstotyUsagemarks, requireContext())
+                            visibilityGoneModeUse()
                             notifyDataSetChanged()
 
                             PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
@@ -271,6 +262,11 @@ class MainFragment : Fragment() {
 
         root
     }
-
+    private fun visibilityGoneModeUse() {
+       val binding =  DataBindingUtil.bind<FragmentMainBinding>(view!!)
+        binding?.frameLayoutSelfstotyUsagemarks?.visibility = View.GONE
+        PrefVisibility.getInstance(requireContext()).fremeLayoutSelfstoryUsagemarksVisibility =
+            0x00000008
+    }
 
 }
