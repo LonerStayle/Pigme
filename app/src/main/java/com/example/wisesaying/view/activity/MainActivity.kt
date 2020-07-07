@@ -104,9 +104,12 @@ class MainActivity : AppCompatActivity() {
         super.onBackPressed()
     }
 
+
+
     override fun onStop() {
 
         fregment_SettingLayout.visibility = View.GONE
+
         super.onStop()
 
     }
@@ -114,6 +117,7 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         PrefViewPagerItem.getInstance(this).currentViewpager = viewPager.currentItem
         super.onDestroy()
+
     }
 }
 

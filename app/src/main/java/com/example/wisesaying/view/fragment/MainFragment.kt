@@ -1,36 +1,30 @@
 package com.example.wisesaying.view.fragment
 
 import android.content.Intent
-import android.net.Uri
-
 import android.os.Bundle
-import android.provider.MediaStore
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import com.example.wisesaying.*
+import androidx.lifecycle.ViewModelProvider
+import com.example.wisesaying.R
 import com.example.wisesaying.databinding.FragmentMainBinding
 import com.example.wisesaying.db.PigmeDatabase
 import com.example.wisesaying.db.entity.Pigme
-import com.example.wisesaying.preference.*
-
+import com.example.wisesaying.preference.PrefUsageMark
+import com.example.wisesaying.preference.PrefViewPagerItem
+import com.example.wisesaying.preference.PrefVisibility
 import com.example.wisesaying.view.adapter.ViewPagerAdapter
 import com.example.wisesaying.view.constscore.UsageMark
+import com.example.wisesaying.view.toast.toastShortinString
 import com.example.wisesaying.view.visibility.visibilityGoneModeUse
 import com.example.wisesaying.viewmodel.PigmeViewModel
 import com.example.wisesaying.viewmodel.PigmeViewModelFactory
 import kotlinx.android.synthetic.main.fragment_main.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import java.util.*
-import java.util.Collections.*
+import kotlinx.coroutines.*
 
 
 class MainFragment : Fragment() {
@@ -43,7 +37,6 @@ class MainFragment : Fragment() {
         ViewModelProvider(this, factory).get(PigmeViewModel::class.java)
 
     }
-
 
 
     override fun onCreateView(
@@ -77,8 +70,11 @@ class MainFragment : Fragment() {
             .commit()
 
         if (PrefUsageMark.getInstance(requireContext()).liveDataFirstUseTrace) {
+
             image = Array(100) { "" }
+
             val modelList = mutableListOf<Pigme>()
+
             for (i in textings.indices) {
                 image!![i] += (resources.getIdentifier(
                     "a" + (1 + i),
@@ -90,21 +86,24 @@ class MainFragment : Fragment() {
             }
 
 
-                viewPager.adapter = ViewPagerAdapter(modelList.shuffled())
-                viewModel.listInsert((viewPager.adapter as ViewPagerAdapter).modelList)
+            viewPager.adapter = ViewPagerAdapter(modelList.shuffled())
+            viewModel.listInsert((viewPager.adapter as ViewPagerAdapter).modelList)
 
         }
 
 
 
         viewModel.pigmeList.observe(viewLifecycleOwner, Observer { updatedList ->
+
             if (PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark ==
-                UsageMark.OBSERVER_IN_VIEW_MODEL_FINAL_WORK) {
+                UsageMark.OBSERVER_IN_VIEW_MODEL_FINAL_WORK
+            ) {
                 viewPager.visibility = View.VISIBLE
                 return@Observer
 
             } else if (PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark ==
-                UsageMark.SELF_STORY_NOT_USAGE_MARK) {
+                UsageMark.SELF_STORY_NOT_USAGE_MARK
+            ) {
 
                 when {
 
@@ -126,6 +125,7 @@ class MainFragment : Fragment() {
 
                     frameLayoutImageModeCheck.visibility == View.VISIBLE &&
                             frameLayoutSelfstotyUsagemarks.visibility == View.GONE -> {
+
                         viewPager.adapter = ViewPagerAdapter(updatedList.shuffled())
 
 
@@ -142,25 +142,25 @@ class MainFragment : Fragment() {
 
                         viewPager.adapter = ViewPagerAdapter(updatedList)
 
+                        CoroutineScope(Dispatchers.Main).launch {
+                            viewPager.currentItem =
+                                PrefViewPagerItem.getInstance(requireContext()).currentViewpager
+                            delay(200)
+                            viewPager.visibility = View.VISIBLE
+                        }
 
-                        PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
-                            UsageMark.OBSERVER_IN_VIEW_MODEL_FINAL_WORK
-                        viewModel.listInsert((viewPager.adapter as ViewPagerAdapter).modelList)
+
 
                         /**
                          * TODO:매직넘버 - > 콜백함수로 바꾸는법 연구 좀더 공부가 필요함..
                          */
-                        CoroutineScope(Dispatchers.Main).launch {
-                            delay(100)
-                            viewPager.currentItem =
-                                PrefViewPagerItem.getInstance(requireContext()).currentViewpager
-                        }
+
 
                     }
                 }
 
 
-            } else  {
+            } else {
 
                 when (PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark) {
                     UsageMark.SELF_STORY_USAGE_MARK_INSERT -> {
@@ -172,7 +172,7 @@ class MainFragment : Fragment() {
                                 updatedList.last()
                             )
 
-                            visibilityGoneModeUse(frameLayoutSelfstotyUsagemarks,requireContext())
+                            visibilityGoneModeUse(frameLayoutSelfstotyUsagemarks, requireContext())
                             notifyDataSetChanged()
                             PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
                                 UsageMark.OBSERVER_IN_VIEW_MODEL_FINAL_WORK
@@ -185,7 +185,7 @@ class MainFragment : Fragment() {
 
                             this.modelList = listOf(updatedList.last())
 
-                            visibilityGoneModeUse(frameLayoutSelfstotyUsagemarks,requireContext())
+                            visibilityGoneModeUse(frameLayoutSelfstotyUsagemarks, requireContext())
                             notifyDataSetChanged()
 
                             PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
@@ -196,7 +196,7 @@ class MainFragment : Fragment() {
                         }
 
                     }
-                    UsageMark.SELF_STORY_USAGE_MARK_DELETE-> {
+                    UsageMark.SELF_STORY_USAGE_MARK_DELETE -> {
                         (viewPager.adapter as ViewPagerAdapter).apply {
                             this.modelList = updatedList
                             notifyDataSetChanged()
@@ -271,8 +271,6 @@ class MainFragment : Fragment() {
 
         root
     }
-
-
 
 
 }
