@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.example.wisesaying.R
@@ -13,12 +14,14 @@ import com.example.wisesaying.view.adapter.RecyclerViewAllListAdapter
 import com.example.wisesaying.viewmodel.PigmeViewModel
 import com.example.wisesaying.viewmodel.PigmeViewModelFactory
 import androidx.lifecycle.ViewModelProvider
-import androidx.preference.Preference
 import com.example.wisesaying.databinding.FragmentAllListBinding
 import com.example.wisesaying.db.entity.Pigme
 import com.example.wisesaying.preference.PrefUsageMark
+import com.example.wisesaying.preference.PrefViewPagerItem
+import com.example.wisesaying.preference.PrefVisibility
 import com.example.wisesaying.view.constscore.UsageMark
 import com.example.wisesaying.view.toast.toastShort
+import kotlinx.android.synthetic.main.fragment_main.*
 
 class FragmentAllList : Fragment() {
     private val viewModel: PigmeViewModel by lazy {
@@ -45,13 +48,6 @@ class FragmentAllList : Fragment() {
         val modelList by lazy { (recyclerview.adapter as RecyclerViewAllListAdapter).modelList }
 
 
-
-        buttonListDelete.setOnClickListener {
-
-
-            delete(modelList)
-
-        }
         buttonIndexToMove.setOnClickListener {
 
             if (PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex.size > 1)
@@ -59,6 +55,14 @@ class FragmentAllList : Fragment() {
             else
                 toMove()
         }
+
+        buttonListDelete.setOnClickListener {
+
+
+            delete(modelList)
+
+        }
+
 
         buttonListAdd.setOnClickListener {
 
@@ -80,52 +84,68 @@ class FragmentAllList : Fragment() {
 
     }
 
+    private val deleteIndex by lazy {
+        PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex
+    }
+
     private fun toMove() {
-        /**
-         * TODO: 아래구문 실패 팝백스택 미리 안정해져서 안먹힘 무브 기능 해결할 것
-         */
-        fragmentManager!!.popBackStack("main", 1)
+
+        PrefViewPagerItem.getInstance(requireContext()).currentViewpager = deleteIndex.last()
+
+        val transaction = fragmentManager!!.beginTransaction()
+        transaction.replace(
+            R.id.constraintLayout,
+            MainFragment()
+        )
+            .commit()
+
+        observerControl(UsageMark.ALL_LIST_INDEX_POSITION_TO_MOVE)
+        selectIndexClear()
     }
 
     private fun reset(modelList: List<Pigme>) {
 
         viewModel.listdelete(modelList)
-        observerControl()
+        observerControl(UsageMark.ALL_LIST_USAGE_MARK)
+        selectIndexClear()
     }
 
     private fun delete(modelList: List<Pigme>) {
-        val deleteIndex = PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex
 
         for (i in deleteIndex.indices) {
             viewModel.delete(modelList[deleteIndex[i]])
         }
-        observerControl()
+        observerControl(UsageMark.ALL_LIST_USAGE_MARK)
+        selectIndexClear()
     }
 
     private fun restore() {
-        val textings = resources.getStringArray(R.array.wise_Saying)
+        val textBox = resources.getStringArray(R.array.wise_Saying)
         val image = Array(100) { "" }
-        for (i in textings.indices) {
+        for (i in textBox.indices) {
             image[i] += (resources.getIdentifier(
                 "a" + (1 + i),
                 "drawable",
                 activity!!.packageName
             ).toString())
 
-            val pigmeList = listOf<Pigme>(Pigme(textings[i], image[i]))
+            val pigmeList = listOf(Pigme(textBox[i], image[i]))
 
             viewModel.listInsert(pigmeList)
-            observerControl()
+            observerControl(UsageMark.ALL_LIST_USAGE_MARK)
+            selectIndexClear()
         }
     }
 
-    private fun observerControl() {
+    private fun observerControl(control:Int) {
         PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
-            UsageMark.ALL_LIST_USAGE_MARK
+            control
 
-        PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex.clear()
     }
 
+    private fun selectIndexClear() {
+        PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex.clear()
+    }
 }
 
 

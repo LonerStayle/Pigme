@@ -26,14 +26,14 @@
             android:id="@+id/button_listAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="48dp"
             android:clickable="true"
             android:focusable="true"
             android:src="@drawable/image_button_alllist_add48"
             android:tint="#651FFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/recyclerview"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/button_listDelete" />
 
         <ImageView
             android:id="@+id/button_listDelete"
@@ -46,7 +46,7 @@
             android:tint="#651FFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/recyclerview"
-            app:layout_constraintTop_toBottomOf="@+id/button_listAdd" />
+            app:layout_constraintTop_toBottomOf="@+id/button_IndexToMove" />
 
         <ImageView
             android:id="@+id/button_listReset"
@@ -65,14 +65,14 @@
             android:id="@+id/button_IndexToMove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="32dp"
             android:clickable="true"
             android:focusable="true"
             android:src="@drawable/image_button_alllist_newitemdelete48"
             android:tint="#651FFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/recyclerview"
-            app:layout_constraintTop_toBottomOf="@+id/button_listDelete" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/button_listRestore"
@@ -85,7 +85,7 @@
             android:tint="#651FFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/recyclerview"
-            app:layout_constraintTop_toBottomOf="@+id/button_IndexToMove" />
+            app:layout_constraintTop_toBottomOf="@+id/button_listAdd" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

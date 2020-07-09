@@ -7,6 +7,7 @@ object UsageMark {
     const val SELF_STORY_USAGE_MARK_RESET_AFTER_INSERT = 2
     const val SELF_STORY_USAGE_MARK_DELETE = 3
     const val ALL_LIST_USAGE_MARK = 4
+    const val ALL_LIST_INDEX_POSITION_TO_MOVE = 5
 
     const val REQUEST_POSITIVE = 1
     const val REQUEST_NEGATIVE = 0

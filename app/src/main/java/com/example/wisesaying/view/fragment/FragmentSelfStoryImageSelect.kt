@@ -183,6 +183,7 @@ class FragmentSelfStoryImageSelect : Fragment() {
 
                             (dialogDeleteMode.recyclerView_DialogInDialogDeleteList.adapter
                                     as RecyclerViewDialogInDialogAdapter).notifyDataSetChanged()
+
                         })
 
                         dialogDeleteMode.show()
@@ -290,6 +291,7 @@ class FragmentSelfStoryImageSelect : Fragment() {
         val galleyImageUri = data?.data
 
         galleyImageUri?.let {
+
             Glide.with(this).load(it).into(imageView_backgroundImage)
             textView_imageBackgroundResIdCheck.text = it.toString()
             viewModel.galleyNewImageinsert(it.toString())
