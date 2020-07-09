@@ -14,7 +14,6 @@ import android.widget.RadioButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.get
 import androidx.databinding.DataBindingUtil.inflate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -37,7 +36,6 @@ import com.example.wisesaying.viewmodel.PigmeViewModelFactory
 import kotlinx.android.synthetic.main.dialog_dialogindialog_deletelist.*
 import kotlinx.android.synthetic.main.dialog_self_story_image_select_buttonevent.*
 import kotlinx.android.synthetic.main.dialog_self_story_image_select_buttonevent.radiobutton_option1
-import kotlinx.android.synthetic.main.dialog_self_story_image_select_buttonevent.view.*
 import kotlinx.android.synthetic.main.fragment_self_story_image_select.*
 
 class FragmentSelfStoryImageSelect : Fragment() {
@@ -118,14 +116,15 @@ class FragmentSelfStoryImageSelect : Fragment() {
                 return@setOnClickListener
             }
             dialogImageSelectMode.dialogImageSelectBuilderSetting(dialogImageSelectMode)
-            dialogImageSelectMode.dialogImageSelect.show()
+            val dialog = dialogImageSelectMode.dialogImageSelect
+            dialog.show()
 
             //다이얼로그 창 안에서 3가지 버튼 클릭 상태에 따른 폰트 변화
 
-            dialogImageSelectMode.dialogImageSelect.radioGruop_imageSelect_Mode.setOnCheckedChangeListener { _, checkedId ->
+            dialog.radioGruop_imageSelect_Mode.setOnCheckedChangeListener { _, checkedId ->
 
-                dialogImageSelectMode.dialogImageSelect.findViewById<RadioButton>(checkedId).run {
-                    val dialog = dialogImageSelectMode.dialogImageSelect
+                dialog.findViewById<RadioButton>(checkedId).run {
+
                     dialog.radiobutton_option1.setTypeface(null, Typeface.NORMAL)
                     dialog.radiobutton_option2.setTypeface(null, Typeface.NORMAL)
                     dialog.radiobutton_option3.setTypeface(null, Typeface.NORMAL)
@@ -135,9 +134,9 @@ class FragmentSelfStoryImageSelect : Fragment() {
 
             }
 
-            dialogImageSelectMode.dialogImageSelect.button_newSelfStoryaddFinish.setOnClickListener {
+            dialog.button_newSelfStoryaddFinish.setOnClickListener {
 
-                when (dialogImageSelectMode.dialogImageSelect.radioGruop_imageSelect_Mode.checkedRadioButtonId) {
+                when (dialog.radioGruop_imageSelect_Mode.checkedRadioButtonId) {
                     R.id.radiobutton_option1 -> {
                         DialogSimple.show(
                             requireContext(),
@@ -150,8 +149,8 @@ class FragmentSelfStoryImageSelect : Fragment() {
                                     textViewImageBackgroundResIdCheck.text.toString()
                                 )
 
-                                PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
-                                    UsageMark.SELF_STORY_USAGE_MARK_RESET_AFTER_INSERT
+                                selfStoryObserverControl(UsageMark.SELF_STORY_USAGE_MARK_RESET_AFTER_INSERT)
+
                                 fragmentManager!!.popBackStack("main", 1)
                             },
                             R.string.dialogResetAfterImageSelectInNegativeText,
@@ -171,70 +170,68 @@ class FragmentSelfStoryImageSelect : Fragment() {
                             R.string.toast_newSelfStory
                         )
 
-                        PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
-                            UsageMark.SELF_STORY_USAGE_MARK_INSERT
+                     selfStoryObserverControl(UsageMark.SELF_STORY_USAGE_MARK_INSERT)
+
                         fragmentManager!!.popBackStack("main", 1)
                     }
                     R.id.radiobutton_option3 -> {
+
+                        val dialogDeleteMode = dialogImageSelectMode.dialogInImageDeleteDialog
                         viewModel.pigmeList.observe(viewLifecycleOwner, Observer {
-                            dialogImageSelectMode.dialogInImageDeleteDialog
-                                .recyclerView_DialogInDialogDeleteList.adapter =
+                            dialogDeleteMode.recyclerView_DialogInDialogDeleteList.adapter =
                                 RecyclerViewDialogInDialogAdapter(it, requireContext())
 
-                            (dialogImageSelectMode.dialogInImageDeleteDialog
-                                .recyclerView_DialogInDialogDeleteList.adapter
+                            (dialogDeleteMode.recyclerView_DialogInDialogDeleteList.adapter
                                     as RecyclerViewDialogInDialogAdapter).notifyDataSetChanged()
                         })
 
-                        dialogImageSelectMode.dialogInImageDeleteDialog.show()
+                        dialogDeleteMode.show()
 
-                        dialogImageSelectMode.dialogInImageDeleteDialog
-                            .button_listOfIndexDelete.setOnClickListener {
+                        dialogDeleteMode.button_listOfIndexDelete.setOnClickListener {
 
-                                PrefUsageMark.getInstance(requireContext())
-                                    .selfStoryDeleteAfterInsertDataText =
-                                    editTextImageSelectSelfStoryInText.text.toString()
-                                PrefUsageMark.getInstance(requireContext())
-                                    .selfStoryDeleteAfterInsertDataImage =
-                                    textViewImageBackgroundResIdCheck.text.toString()
-
-
-                                if (PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex.isEmpty())
-                                    toastShort(
-                                        requireContext(),
-                                        R.string.toast_deleteElementSelect
-                                    )
-                                else {
-
-                                    val deleteListOfIndex =
-                                        PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex
-
-                                    val deleteList =
-                                        (dialogImageSelectMode.dialogInImageDeleteDialog
-                                            .recyclerView_DialogInDialogDeleteList.adapter
-                                                as RecyclerViewDialogInDialogAdapter).modellist
+                            PrefUsageMark.getInstance(requireContext())
+                                .selfStoryDeleteAfterInsertDataText =
+                                editTextImageSelectSelfStoryInText.text.toString()
+                            PrefUsageMark.getInstance(requireContext())
+                                .selfStoryDeleteAfterInsertDataImage =
+                                textViewImageBackgroundResIdCheck.text.toString()
 
 
-                                    for (i in deleteListOfIndex.indices) {
-                                        viewModel.delete(deleteList[deleteListOfIndex[i]])
-                                    }
+                            if (PrefUsageMark.getInstance(requireContext())
+                                    .deleteModelListOfIndex.isEmpty()
+                            )
+                                toastShort(requireContext(), R.string.toast_deleteElementSelect)
+                            else {
 
-                                    PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex.clear()
-                                    dialogImageSelectMode.dialogInImageDeleteDialog.dismiss()
+                                val deleteListOfIndex =
+                                    PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex
 
-                                    PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
-                                        UsageMark.SELF_STORY_USAGE_MARK_DELETE
-                                    fragmentManager!!.popBackStack("main", 1)
+                                val deleteList =
+                                    (dialogDeleteMode
+                                        .recyclerView_DialogInDialogDeleteList.adapter
+                                            as RecyclerViewDialogInDialogAdapter).modellist
 
-                                    toastShort(context, R.string.toast_deleteAfterInsert)
+
+                                for (i in deleteListOfIndex.indices) {
+                                    viewModel.delete(deleteList[deleteListOfIndex[i]])
                                 }
+
+                                PrefUsageMark.getInstance(requireContext())
+                                    .deleteModelListOfIndex.clear()
+                                dialogDeleteMode.dismiss()
+
+                                selfStoryObserverControl(UsageMark.SELF_STORY_USAGE_MARK_DELETE)
+                                fragmentManager!!.popBackStack("main", 1)
+
+                                toastShort(context, R.string.toast_deleteAfterInsert)
                             }
+                        }
 
                     }
 
                 }
 
-                dialogImageSelectMode.dialogImageSelect.dismiss()
+                dialog.dismiss()
             }
 
         }
@@ -288,7 +285,6 @@ class FragmentSelfStoryImageSelect : Fragment() {
         root
     }
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         val galleyImageUri = data?.data
@@ -308,5 +304,7 @@ class FragmentSelfStoryImageSelect : Fragment() {
         recyclerView_imageSelectInExampleImage.scrollToPosition(0)
     }
 
-
+    private fun selfStoryObserverControl(control: Int) {
+        PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark = control
+    }
 }

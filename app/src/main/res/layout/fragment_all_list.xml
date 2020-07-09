@@ -59,10 +59,10 @@
             android:tint="#651FFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/recyclerview"
-            app:layout_constraintTop_toBottomOf="@+id/button_listDelete" />
+            app:layout_constraintTop_toBottomOf="@+id/button_listRestore" />
 
         <ImageView
-            android:id="@+id/button_pickAndDelete"
+            android:id="@+id/button_IndexToMove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
@@ -72,7 +72,7 @@
             android:tint="#651FFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/recyclerview"
-            app:layout_constraintTop_toBottomOf="@+id/button_listReset" />
+            app:layout_constraintTop_toBottomOf="@+id/button_listDelete" />
 
         <ImageView
             android:id="@+id/button_listRestore"
@@ -85,7 +85,7 @@
             android:tint="#651FFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/recyclerview"
-            app:layout_constraintTop_toBottomOf="@+id/button_pickAndDelete" />
+            app:layout_constraintTop_toBottomOf="@+id/button_IndexToMove" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

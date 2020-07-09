@@ -7,4 +7,7 @@
     <color name="frameLayout_FragmentSelfStoryBackground">#88000000</color>
     <color name="dialogThirdSelectPressColor">#76FF03</color>
     <color name="dialogThirdSelectNotPressColor">#00B0FF</color>
+
+    <color name="allListIndexIsSelectColor">#1A35CC</color>
+    <color name="allListIndexSelectCancelColor">#FFF</color>
 </resources>

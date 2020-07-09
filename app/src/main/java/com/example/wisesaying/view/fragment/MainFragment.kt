@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -49,7 +48,7 @@ class MainFragment : Fragment() {
 
         // 온크레이트 뷰가 다시 일어나면 0 으로
         PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
-            UsageMark.SELF_STORY_NOT_USAGE_MARK
+            UsageMark.STANDARD_OBSERVER_PATTERN
 
         // 명언 추가 기능 사용 여부 on일시 GONE
         frameLayoutSelfstotyUsagemarks.visibility =
@@ -100,7 +99,7 @@ class MainFragment : Fragment() {
                 return@Observer
 
             } else if (PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark ==
-                UsageMark.SELF_STORY_NOT_USAGE_MARK
+                UsageMark.STANDARD_OBSERVER_PATTERN
             ) {
 
                 when {
@@ -150,6 +149,14 @@ class MainFragment : Fragment() {
                     }
                 }
 
+
+            } else if (PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark ==
+                UsageMark.ALL_LIST_USAGE_MARK
+            ) {
+                (viewPager.adapter as ViewPagerAdapter).run {
+                    modelList = updatedList
+                    notifyDataSetChanged()
+                }
 
             } else {
 
@@ -262,8 +269,9 @@ class MainFragment : Fragment() {
 
         root
     }
+
     private fun visibilityGoneModeUse() {
-       val binding =  DataBindingUtil.bind<FragmentMainBinding>(view!!)
+        val binding = DataBindingUtil.bind<FragmentMainBinding>(view!!)
         binding?.frameLayoutSelfstotyUsagemarks?.visibility = View.GONE
         PrefVisibility.getInstance(requireContext()).fremeLayoutSelfstoryUsagemarksVisibility =
             0x00000008

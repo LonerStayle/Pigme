@@ -11,6 +11,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutBackground"
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:background="#FFF">
