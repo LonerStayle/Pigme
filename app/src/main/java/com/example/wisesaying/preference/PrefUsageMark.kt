@@ -12,8 +12,8 @@ class PrefUsageMark private constructor(context: Context) {
         SELF_STORY_USAGEMARK,
         LIVE_DATA_FIRST_USETRACE,
         DELETE_MODEL_LIST,
-        SELF_STORY_DELETE_MODE_TO_MAIN_FRAGMENT_INSERT_DATA_PASSING_EDIT_TEXT_IMAGE_SELECT_SELF_STORY_IN_TEXT,
-        SELF_STORY_DELETE_MODE_TO_MAIN_FRAGMENT_INSERT_DATA_PASSING_TEXT_VIEW_IMAGE_BACK_GROUND_RESID_CHECK
+        SELF_STORY_DELETE_AFTER_INSERT_DATA_TEXT,
+        SELF_STORY_DELETE_AFTER_INSERT_DATA_IMAGE
     }
 
     companion object {
@@ -80,24 +80,24 @@ class PrefUsageMark private constructor(context: Context) {
         }
     var selfStoryDeleteAfterInsertDataText: String
         get() = pref.getString(
-            Key.SELF_STORY_DELETE_MODE_TO_MAIN_FRAGMENT_INSERT_DATA_PASSING_EDIT_TEXT_IMAGE_SELECT_SELF_STORY_IN_TEXT.name,
+            Key.SELF_STORY_DELETE_AFTER_INSERT_DATA_TEXT.name,
             null
         )!!
         set(value) {
             pref.edit().putString(
-                Key.SELF_STORY_DELETE_MODE_TO_MAIN_FRAGMENT_INSERT_DATA_PASSING_EDIT_TEXT_IMAGE_SELECT_SELF_STORY_IN_TEXT.name,
+                Key.SELF_STORY_DELETE_AFTER_INSERT_DATA_TEXT.name,
                 value
             )
                 .apply()
         }
     var selfStoryDeleteAfterInsertDataImage: String
         get() = pref.getString(
-            Key.SELF_STORY_DELETE_MODE_TO_MAIN_FRAGMENT_INSERT_DATA_PASSING_TEXT_VIEW_IMAGE_BACK_GROUND_RESID_CHECK.name,
+            Key.SELF_STORY_DELETE_AFTER_INSERT_DATA_IMAGE.name,
             null
         )!!
         set(value) {
             pref.edit().putString(
-                Key.SELF_STORY_DELETE_MODE_TO_MAIN_FRAGMENT_INSERT_DATA_PASSING_TEXT_VIEW_IMAGE_BACK_GROUND_RESID_CHECK.name,
+                Key.SELF_STORY_DELETE_AFTER_INSERT_DATA_IMAGE.name,
                 value
             ).apply()
         }

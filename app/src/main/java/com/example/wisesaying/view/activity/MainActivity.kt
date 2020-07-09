@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.*
 import androidx.databinding.DataBindingUtil
 import com.example.wisesaying.view.fragment.FragmentSetting
 import com.example.wisesaying.R

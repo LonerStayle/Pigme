@@ -1,6 +1,9 @@
 package com.example.wisesaying.viewmodel
+
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.viewpager2.widget.ViewPager2
 import com.example.wisesaying.db.dao.PigmeDao
 import com.example.wisesaying.db.entity.GalleyImage
 import com.example.wisesaying.db.entity.Pigme
@@ -9,61 +12,62 @@ import kotlinx.coroutines.*
 
 class PigmeViewModel(private val pigmeSource: PigmeDao) : ViewModel() {
     private val viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main+viewModelJob)
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    val pigmeList:LiveData<List<Pigme>>
-    get() = pigmeSource.getAllPigmeList()
-
-
-    val pigmeImageSelectVersion:LiveData<List<GalleyImage>>
-    get() =pigmeSource.getGalleyNewImageList()
+    val pigmeList: LiveData<List<Pigme>>
+        get() = pigmeSource.getAllPigmeList()
 
 
-    fun galleyNewImageinsert(image:String){
+    val pigmeImageSelectVersion: LiveData<List<GalleyImage>>
+        get() = pigmeSource.getGalleyNewImageList()
 
-           uiScope.launch {
-               withContext(Dispatchers.IO) {
-                   pigmeSource.galleyNewImageinsert(
-                       GalleyImage(image)
-                   )
-               }
-           }
+
+    fun galleyNewImageinsert(image: String) {
+
+        uiScope.launch {
+            withContext(Dispatchers.IO) {
+                pigmeSource.galleyNewImageinsert(
+                    GalleyImage(image)
+                )
+            }
+        }
     }
 
 
-
-    fun listInsert(pigme:List<Pigme>){
+    fun listInsert(pigme: List<Pigme>) {
         uiScope.launch {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 pigmeSource.allInsert(pigme)
             }
         }
     }
 
-    fun listdelete(pigme:List<Pigme>) {
+    fun listdelete(pigme: List<Pigme>) {
         uiScope.launch {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 pigmeSource.listDelete(pigme)
             }
         }
     }
 
-    fun insert(story:String, image:String){
+    fun insert(story: String, image: String) {
         uiScope.launch {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 pigmeSource.insert(
-                    Pigme(story,image)
+                    Pigme(story, image)
                 )
             }
         }
     }
-    fun delete(pigme: Pigme){
+
+    fun delete(pigme: Pigme) {
         uiScope.launch {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 pigmeSource.delete(pigme)
             }
         }
     }
+
 
 }
 

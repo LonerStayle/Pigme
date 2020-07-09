@@ -63,7 +63,7 @@ class RecyclerViewDialogInDialogAdapter(
         val binding = DataBindingUtil.bind<RecyclerviewThirdImagemodeSelectHolderBinding>(view)
 
 
-        fun bindTheNotUseColorChange() {
+       fun bindTheNotUseColorChange() {
 
             binding?.backgrounColorInsertLayout?.setBackgroundResource(R.color.dialogThirdSelectNotPressColor)
 
