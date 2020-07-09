@@ -18,10 +18,8 @@ import com.example.wisesaying.preference.PrefViewPagerItem
 import com.example.wisesaying.preference.PrefVisibility
 import com.example.wisesaying.view.adapter.ViewPagerAdapter
 import com.example.wisesaying.view.constscore.UsageMark
-import com.example.wisesaying.view.toast.toastShortTest
 import com.example.wisesaying.viewmodel.PigmeViewModel
 import com.example.wisesaying.viewmodel.PigmeViewModelFactory
-import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.coroutines.*
 
 
@@ -49,7 +47,8 @@ class MainFragment : Fragment() {
 
         // 온크레이트 뷰가 다시 일어나면 0 으로
 
-        PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark = selfStoryControlSetting()
+        PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
+            (arguments?.getInt("positionToMove"))?:UsageMark.STANDARD_OBSERVER_PATTERN
 
         // 앱 새로시작할때 마다 이미지 순서 랜덤인지 아닌지 확인 on일시 GONE
         frameLayoutImageModeCheck.visibility =
@@ -173,11 +172,13 @@ class MainFragment : Fragment() {
 
                 }
                 UsageMark.ALL_LIST_INDEX_POSITION_TO_MOVE -> {
+                    viewPager.adapter = ViewPagerAdapter(updatedList)
 
                     viewPager.currentItem =
                         PrefViewPagerItem.getInstance(requireContext()).currentViewpager
-                    PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
-                        UsageMark.STANDARD_OBSERVER_PATTERN
+
+                    viewPager.visibility = View.VISIBLE
+                    arguments?.remove("positionToMove")
                 }
                 UsageMark.OBSERVER_IN_VIEW_MODEL_FINAL_WORK -> {
                     viewPager.visibility = View.VISIBLE
@@ -208,9 +209,9 @@ class MainFragment : Fragment() {
 
 
             if (!fragmentSettingClick)
-                fregment_SettingLayout.visibility = View.GONE
+                fregmentSettingLayout.visibility = View.GONE
             else
-                fregment_SettingLayout.visibility = View.VISIBLE
+                fregmentSettingLayout.visibility = View.VISIBLE
 
         }
 

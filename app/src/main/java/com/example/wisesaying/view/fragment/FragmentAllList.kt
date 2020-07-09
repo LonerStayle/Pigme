@@ -21,7 +21,7 @@ import com.example.wisesaying.preference.PrefViewPagerItem
 import com.example.wisesaying.preference.PrefVisibility
 import com.example.wisesaying.view.constscore.UsageMark
 import com.example.wisesaying.view.toast.toastShort
-import kotlinx.android.synthetic.main.fragment_main.*
+
 
 class FragmentAllList : Fragment() {
     private val viewModel: PigmeViewModel by lazy {
@@ -91,22 +91,24 @@ class FragmentAllList : Fragment() {
     private fun toMove() {
 
         PrefViewPagerItem.getInstance(requireContext()).currentViewpager = deleteIndex.last()
+        val mainFragment = MainFragment()
+        mainFragment.arguments =
+            bundleOf("positionToMove" to UsageMark.ALL_LIST_INDEX_POSITION_TO_MOVE)
 
         val transaction = fragmentManager!!.beginTransaction()
         transaction.replace(
             R.id.constraintLayout,
-            MainFragment()
+            mainFragment
         )
             .commit()
 
-        observerControl(UsageMark.ALL_LIST_INDEX_POSITION_TO_MOVE)
         selectIndexClear()
     }
 
     private fun reset(modelList: List<Pigme>) {
 
         viewModel.listdelete(modelList)
-        observerControl(UsageMark.ALL_LIST_USAGE_MARK)
+        observerControl()
         selectIndexClear()
     }
 
@@ -115,7 +117,7 @@ class FragmentAllList : Fragment() {
         for (i in deleteIndex.indices) {
             viewModel.delete(modelList[deleteIndex[i]])
         }
-        observerControl(UsageMark.ALL_LIST_USAGE_MARK)
+        observerControl()
         selectIndexClear()
     }
 
@@ -132,14 +134,14 @@ class FragmentAllList : Fragment() {
             val pigmeList = listOf(Pigme(textBox[i], image[i]))
 
             viewModel.listInsert(pigmeList)
-            observerControl(UsageMark.ALL_LIST_USAGE_MARK)
+            observerControl()
             selectIndexClear()
         }
     }
 
-    private fun observerControl(control:Int) {
+    private fun observerControl() {
         PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
-            control
+            UsageMark.ALL_LIST_USAGE_MARK
 
     }
 
