@@ -18,6 +18,7 @@ import com.example.wisesaying.preference.PrefViewPagerItem
 import com.example.wisesaying.preference.PrefVisibility
 import com.example.wisesaying.view.adapter.ViewPagerAdapter
 import com.example.wisesaying.view.constscore.UsageMark
+import com.example.wisesaying.view.toast.toastShort
 import com.example.wisesaying.viewmodel.PigmeViewModel
 import com.example.wisesaying.viewmodel.PigmeViewModelFactory
 import kotlinx.coroutines.*
@@ -45,7 +46,7 @@ class MainFragment : Fragment() {
         false
     ).run {
 
-        // 온크레이트 뷰가 다시 일어나면 0 으로
+
 
         PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
             (arguments?.getInt("positionToMove"))?:UsageMark.STANDARD_OBSERVER_PATTERN
