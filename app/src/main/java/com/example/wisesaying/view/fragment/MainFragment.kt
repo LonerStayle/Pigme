@@ -52,8 +52,8 @@ class MainFragment : Fragment() {
             (arguments?.getInt("positionToMove"))?:UsageMark.STANDARD_OBSERVER_PATTERN
 
         // 앱 새로시작할때 마다 이미지 순서 랜덤인지 아닌지 확인 on일시 GONE
-        frameLayoutImageModeCheck.visibility =
-            PrefVisibility.getInstance(requireContext()).frameLayoutImageModeCheckVisibility
+        textViewImageModeCheck.visibility =
+            PrefVisibility.getInstance(requireContext()).textViewImageModeCheckVisibility
 
         fragmentlauncher(null, R.id.fregment_SettingLayout, FragmentSetting())
 
@@ -87,7 +87,7 @@ class MainFragment : Fragment() {
             when (PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark) {
                 UsageMark.STANDARD_OBSERVER_PATTERN -> {
 
-                    if (frameLayoutImageModeCheck.visibility == View.VISIBLE) {
+                    if (textViewImageModeCheck.visibility == View.VISIBLE) {
 
                         if (PrefUsageMark.getInstance(requireContext()).liveDataFirstUseTrace) {
                             PrefUsageMark.getInstance(requireContext()).liveDataFirstUseTrace =
@@ -251,13 +251,6 @@ class MainFragment : Fragment() {
             .commit()
     }
 
-    private fun selfStoryControlSetting(): Int =
-        if (PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark ==
-            UsageMark.ALL_LIST_INDEX_POSITION_TO_MOVE
-        )
-            UsageMark.ALL_LIST_INDEX_POSITION_TO_MOVE
-        else
-            UsageMark.STANDARD_OBSERVER_PATTERN
 
 }
 

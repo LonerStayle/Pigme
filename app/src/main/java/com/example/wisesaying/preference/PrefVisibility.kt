@@ -7,7 +7,7 @@ class PrefVisibility private constructor(context:Context){
 
     enum class Key{
 
-        FRAME_LAYOUT_IMAGE_MODE_CHECK_VISIBILITY,
+        TEXTVIEW_IMAGE_MODE_CHECK_VISIBILITY,
     }
     companion object {
         var instance: PrefVisibility? = null
@@ -20,11 +20,11 @@ class PrefVisibility private constructor(context:Context){
     private val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
     // frameLayoutImageModeCheck.visibility 사진 출력모드 랜덤인지 고정인지를 나타내주는 visibility
-    var frameLayoutImageModeCheckVisibility: Int
-        get() = pref.getInt(Key.FRAME_LAYOUT_IMAGE_MODE_CHECK_VISIBILITY.name, 0)
+    var textViewImageModeCheckVisibility: Int
+        get() = pref.getInt(Key.TEXTVIEW_IMAGE_MODE_CHECK_VISIBILITY.name, 0)
         set(value) {
             pref.edit()
-                .putInt(Key.FRAME_LAYOUT_IMAGE_MODE_CHECK_VISIBILITY.name, value).apply()
+                .putInt(Key.TEXTVIEW_IMAGE_MODE_CHECK_VISIBILITY.name, value).apply()
         }
 
 }

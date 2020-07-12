@@ -7,12 +7,14 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.wisesaying.R
+import com.example.wisesaying.databinding.FragmentMainBinding
 import com.example.wisesaying.databinding.FragmentSettingsBinding
 import com.example.wisesaying.preference.PrefFragmentSetting
 import com.example.wisesaying.preference.PrefRequestPremisson
 import com.example.wisesaying.preference.PrefVisibility
 import com.example.wisesaying.view.constscore.UsageMark
 import com.example.wisesaying.view.toast.toastShort
+import kotlinx.android.synthetic.main.fragment_main.*
 
 
 class FragmentSetting() : Fragment() {
@@ -67,7 +69,7 @@ class FragmentSetting() : Fragment() {
 
                     if (clickCount <= 4)
                         toastShort(
-                           context,
+                            context,
                             R.string.FragmentSetting_switchWidgetSettingPremisson_On
                         )
                 }
@@ -105,14 +107,14 @@ class FragmentSetting() : Fragment() {
                     switchWidgetSettingImageControl.text = textON
                     PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingImageControlText =
                         textON
-                    PrefVisibility.getInstance(requireContext()).frameLayoutImageModeCheckVisibility =
-                        0x00000008
+                    PrefVisibility.getInstance(requireContext()).textViewImageModeCheckVisibility =
+                        View.INVISIBLE
 
                     if (clickCount <= 4)
                         toastShort(
                             context,
                             R.string.Fragment_Setting_switchWidgetSettingImageControl_On
-                            )
+                        )
                 }
                 false -> {
                     PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingImageControlisChecked =
@@ -122,8 +124,8 @@ class FragmentSetting() : Fragment() {
                     PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingImageControlText =
                         textOFF
 
-                    PrefVisibility.getInstance(requireContext()).frameLayoutImageModeCheckVisibility =
-                        0x00000000
+                    PrefVisibility.getInstance(requireContext()).textViewImageModeCheckVisibility =
+                        View.VISIBLE
 
                     if (clickCount <= 4)
 
@@ -142,7 +144,8 @@ class FragmentSetting() : Fragment() {
                 R.id.constraintLayout_AllList,
                 FragmentAllList()
             )
-            transactionRecyclerView.commit()
+                .addToBackStack(null)
+                .commit()
 
             root.visibility = View.GONE
             // 콜백함수를 알아보자
