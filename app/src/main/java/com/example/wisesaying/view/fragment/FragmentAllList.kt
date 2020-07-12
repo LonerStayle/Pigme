@@ -53,9 +53,6 @@ class FragmentAllList : Fragment() {
         })
 
 
-       val modelList by lazy { (recyclerview.adapter as RecyclerViewAllListAdapter).modelList }
-
-
         buttonIndexToMove.setOnClickListener {
 
             if (PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex.size > 1)
@@ -78,13 +75,12 @@ class FragmentAllList : Fragment() {
 
         buttonListRestore.setOnClickListener {
 
-            viewModel.listdelete(modelList)
             restore()
 
         }
         buttonListReset.setOnClickListener {
 
-            reset(modelList)
+            reset((recyclerview.adapter as RecyclerViewAllListAdapter).modelList)
         }
 
         root
