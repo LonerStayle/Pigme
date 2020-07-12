@@ -14,6 +14,7 @@ import com.example.wisesaying.view.adapter.RecyclerViewAllListAdapter
 import com.example.wisesaying.viewmodel.PigmeViewModel
 import com.example.wisesaying.viewmodel.PigmeViewModelFactory
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.example.wisesaying.databinding.FragmentAllListBinding
 import com.example.wisesaying.db.entity.Pigme
 import com.example.wisesaying.preference.PrefUsageMark
@@ -21,6 +22,7 @@ import com.example.wisesaying.preference.PrefViewPagerItem
 import com.example.wisesaying.preference.PrefVisibility
 import com.example.wisesaying.view.constscore.UsageMark
 import com.example.wisesaying.view.toast.toastShort
+import com.example.wisesaying.view.toast.toastShortTest
 
 
 class FragmentAllList : Fragment() {
@@ -40,8 +42,13 @@ class FragmentAllList : Fragment() {
     ).run {
 
         viewModel.pigmeList.observe(viewLifecycleOwner, Observer {
-            recyclerview.adapter = RecyclerViewAllListAdapter(it, requireContext())
-            (recyclerview.adapter as RecyclerViewAllListAdapter).notifyDataSetChanged()
+            recyclerview.adapter = RecyclerViewAllListAdapter(context = requireContext())
+            (recyclerview.adapter as RecyclerViewAllListAdapter).run {
+                modelList = it
+                notifyDataSetChanged()
+            }
+
+
         })
 
 
@@ -57,10 +64,12 @@ class FragmentAllList : Fragment() {
         }
 
         buttonListDelete.setOnClickListener {
+        /**
+         * FIXME: 아래 함수에서 두번 연속 삭제시 작동을 안함
+         */
 
-
-            delete(modelList)
-
+            delete(modelList,recyclerview)
+toastShortTest(requireContext(),"${PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex.size}")
         }
 
 
@@ -83,14 +92,15 @@ class FragmentAllList : Fragment() {
         root
 
     }
-
+/**
     private val deleteIndex by lazy {
         PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex
     }
-
+*/
     private fun toMove() {
 
-        PrefViewPagerItem.getInstance(requireContext()).currentViewpager = deleteIndex.last()
+        PrefViewPagerItem.getInstance(requireContext()).currentViewpager =
+            PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex.last()
         val mainFragment = MainFragment()
         mainFragment.arguments =
             bundleOf("positionToMove" to UsageMark.ALL_LIST_INDEX_POSITION_TO_MOVE)
@@ -112,10 +122,13 @@ class FragmentAllList : Fragment() {
         selectIndexClear()
     }
 
-    private fun delete(modelList: List<Pigme>) {
+    private fun delete(modelList: List<Pigme>, recyclerview:RecyclerView) {
 
-        for (i in deleteIndex.indices) {
-            viewModel.delete(modelList[deleteIndex[i]])
+        for (i in PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex.indices) {
+            viewModel.delete(modelList[PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex[i]])
+        }
+        (recyclerview.adapter as RecyclerViewAllListAdapter).run{
+            saveListElement.clear()
         }
         observerControl()
         selectIndexClear()

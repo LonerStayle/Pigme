@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.recyclerview_third_imagemode_select_holder
 class RecyclerViewAllListAdapter( var modelList:List<Pigme> = listOf(),var context: Context) :
     RecyclerView.Adapter<RecyclerViewAllListAdapter.ViewHolder>() {
 
-    private var saveListElement = mutableListOf<Int>()
+    var saveListElement = mutableListOf<Int>()
     private val indexSelectedItems = SparseBooleanArray(0)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         LayoutInflater.from(parent.context)

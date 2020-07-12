@@ -166,7 +166,7 @@ class MainFragment : Fragment() {
                 }
 
                 UsageMark.ALL_LIST_USAGE_MARK -> {
-                    (viewPager.adapter as ViewPagerAdapter).run {
+                    (viewPager.adapter as ViewPagerAdapter).apply {
                         modelList = updatedList
                         notifyDataSetChanged()
                     }
