@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import com.example.wisesaying.R
 import com.example.wisesaying.db.PigmeDatabase
@@ -103,11 +104,14 @@ class FragmentAllList : Fragment() {
         mainFragment.arguments =
             bundleOf("positionToMove" to UsageMark.ALL_LIST_INDEX_POSITION_TO_MOVE)
 
+
+        fragmentManager!!.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE)
         val transaction = fragmentManager!!.beginTransaction()
-        transaction.replace(
-            R.id.constraintLayout,
-            mainFragment
-        )
+            .remove(FragmentSetting())
+            .replace(
+                R.id.constraintLayout,
+                mainFragment
+            )
             .commit()
 
         selectIndexClear()

@@ -142,7 +142,6 @@ class FragmentSetting() : Fragment() {
                 R.id.constraintLayout_AllList,
                 FragmentAllList()
             )
-            transactionRecyclerView.addToBackStack(null)
             transactionRecyclerView.commit()
 
             root.visibility = View.GONE
