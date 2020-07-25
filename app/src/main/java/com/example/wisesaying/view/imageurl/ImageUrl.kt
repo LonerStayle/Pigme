@@ -1,4 +1,4 @@
-package com.example.wisesaying.view.adapter.imageurl
+package com.example.wisesaying.view.imageurl
 
  fun imageUrl(image: String): String {
     var uriStringValue = "android.resource://com.example.wisesaying/$image"
