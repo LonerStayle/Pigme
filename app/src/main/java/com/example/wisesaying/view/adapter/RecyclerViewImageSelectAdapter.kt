@@ -1,25 +1,19 @@
 package com.example.wisesaying.view.adapter
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.wisesaying.R
 import com.example.wisesaying.databinding.RecyclerviewImageselectHolderBinding
 import com.example.wisesaying.db.entity.GalleyImage
-import com.example.wisesaying.view.adapter.imageurl.imageUrl
+import com.example.wisesaying.view.imageurl.imageUrl
 
 
 class RecyclerViewImageSelectAdapter(
     var imageSampleList: MutableList<GalleyImage> = mutableListOf(),
-    var imageViewbacgroundImage: ImageView,
-    var textViewGalleryGuide:TextView,
-    var textViewImageBackgroundResIdCheck:TextView
+    val onClickEvent : (String?) -> Unit
 ) : RecyclerView.Adapter<RecyclerViewImageSelectAdapter.ImageSelectHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageSelectHolder =
@@ -39,7 +33,7 @@ class RecyclerViewImageSelectAdapter(
             }
 
             holder.itemView.setOnClickListener {
-               holder.clickFunction()
+              onClickEvent(imageSampleList[position].galleryImage)
             }
         }
     }
@@ -49,18 +43,5 @@ class RecyclerViewImageSelectAdapter(
 
         val binding = DataBindingUtil.bind<RecyclerviewImageselectHolderBinding>(view)
 
-        //함수로 바꿔써도됨 리스너 개념은 아님
-        fun clickFunction() {
-            binding?.apply {
-                val image = imageSampleList[adapterPosition].galleryImage
-
-
-                Glide.with(imageViewbacgroundImage.context).load(imageUrl(image)).into(imageViewbacgroundImage)
-
-                  textViewImageBackgroundResIdCheck.text = imageUrl(image)
-                textViewGalleryGuide.clearAnimation()
-                textViewGalleryGuide.visibility = View.GONE
-            }
-        }
     }
 }

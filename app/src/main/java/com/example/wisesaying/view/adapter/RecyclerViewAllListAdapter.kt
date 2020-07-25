@@ -1,7 +1,6 @@
 package com.example.wisesaying.view.adapter
 
 import android.content.Context
-import android.net.Uri
 import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +11,7 @@ import com.example.wisesaying.R
 import com.example.wisesaying.databinding.RecyclerviewAlllistHolderBinding
 import com.example.wisesaying.db.entity.Pigme
 import com.example.wisesaying.preference.PrefUsageMark
-import com.example.wisesaying.view.adapter.imageurl.imageUrl
-import kotlinx.android.synthetic.main.recyclerview_third_imagemode_select_holder.view.*
+import com.example.wisesaying.view.imageurl.imageUrl
 
 class RecyclerViewAllListAdapter( var modelList:List<Pigme> = listOf(),var context: Context) :
     RecyclerView.Adapter<RecyclerViewAllListAdapter.ViewHolder>() {

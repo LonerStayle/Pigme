@@ -1,7 +1,5 @@
 package com.example.wisesaying.view.adapter
 
-import android.net.Uri
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.wisesaying.R
 import com.example.wisesaying.databinding.ViewpagerBinding
 import com.example.wisesaying.db.entity.Pigme
-import com.example.wisesaying.view.adapter.imageurl.imageUrl
+import com.example.wisesaying.view.imageurl.imageUrl
 
 class ViewPagerAdapter(var modelList: List<Pigme> = listOf()) :
     RecyclerView.Adapter<ViewPagerAdapter.ViewHolder>() {

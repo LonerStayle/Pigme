@@ -1,7 +1,6 @@
 package com.example.wisesaying.view.adapter
 
 import android.content.Context
-import android.graphics.Color
 import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,7 @@ import com.example.wisesaying.R
 import com.example.wisesaying.databinding.RecyclerviewThirdImagemodeSelectHolderBinding
 import com.example.wisesaying.db.entity.Pigme
 import com.example.wisesaying.preference.PrefUsageMark
-import com.example.wisesaying.view.adapter.imageurl.imageUrl
+import com.example.wisesaying.view.imageurl.imageUrl
 
 
 class RecyclerViewDialogInDialogAdapter(

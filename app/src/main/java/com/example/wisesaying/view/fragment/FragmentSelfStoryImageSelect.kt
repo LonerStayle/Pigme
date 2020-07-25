@@ -4,36 +4,28 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Typeface
-import android.os.Bundle
 import android.provider.MediaStore
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.RadioButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil.inflate
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.wisesaying.R
 import com.example.wisesaying.databinding.FragmentSelfStoryImageSelectBinding
-import com.example.wisesaying.db.PigmeDatabase
 import com.example.wisesaying.db.entity.GalleyImage
 import com.example.wisesaying.preference.PrefUsageMark
 import com.example.wisesaying.view.adapter.RecyclerViewDialogInDialogAdapter
 import com.example.wisesaying.view.adapter.RecyclerViewImageSelectAdapter
+import com.example.wisesaying.view.imageurl.imageUrl
 import com.example.wisesaying.view.constscore.UsageMark
 import com.example.wisesaying.view.dialog.DialogInLayoutCreateMode
 import com.example.wisesaying.view.dialog.DialogSimple
 import com.example.wisesaying.view.toast.toastShort
 import com.example.wisesaying.view.viewbase.BaseFragment
-import com.example.wisesaying.viewmodel.PigmeViewModel
-import com.example.wisesaying.viewmodel.PigmeViewModelFactory
 import kotlinx.android.synthetic.main.dialog_dialogindialog_deletelist.*
 import kotlinx.android.synthetic.main.dialog_self_story_image_select_buttonevent.*
 import kotlinx.android.synthetic.main.dialog_self_story_image_select_buttonevent.radiobutton_option1
@@ -73,12 +65,13 @@ class FragmentSelfStoryImageSelect :
 
 
         recyclerViewImageSelectInExampleImage.adapter =
-            RecyclerViewImageSelectAdapter(
-                image,
-                imageViewBackgroundImage,
-                textViewGalleryguide,
-                textViewImageBackgroundResIdCheck
-            )
+            RecyclerViewImageSelectAdapter(image) {
+                Glide.with(imageViewBackgroundImage.context).load(imageUrl(it!!))
+                    .into(imageViewBackgroundImage)
+                textViewImageBackgroundResIdCheck.text = imageUrl(it)
+                textViewGalleryguide.clearAnimation()
+                textViewGalleryguide.visibility = View.GONE
+            }
 
         recyclerViewImageSelectInExampleImage.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -96,7 +89,6 @@ class FragmentSelfStoryImageSelect :
         })
 
         buttonNewSelefStroyImageSelect.setOnClickListener {
-
 
             if (textViewImageBackgroundResIdCheck.text == "") {
                 toastShort(

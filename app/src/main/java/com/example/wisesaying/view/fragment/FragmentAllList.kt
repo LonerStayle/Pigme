@@ -51,7 +51,6 @@ class FragmentAllList : BaseFragment<FragmentAllListBinding>( R.layout.fragment_
         }
 
         buttonListDelete.setOnClickListener {
-
             delete((recyclerview.adapter as RecyclerViewAllListAdapter).modelList, recyclerview)
 
         }

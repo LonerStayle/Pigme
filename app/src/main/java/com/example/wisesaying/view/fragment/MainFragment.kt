@@ -63,7 +63,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         }
 
 
-
         viewModel.pigmeList.observe(viewLifecycleOwner, Observer { updatedList ->
 
             when (PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark) {
