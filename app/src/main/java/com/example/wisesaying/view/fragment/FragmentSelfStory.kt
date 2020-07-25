@@ -13,22 +13,19 @@ import androidx.fragment.app.Fragment
 import com.example.wisesaying.R
 import com.example.wisesaying.databinding.FragmentSelfStoryBinding
 import com.example.wisesaying.view.toast.toastShort
+import com.example.wisesaying.view.viewbase.BaseFragment
 
 
-class FragmentSelfStory : Fragment() {
+class FragmentSelfStory : BaseFragment<FragmentSelfStoryBinding>(R.layout.fragment_self_story) {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? = DataBindingUtil.inflate<FragmentSelfStoryBinding>(
-        inflater, R.layout.fragment_self_story, container,
-        false
-    ).run {
+
+    override fun FragmentSelfStoryBinding.setOnCreateView() {
+
         buttonFragementSelfStory.setOnClickListener {
             keyBoardShowHiding(requireContext(), editTextSelfStory)
 
             if (TextUtils.isEmpty(story)) {
-               toastShort(context,R.string.toast_newWrite)
+                toastShort(context, R.string.toast_newWrite)
                 return@setOnClickListener
             }
 
@@ -37,18 +34,20 @@ class FragmentSelfStory : Fragment() {
                 "selfStory" to story
                 //,"selfstory2" to ""
             )
-            val fragment = fragmentManager!!.beginTransaction()
-            fragment.replace(R.id.frameLayout_selfStoryFragment, fragmentSelfStoryImageSelect)
+
+            val fragmentBegin = fragmentManager!!.beginTransaction()
+                .replace(R.id.frameLayout_selfStoryFragment, fragmentSelfStoryImageSelect)
                 .addToBackStack("selfStory")
                 .commit()
         }
-        root
     }
 
     private fun keyBoardShowHiding(context: Context, view: View) {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
+
+
 }
 
 

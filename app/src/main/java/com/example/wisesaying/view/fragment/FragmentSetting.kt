@@ -14,23 +14,13 @@ import com.example.wisesaying.preference.PrefRequestPremisson
 import com.example.wisesaying.preference.PrefVisibility
 import com.example.wisesaying.view.constscore.UsageMark
 import com.example.wisesaying.view.toast.toastShort
+import com.example.wisesaying.view.viewbase.BaseFragment
 import kotlinx.android.synthetic.main.fragment_main.*
 
 
-class FragmentSetting() : Fragment() {
+class FragmentSetting() : BaseFragment<FragmentSettingsBinding>(R.layout.fragment_settings) {
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? = DataBindingUtil.inflate<FragmentSettingsBinding>(
-        inflater,
-        R.layout.fragment_settings,
-        container,
-        false
-    ).run {
-
+    override fun FragmentSettingsBinding.setOnCreateView() {
         switchWidgetSettingPremisson.apply {
             isChecked =
                 PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonisChecked
@@ -152,8 +142,8 @@ class FragmentSetting() : Fragment() {
 
         }
 
-        root
     }
+
 
 }
 

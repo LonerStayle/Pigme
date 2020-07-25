@@ -24,23 +24,15 @@ import com.example.wisesaying.preference.PrefVisibility
 import com.example.wisesaying.view.constscore.UsageMark
 import com.example.wisesaying.view.toast.toastShort
 import com.example.wisesaying.view.toast.toastShortTest
+import com.example.wisesaying.view.viewbase.BaseFragment
 
 
-class FragmentAllList : Fragment() {
-    private val viewModel: PigmeViewModel by lazy {
-        val database = PigmeDatabase.getInstance(requireContext())
-        val factory = PigmeViewModelFactory(database.pigmeDao)
-        ViewModelProvider(this, factory).get(PigmeViewModel::class.java)
-    }
+class FragmentAllList : BaseFragment<FragmentAllListBinding>( R.layout.fragment_all_list) {
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? = DataBindingUtil.inflate<FragmentAllListBinding>(
-        inflater,
-        R.layout.fragment_all_list, container, false
-    ).run {
+
+
+    override fun FragmentAllListBinding.setOnCreateView() {
 
         viewModel.pigmeList.observe(viewLifecycleOwner, Observer {
             recyclerview.adapter = RecyclerViewAllListAdapter(context = requireContext())
@@ -48,10 +40,7 @@ class FragmentAllList : Fragment() {
                 modelList = it
                 notifyDataSetChanged()
             }
-
-
         })
-
 
         buttonIndexToMove.setOnClickListener {
 
@@ -72,7 +61,6 @@ class FragmentAllList : Fragment() {
 
         }
 
-
         buttonListRestore.setOnClickListener {
 
             restore()
@@ -82,9 +70,6 @@ class FragmentAllList : Fragment() {
 
             reset((recyclerview.adapter as RecyclerViewAllListAdapter).modelList)
         }
-
-        root
-
     }
 
     /**
@@ -160,6 +145,7 @@ class FragmentAllList : Fragment() {
     private fun selectIndexClear() {
         PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex.clear()
     }
+
 }
 
 

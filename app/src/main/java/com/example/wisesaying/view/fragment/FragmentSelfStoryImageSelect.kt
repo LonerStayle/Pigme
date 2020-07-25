@@ -31,6 +31,7 @@ import com.example.wisesaying.view.constscore.UsageMark
 import com.example.wisesaying.view.dialog.DialogInLayoutCreateMode
 import com.example.wisesaying.view.dialog.DialogSimple
 import com.example.wisesaying.view.toast.toastShort
+import com.example.wisesaying.view.viewbase.BaseFragment
 import com.example.wisesaying.viewmodel.PigmeViewModel
 import com.example.wisesaying.viewmodel.PigmeViewModelFactory
 import kotlinx.android.synthetic.main.dialog_dialogindialog_deletelist.*
@@ -38,13 +39,8 @@ import kotlinx.android.synthetic.main.dialog_self_story_image_select_buttonevent
 import kotlinx.android.synthetic.main.dialog_self_story_image_select_buttonevent.radiobutton_option1
 import kotlinx.android.synthetic.main.fragment_self_story_image_select.*
 
-class FragmentSelfStoryImageSelect : Fragment() {
-
-    private val viewModel: PigmeViewModel by lazy {
-        val pigmeDataBase = PigmeDatabase.getInstance(requireContext())
-        val factory = PigmeViewModelFactory(pigmeDataBase.pigmeDao)
-        ViewModelProvider(this, factory).get(PigmeViewModel::class.java)
-    }
+class FragmentSelfStoryImageSelect :
+    BaseFragment<FragmentSelfStoryImageSelectBinding>(R.layout.fragment_self_story_image_select) {
 
     private val animationButtonGallery by lazy {
         AnimationUtils.loadAnimation(
@@ -60,14 +56,8 @@ class FragmentSelfStoryImageSelect : Fragment() {
     private val REQUEST_EXTERNAL_STORAGE_PREMISSON = 1002
     private val REQUEST_IMAGE_CODE = 1001
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? = inflate<FragmentSelfStoryImageSelectBinding>(
-        inflater, R.layout.fragment_self_story_image_select, container,
-        false
-    ).run {
 
+    override fun FragmentSelfStoryImageSelectBinding.setOnCreateView() {
         story = (arguments?.getString("selfStory"))
         textViewGalleryguide.startAnimation(animationButtonGallery)
 
@@ -104,7 +94,6 @@ class FragmentSelfStoryImageSelect : Fragment() {
                 notifyDataSetChanged()
             }
         })
-
 
         buttonNewSelefStroyImageSelect.setOnClickListener {
 
@@ -170,7 +159,7 @@ class FragmentSelfStoryImageSelect : Fragment() {
                             R.string.toast_newSelfStory
                         )
 
-                     selfStoryObserverControl(UsageMark.SELF_STORY_USAGE_MARK_INSERT)
+                        selfStoryObserverControl(UsageMark.SELF_STORY_USAGE_MARK_INSERT)
 
                         fragmentManager!!.popBackStack("main", 1)
                     }
@@ -283,7 +272,6 @@ class FragmentSelfStoryImageSelect : Fragment() {
                 }
             }
         }
-        root
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

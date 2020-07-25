@@ -19,34 +19,17 @@ import com.example.wisesaying.preference.PrefVisibility
 import com.example.wisesaying.view.adapter.ViewPagerAdapter
 import com.example.wisesaying.view.constscore.UsageMark
 import com.example.wisesaying.view.toast.toastShort
+import com.example.wisesaying.view.viewbase.BaseFragment
 import com.example.wisesaying.viewmodel.PigmeViewModel
 import com.example.wisesaying.viewmodel.PigmeViewModelFactory
 import kotlinx.coroutines.*
 
 
-class MainFragment : Fragment() {
+class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     private var image: Array<String>? = null
     private val textings by lazy { resources.getStringArray(R.array.wise_Saying) }
 
-    private val viewModel: PigmeViewModel by lazy {
-        val pigmeDatabase = PigmeDatabase.getInstance(requireContext())
-        val factory = PigmeViewModelFactory(pigmeDatabase.pigmeDao)
-        ViewModelProvider(this, factory).get(PigmeViewModel::class.java)
-
-    }
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? = DataBindingUtil.inflate<FragmentMainBinding>(
-        inflater,
-        R.layout.fragment_main,
-        container,
-        false
-    ).run {
-
-
+    override fun FragmentMainBinding.setOnCreateView() {
 
         PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
             (arguments?.getInt("positionToMove"))?:UsageMark.STANDARD_OBSERVER_PATTERN
@@ -68,7 +51,6 @@ class MainFragment : Fragment() {
                     "a" + (1 + i),
                     "drawable",
                     activity!!.packageName
-
 
                 ).toString())
                 modelList.add(Pigme(textings[i], image!![i]))
@@ -233,11 +215,10 @@ class MainFragment : Fragment() {
             } else
                 fragmentManager!!.popBackStack("main", 1)
 
-
         }
-
-        root
     }
+
+
 
     private fun fragmentlauncher(name: String?, layoutId: Int, fragment: Fragment) {
 
@@ -250,6 +231,8 @@ class MainFragment : Fragment() {
             .addToBackStack(name)
             .commit()
     }
+
+
 
 
 }
