@@ -108,7 +108,6 @@ class MainActivity : AppCompatActivity() {
     override fun onStop() {
 
         fregment_SettingLayout.visibility = View.GONE
-
         super.onStop()
 
     }
