@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_main.*
 
 class FragmentSetting() : BaseFragment<FragmentSettingsBinding>(R.layout.fragment_settings) {
 
-    override fun FragmentSettingsBinding.setOnCreateView() {
+    override fun FragmentSettingsBinding.setEventListener() {
         switchWidgetSettingPremisson.apply {
             isChecked =
                 PrefFragmentSetting.getInstance(requireContext()).fragmentSettingSwitchWidgetSettingPremissonisChecked
@@ -141,9 +141,7 @@ class FragmentSetting() : BaseFragment<FragmentSettingsBinding>(R.layout.fragmen
             // 콜백함수를 알아보자
 
         }
-
     }
-
 
 }
 

@@ -29,8 +29,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     private var image: Array<String>? = null
     private val textings by lazy { resources.getStringArray(R.array.wise_Saying) }
 
-    override fun FragmentMainBinding.setOnCreateView() {
-
+    override fun FragmentMainBinding.setEventListener() {
         PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
             (arguments?.getInt("positionToMove"))?:UsageMark.STANDARD_OBSERVER_PATTERN
 
@@ -38,7 +37,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         textViewImageModeCheck.visibility =
             PrefVisibility.getInstance(requireContext()).textViewImageModeCheckVisibility
 
-        fragmentlauncher(null, R.id.fregment_SettingLayout, FragmentSetting())
+        fragmentLauncher(null, R.id.fregment_SettingLayout, FragmentSetting())
 
         if (PrefUsageMark.getInstance(requireContext()).liveDataFirstUseTrace) {
 
@@ -63,6 +62,54 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         }
 
 
+
+        //공유 기능
+        imageButtonShare.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SEND)
+            intent.apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, "보낼 앱다운로드 페이지")
+                val chooser = Intent.createChooser(intent, null)
+                if (intent.resolveActivity(activity!!.packageManager) != null) {
+                    startActivity(chooser)
+                }
+            }
+        }
+
+        //오른쪽 하단 설정창 보이기 설정
+        var fragmentSettingClick = false
+        buttonSetting.setOnClickListener {
+            fragmentSettingClick = !fragmentSettingClick
+
+
+            if (!fragmentSettingClick)
+                fregmentSettingLayout.visibility = View.GONE
+            else
+                fregmentSettingLayout.visibility = View.VISIBLE
+
+        }
+
+        //플로팅 온오프 표시
+        var floatingActionButtonSelfStoryToMoveOnoff = false
+        imageButtonSelfStoryToMove.setOnClickListener {
+            floatingActionButtonSelfStoryToMoveOnoff = !floatingActionButtonSelfStoryToMoveOnoff
+
+
+            if (floatingActionButtonSelfStoryToMoveOnoff) {
+                fregmentSettingLayout.visibility = View.GONE
+                // 플로팅 버튼 킬때
+                fragmentLauncher(
+                    "main",
+                    R.id.frameLayout_selfStoryFragment,
+                    FragmentSelfStory()
+                )
+            } else
+                fragmentManager!!.popBackStack("main", 1)
+
+        }
+    }
+
+    override fun FragmentMainBinding.setViewModelInObserver() {
         viewModel.pigmeList.observe(viewLifecycleOwner, Observer { updatedList ->
 
             when (PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark) {
@@ -169,57 +216,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 }
             }
         })
-
-
-        //공유 기능
-        imageButtonShare.setOnClickListener {
-            val intent = Intent(Intent.ACTION_SEND)
-            intent.apply {
-                type = "text/plain"
-                putExtra(Intent.EXTRA_TEXT, "보낼 앱다운로드 페이지")
-                val chooser = Intent.createChooser(intent, null)
-                if (intent.resolveActivity(activity!!.packageManager) != null) {
-                    startActivity(chooser)
-                }
-            }
-        }
-
-        //오른쪽 하단 설정창 보이기 설정
-        var fragmentSettingClick = false
-        buttonSetting.setOnClickListener {
-            fragmentSettingClick = !fragmentSettingClick
-
-
-            if (!fragmentSettingClick)
-                fregmentSettingLayout.visibility = View.GONE
-            else
-                fregmentSettingLayout.visibility = View.VISIBLE
-
-        }
-
-        //플로팅 온오프 표시
-        var floatingActionButtonSelfStoryToMoveOnoff = false
-        imageButtonSelfStoryToMove.setOnClickListener {
-            floatingActionButtonSelfStoryToMoveOnoff = !floatingActionButtonSelfStoryToMoveOnoff
-
-
-            if (floatingActionButtonSelfStoryToMoveOnoff) {
-                fregmentSettingLayout.visibility = View.GONE
-                // 플로팅 버튼 킬때
-                fragmentlauncher(
-                    "main",
-                    R.id.frameLayout_selfStoryFragment,
-                    FragmentSelfStory()
-                )
-            } else
-                fragmentManager!!.popBackStack("main", 1)
-
-        }
     }
 
-
-
-    private fun fragmentlauncher(name: String?, layoutId: Int, fragment: Fragment) {
+    private fun fragmentLauncher(name: String?, layoutId: Int, fragment: Fragment) {
 
         // 플로팅 버튼 킬때
         val transactionReCreate = fragmentManager!!.beginTransaction()
@@ -230,7 +229,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             .addToBackStack(name)
             .commit()
     }
-
 
 }
 

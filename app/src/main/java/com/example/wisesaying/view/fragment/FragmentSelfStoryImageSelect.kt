@@ -41,15 +41,13 @@ class FragmentSelfStoryImageSelect :
         )
     }
 
-    private val dialogImageSelectMode by lazy {
-        DialogInLayoutCreateMode(requireActivity() as AppCompatActivity)
-    }
-
     private val REQUEST_EXTERNAL_STORAGE_PREMISSON = 1002
     private val REQUEST_IMAGE_CODE = 1001
 
+    private val dialogImageSelectMode by lazy{ DialogInLayoutCreateMode(requireContext())}
+    private val dialogDeleteMode by lazy{ dialogImageSelectMode.dialogInImageDeleteDialog }
 
-    override fun FragmentSelfStoryImageSelectBinding.setOnCreateView() {
+    override fun FragmentSelfStoryImageSelectBinding.setEventListener() {
         story = (arguments?.getString("selfStory"))
         textViewGalleryguide.startAnimation(animationButtonGallery)
 
@@ -156,16 +154,7 @@ class FragmentSelfStoryImageSelect :
                         fragmentManager!!.popBackStack("main", 1)
                     }
                     R.id.radiobutton_option3 -> {
-
-                        val dialogDeleteMode = dialogImageSelectMode.dialogInImageDeleteDialog
-                        viewModel.pigmeList.observe(viewLifecycleOwner, Observer {
-                            dialogDeleteMode.recyclerView_DialogInDialogDeleteList.adapter =
-                                RecyclerViewDialogInDialogAdapter(it, requireContext())
-
-                            (dialogDeleteMode.recyclerView_DialogInDialogDeleteList.adapter
-                                    as RecyclerViewDialogInDialogAdapter).notifyDataSetChanged()
-
-                        })
+                        dialogInDialogViewModelInObserver()
 
                         dialogDeleteMode.show()
 
@@ -266,6 +255,8 @@ class FragmentSelfStoryImageSelect :
         }
     }
 
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         val galleyImageUri = data?.data
@@ -286,7 +277,20 @@ class FragmentSelfStoryImageSelect :
         recyclerView_imageSelectInExampleImage.scrollToPosition(0)
     }
 
+    private fun dialogInDialogViewModelInObserver() {
+
+        viewModel.pigmeList.observe(viewLifecycleOwner, Observer {
+            dialogDeleteMode.recyclerView_DialogInDialogDeleteList.adapter =
+                RecyclerViewDialogInDialogAdapter(it, requireContext())
+
+            (dialogDeleteMode.recyclerView_DialogInDialogDeleteList.adapter
+                    as RecyclerViewDialogInDialogAdapter).notifyDataSetChanged()
+        })
+    }
+
     private fun selfStoryObserverControl(control: Int) {
         PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark = control
     }
+
+
 }

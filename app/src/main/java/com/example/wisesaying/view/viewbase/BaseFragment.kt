@@ -34,10 +34,12 @@ abstract class BaseFragment<VDB : ViewDataBinding>(@LayoutRes private val layout
         lifecycleOwner = this@BaseFragment
 
         binding = this
-        setOnCreateView()
+        setEventListener()
+        setViewModelInObserver()
 
         root
     }
 
-    abstract fun VDB.setOnCreateView()
+    abstract fun VDB.setEventListener()
+    open fun VDB.setViewModelInObserver() = Unit
 }

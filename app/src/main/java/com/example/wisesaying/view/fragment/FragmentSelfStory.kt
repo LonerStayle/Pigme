@@ -18,9 +18,7 @@ import com.example.wisesaying.view.viewbase.BaseFragment
 
 class FragmentSelfStory : BaseFragment<FragmentSelfStoryBinding>(R.layout.fragment_self_story) {
 
-
-    override fun FragmentSelfStoryBinding.setOnCreateView() {
-
+    override fun FragmentSelfStoryBinding.setEventListener() {
         buttonFragementSelfStory.setOnClickListener {
             keyBoardShowHiding(requireContext(), editTextSelfStory)
 
@@ -30,6 +28,7 @@ class FragmentSelfStory : BaseFragment<FragmentSelfStoryBinding>(R.layout.fragme
             }
 
             val fragmentSelfStoryImageSelect = FragmentSelfStoryImageSelect()
+
             fragmentSelfStoryImageSelect.arguments = bundleOf(
                 "selfStory" to story
                 //,"selfstory2" to ""
@@ -42,10 +41,13 @@ class FragmentSelfStory : BaseFragment<FragmentSelfStoryBinding>(R.layout.fragme
         }
     }
 
+
     private fun keyBoardShowHiding(context: Context, view: View) {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
+
+
 
 
 }

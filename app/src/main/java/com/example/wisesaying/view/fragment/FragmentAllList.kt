@@ -27,21 +27,10 @@ import com.example.wisesaying.view.toast.toastShortTest
 import com.example.wisesaying.view.viewbase.BaseFragment
 
 
-class FragmentAllList : BaseFragment<FragmentAllListBinding>( R.layout.fragment_all_list) {
+class FragmentAllList : BaseFragment<FragmentAllListBinding>(R.layout.fragment_all_list) {
 
 
-
-
-    override fun FragmentAllListBinding.setOnCreateView() {
-
-        viewModel.pigmeList.observe(viewLifecycleOwner, Observer {
-            recyclerview.adapter = RecyclerViewAllListAdapter(context = requireContext())
-            (recyclerview.adapter as RecyclerViewAllListAdapter).run {
-                modelList = it
-                notifyDataSetChanged()
-            }
-        })
-
+    override fun FragmentAllListBinding.setEventListener() {
         buttonIndexToMove.setOnClickListener {
 
             if (PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex.size > 1)
@@ -56,8 +45,8 @@ class FragmentAllList : BaseFragment<FragmentAllListBinding>( R.layout.fragment_
         }
 
 
-        buttonListAdd.setOnClickListener {
-
+        buttonImageSave.setOnClickListener {
+            saveImageInGallery()
         }
 
         buttonListRestore.setOnClickListener {
@@ -71,11 +60,20 @@ class FragmentAllList : BaseFragment<FragmentAllListBinding>( R.layout.fragment_
         }
     }
 
-    /**
-    private val deleteIndex by lazy {
-    PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex
+    override fun FragmentAllListBinding.setViewModelInObserver() {
+        viewModel.pigmeList.observe(viewLifecycleOwner, Observer {
+            recyclerview.adapter = RecyclerViewAllListAdapter(context = requireContext())
+            (recyclerview.adapter as RecyclerViewAllListAdapter).run {
+                modelList = it
+                notifyDataSetChanged()
+            }
+        })
     }
-     */
+
+
+
+
+
     private fun toMove() {
 
         PrefViewPagerItem.getInstance(requireContext()).currentViewpager =
@@ -85,7 +83,7 @@ class FragmentAllList : BaseFragment<FragmentAllListBinding>( R.layout.fragment_
             bundleOf("positionToMove" to UsageMark.ALL_LIST_INDEX_POSITION_TO_MOVE)
 
 
-        fragmentManager!!.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        fragmentManager!!.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         val transaction = fragmentManager!!.beginTransaction()
             .remove(FragmentSetting())
             .replace(
@@ -135,6 +133,10 @@ class FragmentAllList : BaseFragment<FragmentAllListBinding>( R.layout.fragment_
         }
     }
 
+    private fun saveImageInGallery() {
+
+    }
+
     private fun observerControl() {
         PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
             UsageMark.ALL_LIST_USAGE_MARK
@@ -144,6 +146,8 @@ class FragmentAllList : BaseFragment<FragmentAllListBinding>( R.layout.fragment_
     private fun selectIndexClear() {
         PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex.clear()
     }
+
+
 
 }
 

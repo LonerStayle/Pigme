@@ -1,6 +1,7 @@
 package com.example.wisesaying.view.dialog
 
 import android.app.Dialog
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import com.example.wisesaying.R
 
@@ -11,7 +12,7 @@ import com.example.wisesaying.R
  * FIXME: Dialog 클래스명 의미 와닿게 변경 ex) PermissoinrequestDialog
  * FIXME: supportFragmentManager 패러미터가 필요가 없음 콘텍스트 하위로 해서 사용해도 됨
  */
-class DialogInLayoutCreateMode(context: AppCompatActivity) {
+class DialogInLayoutCreateMode(context: Context) {
 
 
     val dialogImageSelect = Dialog(context, R.style.Theme_AppCompat_Light_Dialog_Alert)
