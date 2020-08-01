@@ -8,20 +8,21 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.wisesaying.db.PigmeDatabase
 import com.example.wisesaying.viewmodel.PigmeViewModel
 import com.example.wisesaying.viewmodel.PigmeViewModelFactory
 
+
 abstract class BaseFragment<VDB : ViewDataBinding>(@LayoutRes private val layoutResId: Int) :
     Fragment() {
 
-    protected val viewModel: PigmeViewModel by lazy {
+    protected val viewModel by viewModels<PigmeViewModel> {
         val pigmeDatabase = PigmeDatabase.getInstance(requireContext())
         val factory = PigmeViewModelFactory(pigmeDatabase.pigmeDao)
-        ViewModelProvider(this, factory).get(PigmeViewModel::class.java)
+        factory}
 
-    }
     protected lateinit var binding: VDB
 
     override fun onCreateView(
@@ -29,6 +30,9 @@ abstract class BaseFragment<VDB : ViewDataBinding>(@LayoutRes private val layout
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = DataBindingUtil.inflate<VDB>(inflater, layoutResId, container, false).run {
+
+        lifecycleOwner = this@BaseFragment
+
         binding = this
         setOnCreateView()
 
