@@ -131,11 +131,11 @@ class FragmentSelfStoryImageSelect :
                                 selfStoryObserverControl(UsageMark.SELF_STORY_USAGE_MARK_RESET_AFTER_INSERT)
 
                                 fragmentManager!!.popBackStack("main", 1)
+                                toastShort(context, R.string.toast_resetAfterInsert)
                             },
                             R.string.dialogResetAfterImageSelectInNegativeText,
                             { return@show }
                         )
-                        toastShort(context, R.string.toast_resetAfterInsert)
                     }
                     R.id.radiobutton_option2 -> {
 
@@ -218,8 +218,7 @@ class FragmentSelfStoryImageSelect :
                 ContextCompat.checkSelfPermission(
                     requireContext(),
                     Manifest.permission.READ_EXTERNAL_STORAGE
-                )
-                        != PackageManager.PERMISSION_GRANTED -> {
+                ) != PackageManager.PERMISSION_GRANTED -> {
 
                     if (ActivityCompat.shouldShowRequestPermissionRationale(
                             requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE
