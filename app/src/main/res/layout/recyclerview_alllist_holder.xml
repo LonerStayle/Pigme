@@ -7,7 +7,7 @@
 
         <variable
             name="pigme"
-            type="com.example.wisesaying.db.entity.Pigme" />
+            type="com.example.pigme.db.entity.Pigme" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

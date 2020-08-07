@@ -9,7 +9,7 @@ android {
 
 
     defaultConfig {
-        applicationId "com.example.wisesaying"
+        applicationId "com.example.pigme"
         minSdkVersion 16
         targetSdkVersion 29
         versionCode 1
@@ -28,9 +28,8 @@ android {
         }
     }
 
-
-    dataBinding {
-        enabled true
+    buildFeatures {
+        dataBinding true
     }
 
 }

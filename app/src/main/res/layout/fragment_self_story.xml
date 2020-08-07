@@ -11,7 +11,7 @@
 
 <variable
     name="pigmeViewModel"
-    type="com.example.wisesaying.viewmodel.PigmeViewModel" />
+    type="com.example.pigme.viewmodel.PigmeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

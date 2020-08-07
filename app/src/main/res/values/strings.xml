@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Wise saying</string>
+    <string name="app_name">피그미</string>
     <string name="PositiveMassage">네</string>
     <string name="NegativeMassage">아니오</string>
     <string name="dialogRequestPermissionTitle">다이어트 경고문 뜨게 하기</string>
