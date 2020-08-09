@@ -8,6 +8,7 @@ import com.example.pigme.preference.PrefRequestPremisson
 import com.example.pigme.preference.PrefVisibility
 import com.example.pigme.view.constscore.UsageMark
 import com.example.pigme.view.toast.toastShort
+
 import com.example.pigme.view.viewbase.BaseFragment
 
 
@@ -51,8 +52,7 @@ class FragmentSetting() : BaseFragment<FragmentSettingsBinding>(R.layout.fragmen
                         textON
 
                     if (clickCount <= 4)
-                        toastShort(
-                            context,
+                        context?.toastShort(
                             R.string.FragmentSetting_switchWidgetSettingPremisson_On
                         )
                 }
@@ -70,9 +70,8 @@ class FragmentSetting() : BaseFragment<FragmentSettingsBinding>(R.layout.fragmen
                         textOFF
 
                     if (clickCount <= 4)
-                        toastShort(
-                            context,
-                            R.string.FragmentSetting_switchWidgetSettingPremisson_Off
+                        context?.toastShort(
+                           R.string.FragmentSetting_switchWidgetSettingPremisson_Off
                         )
                 }
             }
@@ -94,8 +93,7 @@ class FragmentSetting() : BaseFragment<FragmentSettingsBinding>(R.layout.fragmen
                         View.INVISIBLE
 
                     if (clickCount <= 4)
-                        toastShort(
-                            context,
+                        context?.toastShort(
                             R.string.Fragment_Setting_switchWidgetSettingImageControl_On
                         )
                 }
@@ -112,8 +110,7 @@ class FragmentSetting() : BaseFragment<FragmentSettingsBinding>(R.layout.fragmen
 
                     if (clickCount <= 4)
 
-                        toastShort(
-                            context,
+                        context?.toastShort(
                             R.string.Fragment_Setting_switchWidgetSettingImageControl_Off
                         )
                 }

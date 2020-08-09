@@ -43,8 +43,8 @@ class FragmentSelfStoryImageSelect :
     private val REQUEST_EXTERNAL_STORAGE_PREMISSON = 1002
     private val REQUEST_IMAGE_CODE = 1001
 
-    private val dialogImageSelectMode by lazy{ DialogInLayoutCreateMode(requireContext())}
-    private val dialogDeleteMode by lazy{ dialogImageSelectMode.dialogInImageDeleteDialog }
+    private val dialogImageSelectMode by lazy { DialogInLayoutCreateMode(requireContext()) }
+    private val dialogDeleteMode by lazy { dialogImageSelectMode.dialogInImageDeleteDialog }
 
     override fun FragmentSelfStoryImageSelectBinding.setEventListener() {
         story = (arguments?.getString("selfStory"))
@@ -88,8 +88,8 @@ class FragmentSelfStoryImageSelect :
         buttonNewSelefStroyImageSelect.setOnClickListener {
 
             if (textViewImageBackgroundResIdCheck.text == "") {
-                toastShort(
-                    context, R.string.toast_selfStroyNoImageSelectText
+                context?.toastShort(
+                    R.string.toast_selfStroyNoImageSelectText
                 )
                 return@setOnClickListener
             }
@@ -130,7 +130,7 @@ class FragmentSelfStoryImageSelect :
                                 selfStoryObserverControl(UsageMark.SELF_STORY_USAGE_MARK_RESET_AFTER_INSERT)
 
                                 fragmentManager!!.popBackStack("main", 1)
-                                toastShort(context, R.string.toast_resetAfterInsert)
+                                context?.toastShort( R.string.toast_resetAfterInsert)
                             },
                             R.string.dialogResetAfterImageSelectInNegativeText,
                             { return@show }
@@ -143,8 +143,7 @@ class FragmentSelfStoryImageSelect :
                             textViewImageBackgroundResIdCheck.text.toString()
                         )
 
-                        toastShort(
-                            context,
+                        context?.toastShort(
                             R.string.toast_newSelfStory
                         )
 
@@ -170,7 +169,7 @@ class FragmentSelfStoryImageSelect :
                             if (PrefUsageMark.getInstance(requireContext())
                                     .deleteModelListOfIndex.isEmpty()
                             )
-                                toastShort(requireContext(), R.string.toast_deleteElementSelect)
+                                context?.toastShort( R.string.toast_deleteElementSelect)
                             else {
 
                                 val deleteListOfIndex =
@@ -193,7 +192,7 @@ class FragmentSelfStoryImageSelect :
                                 selfStoryObserverControl(UsageMark.SELF_STORY_USAGE_MARK_DELETE)
                                 fragmentManager!!.popBackStack("main", 1)
 
-                                toastShort(context, R.string.toast_deleteAfterInsert)
+                                context?.toastShort( R.string.toast_deleteAfterInsert)
                             }
                         }
 
@@ -254,7 +253,6 @@ class FragmentSelfStoryImageSelect :
     }
 
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         val galleyImageUri = data?.data
@@ -264,7 +262,7 @@ class FragmentSelfStoryImageSelect :
             Glide.with(this).load(it).into(imageView_backgroundImage)
             textView_imageBackgroundResIdCheck.text = it.toString()
             viewModel.galleyNewImageinsert(it.toString())
-            toastShort(context, R.string.toast_galleyImageUriAddAlarm)
+            context?.toastShort( R.string.toast_galleyImageUriAddAlarm)
 
         }
 

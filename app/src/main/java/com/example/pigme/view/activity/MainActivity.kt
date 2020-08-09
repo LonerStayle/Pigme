@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
          * 사용자가 종료하지 않고 이어서 계속 사용한다면 어이없이 어플이 종료되지 않도록 유도함
          */
         if (supportFragmentManager.backStackEntryCount == 1) {
-            toastShort(this, R.string.toast_AppExitLastText)
+            this.toastShort( R.string.toast_AppExitLastText)
             if (!isFinishing) {
                 CoroutineScope(Dispatchers.Main).launch {
                     delay(5000)

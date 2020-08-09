@@ -22,7 +22,7 @@ class FragmentAllList : BaseFragment<FragmentAllListBinding>(R.layout.fragment_a
         buttonIndexToMove.setOnClickListener {
 
             if (PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex.size > 1)
-                toastShort(requireContext(), R.string.toast_indexToMoveNegative)
+                context?.toastShort( R.string.toast_indexToMoveNegative)
             else
                 toMove()
         }

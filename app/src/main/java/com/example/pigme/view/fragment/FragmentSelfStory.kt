@@ -18,7 +18,7 @@ class FragmentSelfStory : BaseFragment<FragmentSelfStoryBinding>(R.layout.fragme
             keyBoardShowHiding(requireContext(), editTextSelfStory)
 
             if (TextUtils.isEmpty(story)) {
-                toastShort(context, R.string.toast_newWrite)
+                context?.toastShort( R.string.toast_newWrite)
                 return@setOnClickListener
             }
 

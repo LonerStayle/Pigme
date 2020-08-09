@@ -52,7 +52,6 @@ class RecyclerViewDialogInDialogAdapter(
                     mSelectedItems.put(position, true)
                     holder.bindTheUseColorChange()
                 }
-
             }
 
         }
