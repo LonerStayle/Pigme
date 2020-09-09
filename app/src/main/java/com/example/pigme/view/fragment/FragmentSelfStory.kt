@@ -14,6 +14,7 @@ import com.example.pigme.view.viewbase.BaseFragment
 class FragmentSelfStory : BaseFragment<FragmentSelfStoryBinding>(R.layout.fragment_self_story) {
 
     override fun FragmentSelfStoryBinding.setEventListener() {
+
         buttonFragementSelfStory.setOnClickListener {
             keyBoardShowHiding(requireContext(), editTextSelfStory)
 

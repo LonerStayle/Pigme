@@ -37,8 +37,8 @@
 
         <ImageView
             android:id="@+id/button_listDelete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
             android:layout_marginTop="48dp"
             android:clickable="true"
             android:focusable="true"
@@ -68,7 +68,7 @@
             android:layout_marginTop="32dp"
             android:clickable="true"
             android:focusable="true"
-            android:src="@drawable/image_button_alllist_newitemdelete48"
+            android:src="@drawable/ic_baseline_image_search_24"
             android:tint="#651FFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/recyclerview"
