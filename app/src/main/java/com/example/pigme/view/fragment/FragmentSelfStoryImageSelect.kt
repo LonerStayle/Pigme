@@ -46,7 +46,18 @@ class FragmentSelfStoryImageSelect :
     private val dialogImageSelectMode by lazy { DialogInLayoutCreateMode(requireContext()) }
     private val dialogDeleteMode by lazy { dialogImageSelectMode.dialogInImageDeleteDialog }
 
+
+    override fun FragmentSelfStoryImageSelectBinding.setOnCreateView() {
+        val image = setData()
+        setRecyclerViewAdapter(image)
+        setExampleImageSetting(image)
+    }
     override fun FragmentSelfStoryImageSelectBinding.setEventListener() {
+        setButtonNewImageSelect()
+        setFabActionButtonClickListener()
+    }
+
+    private fun FragmentSelfStoryImageSelectBinding.setData(): MutableList<GalleyImage> {
         story = (arguments?.getString("selfStory"))
         textViewGalleryguide.startAnimation(animationButtonGallery)
 
@@ -59,20 +70,12 @@ class FragmentSelfStoryImageSelect :
                 "com.example.pigme"
             ).toString()
         }
+        return image
+    }
 
-
-        recyclerViewImageSelectInExampleImage.adapter =
-            RecyclerViewImageSelectAdapter(image) {
-                Glide.with(imageViewBackgroundImage.context).load(imageUrl(it!!))
-                    .into(imageViewBackgroundImage)
-                textViewImageBackgroundResIdCheck.text = imageUrl(it)
-                textViewGalleryguide.clearAnimation()
-                textViewGalleryguide.visibility = View.GONE
-            }
-
-        recyclerViewImageSelectInExampleImage.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
+    private fun FragmentSelfStoryImageSelectBinding.setExampleImageSetting(
+        image: MutableList<GalleyImage>
+    ) {
         viewModel.pigmeImageSelectVersion.observe(viewLifecycleOwner, Observer {
             (recyclerViewImageSelectInExampleImage.adapter as RecyclerViewImageSelectAdapter).run {
                 if (it.isEmpty()) {
@@ -84,7 +87,24 @@ class FragmentSelfStoryImageSelect :
                 notifyDataSetChanged()
             }
         })
+    }
 
+    private fun FragmentSelfStoryImageSelectBinding.setRecyclerViewAdapter(
+        image: MutableList<GalleyImage>
+    ) {
+        recyclerViewImageSelectInExampleImage.adapter =
+            RecyclerViewImageSelectAdapter(image) {
+                Glide.with(imageViewBackgroundImage.context).load(imageUrl(it!!))
+                    .into(imageViewBackgroundImage)
+                textViewImageBackgroundResIdCheck.text = imageUrl(it)
+                textViewGalleryguide.clearAnimation()
+                textViewGalleryguide.visibility = View.GONE
+            }
+        recyclerViewImageSelectInExampleImage.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+    }
+
+    private fun FragmentSelfStoryImageSelectBinding.setButtonNewImageSelect() {
         buttonNewSelefStroyImageSelect.setOnClickListener {
 
             if (textViewImageBackgroundResIdCheck.text == "") {
@@ -130,7 +150,7 @@ class FragmentSelfStoryImageSelect :
                                 selfStoryObserverControl(UsageMark.SELF_STORY_USAGE_MARK_RESET_AFTER_INSERT)
 
                                 fragmentManager!!.popBackStack("main", 1)
-                                context?.toastShort( R.string.toast_resetAfterInsert)
+                                context?.toastShort(R.string.toast_resetAfterInsert)
                             },
                             R.string.dialogResetAfterImageSelectInNegativeText,
                             { return@show }
@@ -143,58 +163,14 @@ class FragmentSelfStoryImageSelect :
                             textViewImageBackgroundResIdCheck.text.toString()
                         )
 
-                        context?.toastShort(
-                            R.string.toast_newSelfStory
-                        )
-
+                        context?.toastShort(R.string.toast_newSelfStory)
                         selfStoryObserverControl(UsageMark.SELF_STORY_USAGE_MARK_INSERT)
-
                         fragmentManager!!.popBackStack("main", 1)
                     }
                     R.id.radiobutton_option3 -> {
                         dialogInDialogViewModelInObserver()
-
                         dialogDeleteMode.show()
-
-                        dialogDeleteMode.button_listOfIndexDelete.setOnClickListener {
-
-                            PrefUsageMark.getInstance(requireContext())
-                                .selfStoryDeleteAfterInsertDataText =
-                                editTextImageSelectSelfStoryInText.text.toString()
-                            PrefUsageMark.getInstance(requireContext())
-                                .selfStoryDeleteAfterInsertDataImage =
-                                textViewImageBackgroundResIdCheck.text.toString()
-
-
-                            if (PrefUsageMark.getInstance(requireContext())
-                                    .deleteModelListOfIndex.isEmpty()
-                            )
-                                context?.toastShort( R.string.toast_deleteElementSelect)
-                            else {
-
-                                val deleteListOfIndex =
-                                    PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex
-
-                                val deleteList =
-                                    (dialogDeleteMode
-                                        .recyclerView_DialogInDialogDeleteList.adapter
-                                            as RecyclerViewDialogInDialogAdapter).modellist
-
-
-                                for (i in deleteListOfIndex.indices) {
-                                    viewModel.delete(deleteList[deleteListOfIndex[i]])
-                                }
-
-                                PrefUsageMark.getInstance(requireContext())
-                                    .deleteModelListOfIndex.clear()
-                                dialogDeleteMode.dismiss()
-
-                                selfStoryObserverControl(UsageMark.SELF_STORY_USAGE_MARK_DELETE)
-                                fragmentManager!!.popBackStack("main", 1)
-
-                                context?.toastShort( R.string.toast_deleteAfterInsert)
-                            }
-                        }
+                        dialogInToButtonListOfDeleteClickListener()
 
                     }
 
@@ -204,7 +180,51 @@ class FragmentSelfStoryImageSelect :
             }
 
         }
+    }
 
+    private fun FragmentSelfStoryImageSelectBinding.dialogInToButtonListOfDeleteClickListener() {
+        dialogDeleteMode.button_listOfIndexDelete.setOnClickListener {
+
+            PrefUsageMark.getInstance(requireContext())
+                .selfStoryDeleteAfterInsertDataText =
+                editTextImageSelectSelfStoryInText.text.toString()
+            PrefUsageMark.getInstance(requireContext())
+                .selfStoryDeleteAfterInsertDataImage =
+                textViewImageBackgroundResIdCheck.text.toString()
+
+
+            if (PrefUsageMark.getInstance(requireContext())
+                    .deleteModelListOfIndex.isEmpty()
+            )
+                context?.toastShort(R.string.toast_deleteElementSelect)
+            else {
+
+                val deleteListOfIndex =
+                    PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex
+
+                val deleteList =
+                    (dialogDeleteMode
+                        .recyclerView_DialogInDialogDeleteList.adapter
+                            as RecyclerViewDialogInDialogAdapter).modellist
+
+
+                for (i in deleteListOfIndex.indices) {
+                    viewModel.delete(deleteList[deleteListOfIndex[i]])
+                }
+
+                PrefUsageMark.getInstance(requireContext())
+                    .deleteModelListOfIndex.clear()
+                dialogDeleteMode.dismiss()
+
+                selfStoryObserverControl(UsageMark.SELF_STORY_USAGE_MARK_DELETE)
+                fragmentManager!!.popBackStack("main", 1)
+
+                context?.toastShort(R.string.toast_deleteAfterInsert)
+            }
+        }
+    }
+
+    private fun FragmentSelfStoryImageSelectBinding.setFabActionButtonClickListener() {
         floatingActionButtonGalleryImageSelect.setOnClickListener {
 
 

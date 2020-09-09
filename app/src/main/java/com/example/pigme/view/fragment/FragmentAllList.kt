@@ -19,17 +19,19 @@ class FragmentAllList : BaseFragment<FragmentAllListBinding>(R.layout.fragment_a
 
 
     override fun FragmentAllListBinding.setEventListener() {
-        buttonIndexToMove.setOnClickListener {
+        setButtonAllEvent()
+    }
 
+    private fun FragmentAllListBinding.setButtonAllEvent() {
+        buttonIndexToMove.setOnClickListener {
             if (PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex.size > 1)
-                context?.toastShort( R.string.toast_indexToMoveNegative)
+                context?.toastShort(R.string.toast_indexToMoveNegative)
             else
                 toMove()
         }
 
         buttonListDelete.setOnClickListener {
             delete((recyclerview.adapter as RecyclerViewAllListAdapter).modelList, recyclerview)
-
         }
 
 
@@ -38,12 +40,9 @@ class FragmentAllList : BaseFragment<FragmentAllListBinding>(R.layout.fragment_a
         }
 
         buttonListRestore.setOnClickListener {
-
             restore()
-
         }
         buttonListReset.setOnClickListener {
-
             reset((recyclerview.adapter as RecyclerViewAllListAdapter).modelList)
         }
     }
@@ -64,6 +63,10 @@ class FragmentAllList : BaseFragment<FragmentAllListBinding>(R.layout.fragment_a
 
     private fun toMove() {
 
+       if(PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex.isEmpty()) {
+           context?.toastShort(R.string.allList_toMoveButtonFailText)
+           return
+       }
         PrefViewPagerItem.getInstance(requireContext()).currentViewpager =
             PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex.last()
         val mainFragment = MainFragment()
@@ -122,7 +125,7 @@ class FragmentAllList : BaseFragment<FragmentAllListBinding>(R.layout.fragment_a
     }
 
     private fun saveImageInGallery() {
-
+        context?.toastShort(R.string.waitingText)
     }
 
     private fun observerControl() {
@@ -134,8 +137,6 @@ class FragmentAllList : BaseFragment<FragmentAllListBinding>(R.layout.fragment_a
     private fun selectIndexClear() {
         PrefUsageMark.getInstance(requireContext()).deleteModelListOfIndex.clear()
     }
-
-
 
 }
 

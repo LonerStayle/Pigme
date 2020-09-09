@@ -13,13 +13,17 @@ import com.example.pigme.view.viewbase.BaseFragment
 
 class FragmentSelfStory : BaseFragment<FragmentSelfStoryBinding>(R.layout.fragment_self_story) {
 
-    override fun FragmentSelfStoryBinding.setEventListener() {
 
+    override fun FragmentSelfStoryBinding.setEventListener() {
+        buttonClickListener()
+    }
+
+    private fun FragmentSelfStoryBinding.buttonClickListener() {
         buttonFragementSelfStory.setOnClickListener {
             keyBoardShowHiding(requireContext(), editTextSelfStory)
 
             if (TextUtils.isEmpty(story)) {
-                context?.toastShort( R.string.toast_newWrite)
+                context?.toastShort(R.string.toast_newWrite)
                 return@setOnClickListener
             }
 
@@ -42,9 +46,6 @@ class FragmentSelfStory : BaseFragment<FragmentSelfStoryBinding>(R.layout.fragme
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
-
-
-
 
 }
 

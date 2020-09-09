@@ -9,9 +9,9 @@
             name="story"
             type="String" />
 
-<variable
-    name="pigmeViewModel"
-    type="com.example.pigme.viewmodel.PigmeViewModel" />
+        <variable
+            name="pigmeViewModel"
+            type="com.example.pigme.viewmodel.PigmeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -52,15 +52,13 @@
                 android:id="@+id/editText_selfStory"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-
                 android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
                 android:background="@null"
                 android:focusable="true"
                 android:hint="새롭게 추가할 글을 입력해주세요 "
+                android:maxLines="10"
                 android:text="@={story}"
                 android:textColor="#536DFE"
                 android:textSize="24sp"
@@ -74,7 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
+            android:layout_marginTop="26dp"
             android:text="다이어트 글귀를 추가해보세요"
             android:textColor="#FFF"
             android:textSize="18sp"

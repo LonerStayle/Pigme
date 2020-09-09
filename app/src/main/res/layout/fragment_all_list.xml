@@ -14,9 +14,12 @@
             android:id="@+id/recyclerview"
             android:layout_width="305dp"
             android:layout_height="match_parent"
+            android:layout_marginTop="26dp"
+            android:layout_marginBottom="32dp"
             android:background="#FFF"
             android:scrollbars="vertical"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:spanCount="2"
@@ -26,40 +29,40 @@
             android:id="@+id/button_ImageSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="24dp"
             android:clickable="true"
             android:focusable="true"
-            android:src="@drawable/image_button_alllist_add48"
+            android:src="@drawable/ic_baseline_photo_album_24"
             android:tint="#651FFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/recyclerview"
-            app:layout_constraintTop_toBottomOf="@+id/button_listDelete" />
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
         <ImageView
             android:id="@+id/button_listDelete"
-            android:layout_width="46dp"
-            android:layout_height="46dp"
-            android:layout_marginTop="48dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:clickable="true"
             android:focusable="true"
-            android:src="@drawable/image_button_alllist_remove48"
+            android:src="@drawable/ic_baseline_delete_24"
             android:tint="#651FFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/recyclerview"
-            app:layout_constraintTop_toBottomOf="@+id/button_IndexToMove" />
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <ImageView
             android:id="@+id/button_listReset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="24dp"
             android:clickable="true"
             android:focusable="true"
-            android:src="@drawable/image_button_alllist_reset48"
+            android:src="@drawable/ic_baseline_clear_24"
             android:tint="#651FFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/recyclerview"
-            app:layout_constraintTop_toBottomOf="@+id/button_listRestore" />
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
         <ImageView
             android:id="@+id/button_IndexToMove"
@@ -78,14 +81,75 @@
             android:id="@+id/button_listRestore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="24dp"
             android:clickable="true"
             android:focusable="true"
-            android:src="@drawable/image_button_alllist_restore48"
+            android:src="@drawable/ic_baseline_restore_24"
             android:tint="#651FFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/recyclerview"
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/allList_toMoveText"
+            android:textColor="#651FFF"
+            android:textSize="9sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/recyclerview"
+            app:layout_constraintTop_toBottomOf="@+id/button_IndexToMove" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/allList_imageDelete"
+            android:textColor="#651FFF"
+            android:textSize="9sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/recyclerview"
+            app:layout_constraintTop_toBottomOf="@+id/button_listDelete" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/allList_albumImageSaveText"
+            android:textColor="#651FFF"
+            android:textSize="9sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/recyclerview"
             app:layout_constraintTop_toBottomOf="@+id/button_ImageSave" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:text="@string/allList_reStoreText"
+            android:textColor="#651FFF"
+            android:textSize="9sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/recyclerview"
+            app:layout_constraintTop_toBottomOf="@+id/button_listRestore" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/allList_allImageDelete"
+            android:textColor="#651FFF"
+            android:textSize="9sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/recyclerview"
+            app:layout_constraintTop_toBottomOf="@+id/button_listReset" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

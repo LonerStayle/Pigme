@@ -20,64 +20,19 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     private var image: Array<String>? = null
     private val textings by lazy { resources.getStringArray(R.array.wise_Saying) }
 
+    override fun FragmentMainBinding.setOnCreateView() {
+        setObserverSetting()
+        setImageRandomCheck()
+        setUpFragmentSetting()
+        setUpFirstRunAdapter()
+    }
     override fun FragmentMainBinding.setEventListener() {
-        PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
-            (arguments?.getInt("positionToMove")) ?: UsageMark.STANDARD_OBSERVER_PATTERN
+        setImageButtonClickListener()
+        setButtonSettingClickListener()
+        setButtonSelfStroryToMoveClickListener()
+    }
 
-        // 앱 새로시작할때 마다 이미지 순서 랜덤인지 아닌지 확인 on일시 GONE
-        textViewImageModeCheck.visibility =
-            PrefVisibility.getInstance(requireContext()).textViewImageModeCheckVisibility
-
-        fragmentLauncher(null, R.id.fregment_SettingLayout, FragmentSetting())
-
-        if (PrefUsageMark.getInstance(requireContext()).liveDataFirstUseTrace) {
-
-            image = Array(100) { "" }
-
-            val modelList = mutableListOf<Pigme>()
-
-            for (i in textings.indices) {
-                image!![i] += (resources.getIdentifier(
-                    "a" + (1 + i),
-                    "drawable",
-                    activity!!.packageName
-                ).toString())
-                modelList.add(Pigme(textings[i], image!![i]))
-            }
-
-            val modelListShuffled = modelList.shuffled()
-            viewPager.adapter = ViewPagerAdapter(modelListShuffled)
-            viewModel.listInsert((viewPager.adapter as ViewPagerAdapter).modelList)
-
-        }
-
-
-        //공유 기능
-        imageButtonShare.setOnClickListener {
-            val intent = Intent(Intent.ACTION_SEND)
-            intent.apply {
-                type = "text/plain"
-                putExtra(Intent.EXTRA_TEXT, "보낼 앱다운로드 페이지")
-                val chooser = Intent.createChooser(intent, null)
-                if (intent.resolveActivity(activity!!.packageManager) != null) {
-                    startActivity(chooser)
-                }
-            }
-        }
-
-        //오른쪽 하단 설정창 보이기 설정
-        var fragmentSettingClick = false
-        buttonSetting.setOnClickListener {
-            fragmentSettingClick = !fragmentSettingClick
-
-
-            if (!fragmentSettingClick)
-                fregmentSettingLayout.visibility = View.GONE
-            else
-                fregmentSettingLayout.visibility = View.VISIBLE
-
-        }
-
+    private fun FragmentMainBinding.setButtonSelfStroryToMoveClickListener() {
         //플로팅 온오프 표시
         var floatingActionButtonSelfStoryToMoveOnoff = false
         imageButtonSelfStoryToMove.setOnClickListener {
@@ -94,6 +49,73 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 )
             } else
                 fragmentManager!!.popBackStack("main", 1)
+
+        }
+    }
+
+    private fun FragmentMainBinding.setImageButtonClickListener() {
+        imageButtonShare.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SEND)
+            intent.apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, "보낼 앱다운로드 페이지")
+                val chooser = Intent.createChooser(intent, null)
+                if (intent.resolveActivity(activity!!.packageManager) != null) {
+                    startActivity(chooser)
+                }
+            }
+        }
+    }
+
+    private fun FragmentMainBinding.setButtonSettingClickListener() {
+        //오른쪽 하단 설정창 보이기 설정
+        var fragmentSettingClick = false
+        buttonSetting.setOnClickListener {
+            fragmentSettingClick = !fragmentSettingClick
+
+
+            if (!fragmentSettingClick)
+                fregmentSettingLayout.visibility = View.GONE
+            else
+                fregmentSettingLayout.visibility = View.VISIBLE
+
+        }
+    }
+
+    private fun FragmentMainBinding.setImageRandomCheck() {
+        sharedViewModel.visibleSetting.observe(requireActivity(), Observer {
+            textViewImageModeCheck.visibility = it
+        })
+    }
+
+    private fun setObserverSetting() {
+        PrefUsageMark.getInstance(requireContext()).selfStoryUsageMark =
+            (arguments?.getInt("positionToMove")) ?: UsageMark.STANDARD_OBSERVER_PATTERN
+    }
+
+    private fun setUpFragmentSetting() {
+        fragmentLauncher(null, R.id.fregment_SettingLayout, FragmentSetting())
+    }
+
+    private fun FragmentMainBinding.setUpFirstRunAdapter() {
+        if (PrefUsageMark.getInstance(requireContext()).liveDataFirstUseTrace) {
+
+            image = Array(98) { "" }
+
+            val modelList = mutableListOf<Pigme>()
+
+            for (i in textings.indices) {
+                image!![i] += (resources.getIdentifier(
+                    "a" + (1 + i),
+                    "drawable",
+                    activity!!.packageName
+                ).toString())
+                modelList.add(Pigme(textings[i], image!![i]))
+            }
+
+            val modelListShuffled = modelList.shuffled()
+            viewPager.adapter = ViewPagerAdapter(modelListShuffled)
+            viewModel.listInsert((viewPager.adapter as ViewPagerAdapter).modelList)
 
         }
     }

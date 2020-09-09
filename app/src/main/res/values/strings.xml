@@ -17,14 +17,14 @@
     <string name="Fragment_Setting_switchWidgetSettingImageControl_Off">앱 재실행 시 사진 순서들이 무작위로 바뀝니다.</string>
 
     <string name="dialogResetAfterImageSelectInTitle">경고 메세지</string>
-    <string name="dialogResetAfterImageSelectInMessages">어떤 사진, 글이던 모두 초기화 되고 \n 현재 추가하신 글과 사진만 남게됩니다.
+    <string name="dialogResetAfterImageSelectInMessages">어떤 사진, 글이던 모두 초기화 되고\n 현재 추가하신 글과 사진만 남게됩니다.
         괜찮으시겠습니까? </string>
     <string name="dialogResetAfterImageSelectInPositiveText">네 괜찮습니다</string>
 
     <string name="dialogResetAfterImageSelectInNegativeText">아니요 다시 선택하겠습니다</string>
 
     <string name="dialogGalleryRequestPremissonInTitle">갤러리 사진 허용권한</string>
-    <string name="dialogGalleryRequestPremissonInMessage">사진을 불러오려면 사용자의 권한이 필요합니다. \n 권한을 허용하시겠습니까?</string>
+    <string name="dialogGalleryRequestPremissonInMessage">사진을 불러오려면 사용자의 권한이 필요합니다.\n 권한을 허용하시겠습니까?</string>
 
     <string name="dialogGalleryRequestPremissonInPositiveText">허용합니다.</string>
     <string name="dialogGalleryRequestPremissonInNegativeText">거절합니다.</string>
@@ -39,126 +39,125 @@
     <string name="toast_indexToMoveNegative">하나만 선택해주세요</string>
 
     <string-array name="wise_Saying">
-        <item>다이어트는 내일부터? 이번 생은 패스하자 ^^</item>
-        <item>누가 그렇게 먹으래? 괜찮아 먹은 만큼 뛰자!</item>
-        <item>돼지도 너만큼은 안 먹어...</item>
-        <item>체중계는 피할 수 있어도 거울은 피할 수 없다.</item>
-        <item>사람들을 위해서가 아니라 살기 위해 빼는 거다.</item>
+        <item>다이어트는 내일부터?\n어제도 그러지 않았어?</item>
+        <item>누가 그렇게 먹으래?\n괜찮아 먹은 만큼 뛸거지?</item>
+        <item>이렇게 열심히\n 운동하고 누운거지?</item>
+        <item>체중계는 피할 수 있어도\n거울은 피할 수 없다.</item>
+        <item>사람들을 위해서가 아니라\n나를 위해 빼는 거다.</item>
         <!--        5-->
-        <item>치킨은 항상 옳다. 뱃살 증식에도 최적!</item>
-        <item>게임할 거면 게임만 해 제발\n (그만 x 먹어)</item>
-        <item>꿀잠 자는 네 모습 ^^</item>
-        <item>내 졸업 사진.\n (지금도 똑같음)</item>
-        <item>너무 달아, 짜릿해, \n- 비만 세포 - </item>
+        <item>맛있는건 항상 옳다.\n지방 증식에 항상 옳지!</item>
+        <item>게임할 거면 게임만 해</item>
+        <item>방심하는 순간이 위기야</item>
+        <item>내 졸업 사진\n 흑역사로 남고 싶어?</item>
+        <item>너무 달아, 짜릿해,\n- 칼로리는 몇인지 알지? </item>
         <!--10-->
-        <item>너의 위장 안에 흡수될 아름다운 치즈! 야채라도 끼워 먹자...</item>
-        <item>늦었다고 생각했을 때가 정말 늦었지만 그렇다고 포기하면 이대로 늙는다.</item>
-        <item>니가 내 고기를 다 먹으면 어쩌라는 거야!!</item>
+        <item>후회하지 않을 자신 있어?</item>
+        <item>가벼운 덤벨이라도\n 들어서 시작해!</item>
+        <item>기름 진 음식\n 당장 내려놔!</item>
         <item>더블 버거!\n 내 몸무게도 더블!</item>
-        <item>따사로운 햇살 아래 낮잠 자는 주말 소파 위의 나</item>
+        <item>돼지는 동물이지만\n 넌 사람 이잖아</item>
         <!--        15-->
-        <item>무심코 먹은 소세지, \n네 뱃속에 이만큼 저장!</item>
-        <item>수영장에서 언제까지 이러고 있을래?</item>
-        <item>안녕 난 네가 평생 먹은 초코파이 속 마시멜로야. 지금은 너와 하나가 되었지</item>
+        <item>소세지 100g당 ,\n 300.9kcal+살찌는 성분</item>
+        <item>바다랑 수영장가면\n 당당하게 놀수 있어?</item>
+        <item>포도당이 쌓이면\n 지방이 된다. </item>
         <item>언제까지 꿈만 꾸게?\n 지금 당장 시작해!</item>
-        <item>오늘도 당충전! \n내 뱃살도 충전!</item>
+        <item>그 과자 먹는순간\n 되돌아 올 수 없다.</item>
         <!--        20-->
-        <item>우리 커플 셀카 ^^</item>
-        <item>이건 인간적으로 먹어도 돼. 일주일에 한 끼만 먹으면 ^^</item>
-        <item>일하는 척 하고 계속 먹지 말고 \n그냥 밥을 먹으러 가\n 제발</item>
-        <item>일할 거면 일만 해.\n 그만 x 먹어</item>
-        <item>잠깐! 먹기 전에 생각했나요? 이게 몇 번째 햄버건지</item>
+        <item>셀카 사진에\n 만족할 수 있어?</item>
+        <item>기름진 음식 한번 먹으면\n 1주일 운동해야 빠진데..!</item>
+        <item>잘못된 커피한잔\n 밥 한끼 칼로리</item>
+        <item>가볍다고 생각한 간식이\n 두끼 칼로리</item>
+        <item>가벼운 햄버거는 괜찮아\n 햄버거 단품 맞지?\n 감튀, 콜라가 더 살찐데..!</item>
         <!--        25-->
-        <item>찜질방 불가마에서 땀 빼는 내 모습</item>
-        <item>준다고 다 먹으면 큰일 난다...!</item>
-        <item> 야, 너두 복근 만들고 싶지 않니?</item>
-        <item>비만은 당뇨의 어머니!</item>
-        <item>저녁 대신 사과 한입 어때?</item>
+        <item>닭 한마리 먹어도 괜찮아\n 치킨만 아니라면 말이야. </item>
+        <item>준다고 다 먹으면 큰일 난다..!</item>
+        <item>복근 만들려면 지금 먹는 음식\n 다 바꿔야해 </item>
+        <item>너의 건강을 위해서 운동 해야돼!</item>
+        <item>기름진 음식 생각난다면\n 사과 한입 어때?</item>
         <!-- 30 -->
-        <item>뭘 좋아할지 몰라 야채만 준비했어</item>
-        <item>단백질은 어디에...???</item>
-        <item>들리니? 내장지방 타는 소리!</item>
-        <item>한달 후 새옷이 필요할 거야!</item>
-        <item>단백질 과다 섭취로 속이 안 좋다면 카모마일 차를 마셔봐</item>
+        <item>운동 안한다면\n 채소 위주로 먹어보자</item>
+        <item>기름진 음식을 확대한 모습\n 다 지방으로 이동할 애들이야</item>
+        <item>너의 인내심으로\n 보답을 받을거야 </item>
+        <item>세달만 버텨보자!!\n 새옷이 필요할 거야!</item>
+        <item>기름진 음식 과다 섭취는\n 당장만 즐거울거야.</item>
         <!--        35-->
-        <item>이제 복근 만드는 건 시간 문제야!</item>
-        <item>이런 잔근육은 다 있지? 지방 저 아래...</item>
-        <item>금요일 퇴근하는 내 모습</item>
-        <item>거 인격이 너무 좋은 거 아니오? 배에 힘을 좀 줘보자!</item>
-        <item>이 안에 나 있다 - 설탕</item>
+        <item>아름 다운 배를 가지기까지\n 상상이상의 노력이 필요하다</item>
+        <item>우람한 근육이 생길까봐\n무섭다고? 아니야..잔 근육도\n 열심히 해야 겨우 생겨</item>
+        <item>지금 당장 시작해야돼</item>
+        <item>너의 몸에 스스로 만족하면 상관없어\n아니라면 답은 하나야\n 지금 바로 시작하자.</item>
+        <item>다이어터의 최대의 적은\n 설탕 덩어리 음식인걸 잊지말자!</item>
         <!--40-->
-        <item>니가 뚠뚜니의 설움을 알아?!!</item>
-        <item>휴가지 인생샷 찍으려면 지금부터 빼야해!</item>
-        <item>평생 맛있는 거 먹으려면 지금부터 설탕 조심! 당뇨는 남의 일이 아니야.</item>
-        <item>설탕은 마약이다. 서서히 내 몸을 길들이는 마약!</item>
-        <item>20대부터 당뇨에 걸린다고 생각해 봐. 눈 뜨면 매일매일 손끝에 피를 내고 수치를 재는 게 일상이 되는 걸...</item>
+        <item>안돼.. 버텨야돼..!! </item>
+        <item>여행가서 인생샷 찍으려면\n 지금부터 빼야해!</item>
+        <item>평생 맛있는 거 먹으려면 설탕 조심!\n당뇨는 남의 일이 아니야.</item>
+        <item>설탕은 마약이다.</item>
+        <item>비만으로 건강을 잃는다.\n 비만은 질병이란걸 잊지마!</item>
         <!--        45-->
-        <item>오늘 먹은 한끼 한끼가 몸의 수치를 변화시킬 거야.</item>
-        <item>건강한 식재료는 붓기를 빼는 데에도 도움이 되지!</item>
-        <item>헬스 3개월 후, 지금 옷 다 버리고 쇼핑하러 가자!</item>
-        <item>인간 뚱카롱이 되고 싶은 건 아니지?</item>
-        <item>좋아좋아. 딱 요만큼만 줄여 보자.</item>
+        <item>오늘 먹은 한끼 한끼가\n몸의 수치를 변화시킬 거야.</item>
+        <item>깨끗한 채소 한입 어때?</item>
+        <item>몇달만 버텨보자,\n 새로운 옷을 쇼핑하러 갈태니!</item>
+        <item>먹을까 말까?\n 정답은 알지?</item>
+        <item>저 샌드위치에 많은 것들이 들어있지\n 샌드위치 먹을거 맞지?</item>
         <!--        50-->
-        <item>다음엔 엄지가 아니라 주먹이 들어갈 정도로 옷이 커질 걸? 오늘 운동도 화이팅!</item>
-        <item>하비여도 괜찮아! 그렇지만 상체 근육을 더 키워 보면 어떨까?</item>
-        <item>같은 개구리여도 날씬한 개구리가 더 귀엽지 않겠어?</item>
-        <item>여름 휴양지에서의 아찔한 내 모습...! 상상해 보는 거야. 멋진 인연을 만날 수도 있잖아?</item>
-        <item>젊음이 가기 전에, 바디 프로필 한번은 도전해 봐야지?</item>
+        <item>사진 이쁘지 않니?\n오늘 운동도 화이팅!</item>
+        <item>탄수화물 위주로 먹으면\n하체로 모두 간데.</item>
+        <item>살이 몸 라인 바깥으로\n나가는 순간이 시작이야</item>
+        <item>휴양지에서의 내 모습…!\n상상해 보는 거야.</item>
+        <item>한번쯤은 바디 프로필을\n도전해보고 싶지 않아?</item>
         <!--        55-->
-        <item>아예 먹지 말라는 게 아니야! 운동 빡세게 하고 치팅데이 때 치킨 고고!!</item>
-        <item>나도 한번 블핑처럼 크롭티 도전?</item>
-        <item>넌 지금도 예뻐. 그런데 힙운동을 좀 더 하면 100배 더 섹시해질거야!</item>
-        <item>먹는 것 보다 셀카가 더 재밌어 지기를! 예뻐진 나를 즐기는 거야!</item>
-        <item>몸이 탄탄하면 가만히 있어도 꾸안꾸 핏이 가능하다구</item>
+        <item>맛있겠지? 그럼 먹어\n먹지 않은 사람은\n 다른 보상이 있을거야</item>
+        <item>배를 보여줘도\n당당하고 싶지 않니? </item>
+        <item>운동을 하면 몸매가\n앞 뒤 다 이뻐진데</item>
+        <item>가벼운 과일은 좋아\n많이 먹지만 않으면…</item>
+        <item>아름다운 뒷태는 노력해야\n얻을 수 있는 사람도 있어</item>
         <!-- 60 -->
-        <item>억지로 야채 먹는 내 모습... 만약 너무 먹기 힘들면 살짝 버터에 볶아도 괜찮아</item>
-        <item>마른 친구 옆에 선 나의 존재감</item>
+        <item>야채가 질려도 어쩔수없어\n너가 원하는 몸으로 바뀔거야</item>
+        <item>다이어트가 느려도 괜찮아 \n 중요한건 진행하고 있다는거야</item>
         <item>오늘 내 몸무게, 기억하고 있지?</item>
-        <item>단백질 바가 맛이 좀 없지...? 주중에 풀로 운동하고 주말엔 맛있는 거 먹자</item>
-        <item>여름 너무 싫다... 흘러내리는 내 살도...</item>
+        <item>원래 다이어트는 고통스러운거야\n참는 자 만이 승리한다.</item>
+        <item>설탕 가득한 아이스크림\n어떤 결과가 초래될까?</item>
         <!--        65-->
-        <item>아침부터 운동하는 섹시한 나, 오늘부터 시작해 봐!</item>
-        <item>난 고양이 상이야. 돼지 고양이...</item>
-        <item>설마 가슴이 아니라 배에 있는 단추가 이런 거야...?</item>
-        <item>지금 같은 포즈로 선다면 내 몸의 실루엣은 어떨 거 같아?</item>
-        <item>기다려. 그만 나와.</item>
+        <item>운동하는 순간은 항상 멋있어\n오늘 운동안했으면 당장해!</item>
+        <item>동물도 살찌면?\n건강이 좋지 않아보여</item>
+        <item>배에 있는 단추가 풀리진 않지?</item>
+        <item>이 사진을 찍기위해\n1년 동안 열심히 운동하셨다네</item>
+        <item>다이어트 해야돼</item>
         <!--70-->
-        <item>스타 셰프들은 다 뚱뚱하던가? 생각해 봐.</item>
-        <item>이 안에 아이스크림 100개 있다.</item>
-        <item>이 안에 맥주 3000cc 있다.</item>
-        <item>나는 퍼그같이 귀여운 상이라구! (찡찡)</item>
-        <item>도도하게 걷는 내 모습...?</item>
+        <item>맛난 음식이 있어서 못뺀다고?\nTV스타 셰프들은 다 뚱뚱하던가? </item>
+        <item>둘 중 당신의 선택은?</item>
+        <item>술은 살찌는 지름길</item>
+        <item>동물도 살찌면 힘들어 해\n후회하지않게 열심히 운동하자</item>
+        <item>오늘 밥상은 어땟어?</item>
         <!--        75-->
-        <item>매일 좋은 생각도 함께 먹는다고 생각해 봐.</item>
-        <item>그거 알아? 짐볼 위에서 균형잡는 연습만 해도 엄청 힘들다?</item>
-        <item>행복한 주말 집콕</item>
-        <item>줄자를 쥐어짜지 않아도 내가 원하는 치수가 나올 때까지!!</item>
-        <item>물을 왕창 마셔도 배에 힘 안 줘도 되는 날까지!!</item>
+
+        <item>유산소 운동은 언제나 필수야</item>
+        <item>살빼기 위해 도구도 괜찮아</item>
+        <item>기름진거 먹고 누운 모습</item>
+        <item>버티는 자만이 원하는 수치를 얻지 </item>
+        <item>운동 했어? 안했으면 지금 해</item>
         <!--        80-->
-        <item>너무 빠르게 뛰려고만 하지 말고, 페이스 조절을 잘 해봐. 머신이 친근해 질거야.</item>
-        <item>다이어트에 꼭 최신장비가 필요한 건 아니야. 가지고 있는 걸로 시작하자</item>
-        <item>체중계와 줄자만 있어도 몸의 변화 체크는 충분히 할 수 있어. 중요한 건 눈바디!</item>
-        <item>승모근이 자신 없어서 이러고 있는 건 아니지? 원하는 부위만이 아니라 균형 있는 운동을 해보자</item>
+        <item>의욕이 약해졌다면\n당장 체중계에 올라가봐</item>
+        <item>체중계와 줄자를 쓰지 않는날이\n올때까지 해보자!</item>
+        <item>작은 복근이라도 만들어보자</item>
         <item>허리 둘레를 재기 시작한 너! 칭찬해</item>
+        <item>팬케이크는 탄수화물+설탕 폭탄! \n과식하지 않도록 조심해</item>
         <!--        85-->
-        <item>삭제 예정</item>
-        <item>팬케이크는 탄수화물+설탕 폭탄! 과식하지 않도록 조심해</item>
-        <item>네가 다이어트 중이라는 걸 알면서도 누가 이런 선물을 준다면, 그냥 만나지 마</item>
-        <item>설탕, 그 달콤한 유혹! 다이어트 기간 만이라도 요리조리 피해보자</item>
-        <item>내년엔 오른쪽으로 들고 사진 찍자</item>ㅇ             ㅇ
+        <item>먹으면 어떻게 되는지 알지?</item>
+        <item>설탕 가득한 음식의 실체</item>
+        <item>바다를 맞이할 준비는 됐어?</item>
+        <item>다이어트 기간에는\n항상 긴장하자</item>
+        <item>토마토가 질려도\n결국 결실을 맺을거야</item>
         <!-- 90 -->
-        <item>지방만 콕 찍어 없어졌으면 좋겠다!!</item>
-        <item>토마토는 부기를 제거하고 포만감을 주는 다이어트 친화적 식재료이지! 주스나 요리로 활용해 봐.</item>
-        <item>불필요한 지방을 방치하면 이렇게 셀룰라이트가 되어버려... 얼른 빼자!</item>
-        <item>가슴이 커도 이건 아니야... 아름다운 글래머가 되자!</item>
-        <item>살이 계속 급속도로 찌면 피부에도 돌이킬 수 없는 자국을 낸다구. 늙기 전에 조금씩이라도 빼보자</item>
+        <item>이런 뱃살이 싫어서\n 시작한거 잊지말자</item>
+        <item>비만은 건강의 적</item>
+        <item>늙기 전에 조금씩이라도 빼보자</item>
+        <item>버티면 체중계 위에서 \n긴장하지 않는날이 올거야</item>
+        <item>혹시 우산이 작아지지 않았어?</item>
         <!--        95-->
-        <item>두근두근... 체중계 위에서 긴장하는 내 모습</item>
-        <item>이 우산이 원래 이렇게 작지 않았었는데...</item>
-        <item>딱 붙는 원피스 입고 인생샷 한번 남겨야지?</item>
-        <item>숨막히는 뒤태! 너도 할 수 있어!</item>
-        <item>굳어 있던 고관절을 쭉쭉 펴보자</item>
-        <!--100-->
+        <item>인생샷 한번 남기는 날까지!</item>
+        <item>마른 몸매! 너도 할 수 있어!</item>
+        <item>운동이 싫다면\n스트레칭이라도 해보자</item>
+        <!--98-->
     </string-array>
 
 
@@ -169,6 +168,13 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="textViewgalleryguideText">아이콘을 통해 사진을 추가 할 수 있습니다.</string>
     <string name="buttonNewSelefStroyImageSelect">선택 완료</string>
-
+    <string name="allList_toMoveText">이동 하기</string>
+    <string name="allList_imageDelete">사진 삭제</string>
+    <string name="allList_albumImageSaveText">앨범 사진 저장</string>
+    <string name="allList_reStoreText">앱 제공\n기본 사진 복구</string>
+    <string name="allList_allImageDelete">모든 사진 삭제</string>
+    <string name="waitingText">준비중인 기능 입니다.</string>
+    <string name="main_ImageModeCheck">사진고정 OFF</string>
+    <string name="allList_toMoveButtonFailText">이동할 위치를 한곳 선택해서 다시 눌러주세요</string>
 
 </resources>
