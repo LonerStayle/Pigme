@@ -38,6 +38,9 @@
     <string name="toast_resetAfterInsert">모든 리스트가 초기화 되었습니다.</string>
     <string name="toast_indexToMoveNegative">하나만 선택해주세요</string>
 
+    <string name="adMob_app_id">ca-app-pub-8083668355054972~1259917640</string>
+    <string name="adMob_banner_ad_id">ca-app-pub-8083668355054972/6336343879</string>
+
     <string-array name="wise_Saying">
         <item>다이어트는 내일부터?\n어제도 그러지 않았어?</item>
         <item>누가 그렇게 먹으래?\n괜찮아 먹은 만큼 뛸거지?</item>

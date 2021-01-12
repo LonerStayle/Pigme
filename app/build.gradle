@@ -9,7 +9,7 @@ android {
 
 
     defaultConfig {
-        applicationId "com.example.pigme"
+        applicationId "kr.loner.pigme"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
@@ -36,22 +36,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    // 카카오 로그인
-//    implementation group: 'com.kakao.sdk', name: 'usermgmt', version: '1.28.0'
-
-    // 카카오톡
-//    implementation group: 'com.kakao.sdk', name: 'kakaotalk', version: '1.28.0'
-
-    // 카카오스토리
-//    implementation group: 'com.kakao.sdk', name: 'kakaostory', version: '1.28.0'
-
-    // 카카오링크
-//    implementation group: 'com.kakao.sdk', name: 'kakaolink', version: '1.28.0'
-
-
-    // 카카오내비
-//    implementation group: 'com.kakao.sdk', name: 'kakaonavi', version: '1.28.0'
 
     implementation libraries
     implementation arch_libraries
