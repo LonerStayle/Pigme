@@ -1,5 +1,6 @@
 package kr.loner.pigme.view.fragment
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -62,12 +63,16 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         }
     }
 
+    @SuppressLint("QueryPermissionsNeeded")
     private fun FragmentMainBinding.setImageButtonClickListener() {
         imageButtonShare.setOnClickListener {
             val intent = Intent(Intent.ACTION_SEND)
             intent.apply {
                 type = "text/plain"
-                putExtra(Intent.EXTRA_TEXT, "보낼 앱다운로드 페이지")
+                putExtra(
+                    Intent.EXTRA_TEXT,
+                    "다른 다이어터에게도 앱을 추천해보세요!!\n"+"https://play.google.com/store/apps/details?id=kr.loner.pigme"
+                )
                 val chooser = Intent.createChooser(intent, null)
                 if (intent.resolveActivity(activity!!.packageManager) != null) {
                     startActivity(chooser)
